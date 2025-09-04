@@ -1,0 +1,1 @@
+<img src="{{ asset('images/logo2.png') }}" width="50px" class="navbar-brand-img h-100" alt="main_logo">

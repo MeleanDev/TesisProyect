@@ -10,7 +10,7 @@
             ['nombre' => 'Inicio', 'link' => 'index.html', 'activo' => false],
             ['nombre' => 'Contacto', 'link' => null, 'activo' => true],
         ]" />
-        
+
     <section id="contacto-home" class="contact-section">
         <div class="container">
             <div class="section-header text-center">
@@ -65,37 +65,38 @@
                     <div class="contact-form-card">
                         <h3>Envíanos un Mensaje</h3>
                         <form id="contactFormHome" class="contact-form">
+                            @csrf
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="nombreHome" placeholder="Nombre"
+                                        <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre"
                                             required>
-                                        <label for="nombreHome">Nombre *</label>
+                                        <label for="nombre">Nombre *</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="apellidoHome" placeholder="Apellido"
+                                        <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido"
                                             required>
-                                        <label for="apellidoHome">Apellido *</label>
+                                        <label for="apellido">Apellido *</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input type="email" class="form-control" id="correoHome"
+                                        <input type="email" class="form-control" name="correo" id="correo"
                                             placeholder="Correo Electrónico" required>
-                                        <label for="correoHome">Correo Electrónico *</label>
+                                        <label for="correo">Correo Electrónico *</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input type="tel" class="form-control" id="telefonoHome" placeholder="Teléfono">
-                                        <label for="telefonoHome">Teléfono</label>
+                                        <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Teléfono">
+                                        <label for="telefono">Teléfono</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <select class="form-control" id="asuntoHome" required>
+                                        <select class="form-control" name="asunto" id="asunto" required>
                                             <option value="">Selecciona un asunto</option>
                                             <option value="cursos-empresas">Cursos para Empresas</option>
                                             <option value="cursos-menores">Cursos para Menores</option>
@@ -103,13 +104,13 @@
                                             <option value="informacion-general">Información General</option>
                                             <option value="otro">Otro</option>
                                         </select>
-                                        <label for="asuntoHome">Asunto *</label>
+                                        <label for="asunto">Asunto *</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <textarea class="form-control" id="mensajeHome" rows="4" placeholder="Tu mensaje" required></textarea>
-                                        <label for="mensajeHome">Mensaje *</label>
+                                        <textarea class="form-control" name="mensaje" id="mensaje" rows="4" placeholder="Tu mensaje" required maxlength="255"></textarea>
+                                        <label for="mensaje">Mensaje *</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -125,4 +126,51 @@
         </div>
     </section>
     @include('website.components.googlemaps')
+@endsection
+
+@section('scripts')
+    <script>
+        var token = $('meta[name="csrf-token"]').attr('content');
+        const url = window.location.href;
+
+        $('#contactFormHome').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                dataType: 'JSON',
+                contentType: false,
+                processData: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
+                success: function(data) {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Mensaje enviado",
+                            text: "Tu mensaje fue enviado con éxito al administrador."
+                        });
+                        $('#contactFormHome')[0].reset(); 
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Tu mensaje no fue enviado",
+                            text: "Tu mensaje no pudo ser enviado."
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Falla en el sistema",
+                        text: "El mensaje no pudo ser enviado. Intente más tarde."
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

@@ -7,6 +7,7 @@ use App\Http\Controllers\WebsiteController;
 Route::controller(WebsiteController::class)->group(function () {
     Route::get('/', 'inicio')->name('inicio');
     Route::get('/contacto', 'contacto')->name('contacto');
+    Route::post('/contacto', 'formContacto');
     Route::get('/preinscripcion', 'preinscripcion')->name('preinscripcion');
 
     route::prefix('cursos')->group(function () {

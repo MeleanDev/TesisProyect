@@ -54,7 +54,7 @@
                                 <div class="course-actions">
                                     <a href="" class="btn btn-outline-primary custom-btn-outline">Ver
                                         Más</a>
-                                    <a href="{{route('preinscripcion')}}"
+                                    <a href=""
                                         class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                 <h2>¿Listo para que tu Hijo Aprenda? </h2>
                 <p>Inscribe a tu hijo en nuestros cursos y dale las herramientas para un futuro brillante</p>
                 <div class="cta-buttons">
-                    <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary">
+                    <a href="" class="btn btn-primary custom-btn-primary">
                         <i class="fas fa-rocket me-2"></i>Inscribir Ahora
                     </a>
                     <a href="{{route('contacto')}}" class="btn btn-outline-light custom-btn-outline-light">

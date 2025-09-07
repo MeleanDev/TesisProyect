@@ -55,7 +55,7 @@
                                 <div class="course-actions">
                                     <a href="" class="btn btn-outline-primary custom-btn-outline">Ver
                                         Más</a>
-                                    <a href="{{route('preinscripcion')}}"
+                                    <a href=""
                                         class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                 <h2>¿Listo para Capacitar a tu Equipo?</h2>
                 <p>Contáctanos para diseñar un programa de capacitación personalizado para tu empresa</p>
                 <div class="cta-buttons">
-                    <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary">
+                    <a href="{{route('contacto')}}" class="btn btn-primary custom-btn-primary">
                         <i class="fas fa-rocket me-2"></i>Solicitar Cotización
                     </a>
                     <a href="{{route('contacto')}}" class="btn btn-outline-light custom-btn-outline-light">

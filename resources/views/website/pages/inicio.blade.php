@@ -18,7 +18,7 @@
                         <p class="hero-subtitle">Ofrecemos formación de calidad para empresas, menores y ejecutivos con
                             metodología presencial innovadora</p>
                         <div class="hero-buttons">
-                            <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary">
+                            <a href="{{route('cursoEjecutivo')}}" class="btn btn-primary custom-btn-primary">
                                 <i class="fas fa-rocket me-2"></i>Inscríbete Ahora
                             </a>
                             <button class="btn btn-outline-light custom-btn-outline-light" data-bs-toggle="modal"

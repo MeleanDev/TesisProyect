@@ -55,7 +55,7 @@
                                 <div class="course-actions">
                                     <a href="" class="btn btn-outline-primary custom-btn-outline">Ver
                                         Más</a>
-                                    <a href="{{route('preinscripcion')}}"
+                                    <a href=""
                                         class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                 <h2>Impulsa tu Carrera Ejecutiva</h2>
                 <p>Únete a nuestra comunidad de líderes empresariales y transforma tu futuro profesional</p>
                 <div class="cta-buttons">
-                    <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary">
+                    <a href="" class="btn btn-primary custom-btn-primary">
                         <i class="fas fa-rocket me-2"></i>Inscribir Ahora
                     </a>
                     <a href="{{route('contacto')}}" class="btn btn-outline-light custom-btn-outline-light">

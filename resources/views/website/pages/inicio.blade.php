@@ -89,13 +89,12 @@
                             <p>Capacitación corporativa especializada para potenciar el talento de tu organización y mejorar
                                 la productividad.</p>
                             <ul class="feature-list">
-                                <li><i class="fas fa-check"></i>Liderazgo y gestión</li>
-                                <li><i class="fas fa-check"></i>Comunicación efectiva</li>
-                                <li><i class="fas fa-check"></i>Productividad empresarial</li>
-                                <li><i class="fas fa-check"></i>Trabajo en equipo</li>
+                                @foreach ($cursoEmpresaCuatroPrimero as $curso)
+                                    <li><i class="fas fa-check"></i>{{$curso->nombre}}</li>
+                                @endforeach
                             </ul>
                             <div class="card-footer">
-                                <span class="course-count">6 Cursos Disponibles</span>
+                                <span class="course-count">{{$cursoEmpresaCantidad}} Cursos Disponibles</span>
                                 <a href="{{route('cursoEmpresa')}}" class="btn btn-primary custom-btn-primary">
                                     Ver Cursos <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
@@ -119,13 +118,12 @@
                             <p>Programas educativos diseñados especialmente para el desarrollo integral de niños y
                                 adolescentes.</p>
                             <ul class="feature-list">
-                                <li><i class="fas fa-check"></i>Programación para niños</li>
-                                <li><i class="fas fa-check"></i>Robótica educativa</li>
-                                <li><i class="fas fa-check"></i>Arte y creatividad</li>
-                                <li><i class="fas fa-check"></i>Habilidades sociales</li>
+                                @foreach ($cursoMenorCuatroPrimero as $curso)
+                                    <li><i class="fas fa-check"></i>{{$curso->nombre}}</li>
+                                @endforeach
                             </ul>
                             <div class="card-footer">
-                                <span class="course-count">6 Cursos Disponibles</span>
+                                <span class="course-count">{{$cursoMenorCantidad}} Cursos Disponibles</span>
                                 <a href="{{route('cursoMenor')}}" class="btn btn-primary custom-btn-primary">
                                     Ver Cursos <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
@@ -149,13 +147,12 @@
                             <p>Formación de alto nivel para profesionales que buscan potenciar su carrera y liderazgo
                                 empresarial.</p>
                             <ul class="feature-list">
-                                <li><i class="fas fa-check"></i>MBA ejecutivo</li>
-                                <li><i class="fas fa-check"></i>Estrategia empresarial</li>
-                                <li><i class="fas fa-check"></i>Finanzas avanzadas</li>
-                                <li><i class="fas fa-check"></i>Transformación digital</li>
+                                @foreach ($cursoEjecutivoCuatroPrimero as $curso)
+                                    <li><i class="fas fa-check"></i>{{$curso->nombre}}</li>
+                                @endforeach
                             </ul>
                             <div class="card-footer">
-                                <span class="course-count">6 Cursos Disponibles</span>
+                                <span class="course-count">{{$cursoEjecutivoCantidad}} Cursos Disponibles</span>
                                 <a href="{{route('cursoEjecutivo')}}" class="btn btn-primary custom-btn-primary">
                                     Ver Cursos <i class="fas fa-arrow-right ms-1"></i>
                                 </a>

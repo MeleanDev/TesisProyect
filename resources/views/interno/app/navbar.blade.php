@@ -9,55 +9,44 @@
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
                 </div>
-                <span class="nav-link-text ms-1">Painel principal</span>
+                <span class="nav-link-text ms-1">Panel Principal</span>
             </a>
         </li>
 
-        {{-- Productos --}}
+        {{-- Gestion Clientes --}}
         <li class="nav-item">
             <a class="nav-link @if (Route::currentRouteName() === 'pedidos') active @endif" href="{{ route('pedidos') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="ni ni-bag-17 text-success text-sm opacity-10"></i>
                 </div>
-                <span class="nav-link-text ms-1">Pedidos</span>
+                <span class="nav-link-text ms-1">Gestion Clientes</span>
             </a>
         </li>
 
-        {{-- Productos --}}
+        {{-- Gestion Cursos --}}
         <li class="nav-item">
             <a class="nav-link @if (Route::currentRouteName() === 'productos') active @endif" href="{{ route('productos') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="ni ni-box-2 text-danger text-sm opacity-10"></i>
                 </div>
-                <span class="nav-link-text ms-1">Productos</span>
+                <span class="nav-link-text ms-1">Gestion Cursos</span>
             </a>
         </li>
 
-        {{-- Post --}}
-        <li class="nav-item">
-            <a class="nav-link @if (Route::currentRouteName() === 'post') active @endif" href="{{ route('post') }}">
-                <div
-                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-collection text-warning text-sm opacity-10"></i>
-                </div>
-                <span class="nav-link-text ms-1">Post</span>
-            </a>
-        </li>
-
-        {{-- Clientes --}}
+        {{-- Gestion Preinscripciones --}}
         <li class="nav-item">
             <a class="nav-link @if (Route::currentRouteName() === 'clientes') active @endif" href="{{ route('clientes') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-users text-info text-sm opacity-10"></i>
                 </div>
-                <span class="nav-link-text ms-1">Clientes</span>
+                <span class="nav-link-text ms-1">Gestion Preinscripciones</span>
             </a>
         </li>
 
-        {{-- Administrador --}}
+        {{-- Administradores --}}
         <li class="nav-item">
             <a class="nav-link @if (Route::currentRouteName() === 'administradores') active @endif" href="{{ route('administradores') }}">
                 <div
@@ -69,7 +58,7 @@
         </li>
 
         <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Configurações de Conta</h6>
+            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Configuracion de la cuenta</h6>
         </li>
 
         {{-- Cerrar Sesion --}}
@@ -83,7 +72,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-button-power text-danger text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Sair</span>
+                    <span class="nav-link-text ms-1">Salir</span>
                 </a>
             </form>
         </li>

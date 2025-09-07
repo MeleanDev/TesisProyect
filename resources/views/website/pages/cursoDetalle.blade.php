@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="course-hero-actions">
-                            <a href="preinscripciones.html" class="btn btn-primary custom-btn-primary btn-lg">
+                            <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary btn-lg">
                                 <i class="fas fa-rocket me-2"></i>Inscribirse Ahora
                             </a>
                             <button class="btn btn-outline-light custom-btn-outline-light btn-lg" data-bs-toggle="modal"
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <div class="sidebar-actions">
-                                <a href="preinscripciones.html" class="btn btn-primary custom-btn-primary w-100 mb-3">
+                                <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary w-100 mb-3">
                                     <i class="fas fa-rocket me-2"></i>Inscribirse Ahora
                                 </a>
                                 <button class="btn btn-outline-primary custom-btn-outline w-100" data-bs-toggle="modal"

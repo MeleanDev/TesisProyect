@@ -55,7 +55,7 @@
                                         <a href="{{ route('cursoEjecutivoDetalle', ['curso' => $curso->slug]) }}"
                                             class="btn btn-outline-primary custom-btn-outline">Ver
                                             Más</a>
-                                        <a href="" class="btn btn-primary custom-btn-primary">Inscribirse</a>
+                                        <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                     </div>
                                 </div>
                             </div>

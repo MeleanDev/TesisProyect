@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="{{route('inicio')}}">
                 <div class="logo-container">
                     <img src="{{ asset('estilos/website/img/logo.png') }}" alt="Academia CADI Logo" class="logo" width="40" height="40">
-                    <span>Academia CADI</span>
+                    <span>Instituto CADI</span>
                 </div>
             </a>
             <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

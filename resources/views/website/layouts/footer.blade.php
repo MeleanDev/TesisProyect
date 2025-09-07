@@ -6,7 +6,7 @@
                         <div class="footer-section">
                             <div class="footer-logo">
                                 <img src="{{ asset('estilos/website/img/logo.png') }}" alt="Academia CADI Logo" class="logo" width="40" height="40">
-                                <span>Academia CADI</span>
+                                <span>Instituto CADI</span>
                             </div>
                             <p>Transformando vidas a través de la educación de calidad. Más de 10 años formando profesionales exitosos.</p>
                             <div class="social-links">
@@ -51,7 +51,7 @@
             <div class="footer-bottom">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <p>&copy; 2025 Academia CADI. Todos los derechos reservados.</p>
+                        <p>&copy; 2025 Instituto CADI. Todos los derechos reservados.</p>
                     </div>
                     {{-- <div class="col-md-6 text-md-end">
                         <div class="footer-links">

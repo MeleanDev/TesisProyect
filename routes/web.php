@@ -8,7 +8,7 @@ Route::controller(WebsiteController::class)->group(function () {
     Route::get('/', 'inicio')->name('inicio');
     Route::get('/contacto', 'contacto')->name('contacto');
     Route::post('/contacto', 'formContacto')->name('fromContato');
-    Route::get('/preinscripcion', 'preinscripcion');
+    Route::get('/preinscripcion', 'preinscripcion')->name('preinscripcion');
     Route::get('/cursoDetalle/{slug?}', 'detalleCurso')->name('detalleCurso');
     Route::post('/verificacion-cliente', 'verificacionCliente')->name('verificacionCliente');
 

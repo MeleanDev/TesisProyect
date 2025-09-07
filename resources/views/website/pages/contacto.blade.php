@@ -70,14 +70,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre"
-                                            required>
+                                            required maxlength="100">
                                         <label for="nombre">Nombre *</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido"
-                                            required>
+                                            required maxlength="100">
                                         <label for="apellido">Apellido *</label>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Teléfono">
+                                        <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Teléfono" maxlength="20">
                                         <label for="telefono">Teléfono</label>
                                     </div>
                                 </div>

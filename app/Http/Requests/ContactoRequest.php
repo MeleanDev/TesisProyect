@@ -24,10 +24,10 @@ class ContactoRequest extends FormRequest
         return [
             'nombre' => ['required', 'string', 'min:2', 'max:100'],
             'apellido' => ['required', 'string', 'min:2', 'max:100'],
-            'telefono' => ['nullable', 'string'],
-            'correo' => ['require', 'email'],
+            'telefono' => ['nullable', 'string', 'max:20'],
+            'correo' => ['required', 'email'],
             'asunto' => ['required', 'string'],
-            'mensaje' => ['required', 'string']
+            'mensaje' => ['required', 'string', 'max:255', 'min:2']
         ];
     }
 }

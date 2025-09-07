@@ -23,17 +23,10 @@ class WebsiteController extends Controller
     public function formContacto(ContactoRequest $datos): JsonResponse
     {
         try {
-            $mensaje = new SeccionCurso();
-            $mensaje->nombre = $datos['nombre'];
-            $mensaje->apellido = $datos['apellido'];
-            $mensaje->telefono = $datos['telefono'];
-            $mensaje->correo = $datos['correo'];
-            $mensaje->asunto = $datos['asunto'];
-            $mensaje->mensaje = $datos['mensaje'];
-            $mensaje->save(); 
+            SeccionCurso::create($datos->validated());
             $repuesta = response()->json(['success' => true]);
-        } catch (\Throwable $th) {
-            $repuesta = response()->json(['error' => false]);
+        } catch (\Exception $e) {
+            return $repuesta = response()->json(['error' => false]);
         }
         return $repuesta;
     }

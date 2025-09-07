@@ -1,7 +1,8 @@
 @extends('website.layouts.app')
 @section('subtitulo', 'Cursos Ejecutivos')
 @section('descripcion', 'Formación de alto nivel para profesionales que buscan potenciar su carrera.')
-@section('keywords', 'cursos ejecutivos, formación profesional, desarrollo de liderazgo, habilidades directivas,
+@section('keywords',
+    'cursos ejecutivos, formación profesional, desarrollo de liderazgo, habilidades directivas,
     capacitación empresarial, educación continua')
 
 @section('content')
@@ -21,9 +22,10 @@
                     <div class="col-lg-6">
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="yo.png" height="250" width="400" alt="Liderazgo y Gestión de Equipos">
+                                <img src="yo.png" height="250" width="400" alt="{{ $curso->nombre }}">
                                 <div class="course-overlay">
-                                    <a href="{{$curso->slug}}" class="btn btn-primary custom-btn-primary">
+                                    <a href="{{ route('cursoEjecutivoDetalle', ['curso' => $curso->slug]) }}"
+                                        class="btn btn-primary custom-btn-primary">
                                         <i class="fas fa-eye me-2"></i>Ver Detalles
                                     </a>
                                 </div>
@@ -31,26 +33,27 @@
                             <div class="course-content">
                                 <div class="course-meta">
                                     <span class="course-category">
-                                        <i class="fas fa-users-cog"></i>{{$curso->nombre}}
+                                        <i class="fas fa-users-cog"></i>{{ $curso->nombre }}
                                     </span>
                                     <span class="course-duration">
-                                        <i class="fas fa-clock"></i>{{$curso->horasAcademicas}} horas
+                                        <i class="fas fa-clock"></i>{{ $curso->horasAcademicas }} horas
                                     </span>
                                     <span class="course-duration">
-                                        <i class="fas fa-clock"></i>Idioma: {{$curso->idioma}}
+                                        <i class="fas fa-clock"></i>Idioma: {{ $curso->idioma }}
                                     </span>
                                 </div>
                                 <h3 class="course-title">
-                                    <a href="curso-detalle.html">{{$curso->nombre}}</a>
+                                    <a href="curso-detalle.html">{{ $curso->nombre }}</a>
                                 </h3>
-                                <p class="course-description">{{$curso->descripcion}}</p>
+                                <p class="course-description">{{ $curso->descripcion }}</p>
                                 <div class="course-footer">
                                     <div class="course-price">
                                         <span class="price-label">Precio:</span>
-                                        <span class="price-amount">${{$curso->precio}}</span>
+                                        <span class="price-amount">${{ $curso->precio }}</span>
                                     </div>
                                     <div class="course-actions">
-                                        <a href="{{$curso->slug}}" class="btn btn-outline-primary custom-btn-outline">Ver
+                                        <a href="{{ route('cursoEjecutivoDetalle', ['curso' => $curso->slug]) }}"
+                                            class="btn btn-outline-primary custom-btn-outline">Ver
                                             Más</a>
                                         <a href="" class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                     </div>
@@ -59,7 +62,7 @@
                         </div>
                     </div>
                 @endforeach
-
+                {{ $cursos->links() }}
             </div>
         </div>
     </section>

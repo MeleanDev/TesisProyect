@@ -1,8 +1,10 @@
 @extends('website.layouts.app')
 @section('subtitulo', 'Cursos para Empresas')
-@section('descripcion', 'Capacitación corporativa especializada para potenciar el talento de tu organización y mejorar
+@section('descripcion',
+    'Capacitación corporativa especializada para potenciar el talento de tu organización y mejorar
     la productividad empresarial.')
-@section('keywords', 'cursos para empresas, capacitación corporativa, desarrollo profesional, formación empresarial,
+@section('keywords',
+    'cursos para empresas, capacitación corporativa, desarrollo profesional, formación empresarial,
     habilidades laborales, productividad empresarial')
 
 @section('content')
@@ -22,9 +24,10 @@
                     <div class="col-lg-6">
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="yo.png" height="250" width="400" alt="Liderazgo y Gestión de Equipos">
+                                <img src="yo.png" height="250" width="400" alt="{{ $curso->nombre }}">
                                 <div class="course-overlay">
-                                    <a href="{{ $curso->slug }}" class="btn btn-primary custom-btn-primary">
+                                    <a href="{{ route('cursoEmpresaDetalle', ['curso' => $curso->slug]) }}"
+                                        class="btn btn-primary custom-btn-primary">
                                         <i class="fas fa-eye me-2"></i>Ver Detalles
                                     </a>
                                 </div>
@@ -51,7 +54,8 @@
                                         <span class="price-amount">${{ $curso->precio }}</span>
                                     </div>
                                     <div class="course-actions">
-                                        <a href="{{ $curso->slug }}" class="btn btn-outline-primary custom-btn-outline">Ver
+                                        <a href="{{ route('cursoEmpresaDetalle', ['curso' => $curso->slug]) }}"
+                                            class="btn btn-outline-primary custom-btn-outline">Ver
                                             Más</a>
                                         <a href="" class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                     </div>
@@ -60,7 +64,7 @@
                         </div>
                     </div>
                 @endforeach
-
+                {{ $cursos->links() }}
             </div>
         </div>
     </section>

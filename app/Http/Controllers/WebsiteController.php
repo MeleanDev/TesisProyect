@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactoRequest;
+use App\Models\Curso;
 use App\Models\SeccionCurso;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -38,16 +39,24 @@ class WebsiteController extends Controller
 
     public function cursoEmpresa(): View
     {
-        return view('website.pages.cursoEmpresa');
+        $cursos = Curso::where('categoria','empresarial')->paginate(6);
+        return view('website.pages.cursoEmpresa', compact('cursos'));
     }
 
     public function cursoEjecutivo(): View
     {
-        return view('website.pages.cursoEjecutivo');
+        $cursos = Curso::where('categoria','ejecutivo')->paginate(6);
+        return view('website.pages.cursoEjecutivo', compact('cursos'));
     }
 
     public function cursoMenor(): View
     {
-        return view('website.pages.cursoMenor');
+        $cursos = Curso::where('categoria','menores')->paginate(6);
+        return view('website.pages.cursoMenor', compact('cursos'));
+    }
+
+    public function cursoDetalle(Curso $curso)
+    {
+        return view('website.pages.cursoDetalle', compact('curso'));
     }
 }

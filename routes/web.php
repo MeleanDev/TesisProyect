@@ -13,6 +13,10 @@ Route::controller(WebsiteController::class)->group(function () {
         Route::get('/curso-empresa', 'cursoEmpresa')->name('cursoEmpresa');
         Route::get('/curso-ejecutivo', 'cursoEjecutivo')->name('cursoEjecutivo');
         Route::get('/curso-menor', 'cursoMenor')->name('cursoMenor');
+
+        Route::get('/curso-empresa/{curso}', 'cursoDetalle')->name('cursoEmpresaDetalle');
+        Route::get('/curso-ejecutivo/{curso}', 'cursoDetalle')->name('cursoEjecutivoDetalle');
+        Route::get('/curso-menor/{curso}', 'cursoDetalle')->name('cursoMenorDetalle');
     });
 });
 

@@ -1,8 +1,10 @@
 @extends('website.layouts.app')
 @section('subtitulo', 'Cursos Para Menores de Edad')
-@section('descripcion', 'Programas educativos diseñados para el desarrollo integral de niños y adolescentes en un
+@section('descripcion',
+    'Programas educativos diseñados para el desarrollo integral de niños y adolescentes en un
     entorno seguro y estimulante.')
-@section('keywords', 'cursos para menores, educación infantil, desarrollo integral, habilidades sociales, creatividad,
+@section('keywords',
+    'cursos para menores, educación infantil, desarrollo integral, habilidades sociales, creatividad,
     aprendizaje seguro')
 @section('content')
     <x-page-header titulo="Cursos Para Menores de Edad"
@@ -21,9 +23,10 @@
                     <div class="col-lg-6">
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="yo.png" height="250" width="400" alt="Liderazgo y Gestión de Equipos">
+                                <img src="yo.png" height="250" width="400" alt="{{ $curso->nombre }}">
                                 <div class="course-overlay">
-                                    <a href="{{ $curso->slug }}" class="btn btn-primary custom-btn-primary">
+                                    <a href="{{ route('cursoMenorDetalle', ['curso' => $curso->slug]) }}"
+                                        class="btn btn-primary custom-btn-primary">
                                         <i class="fas fa-eye me-2"></i>Ver Detalles
                                     </a>
                                 </div>
@@ -50,7 +53,8 @@
                                         <span class="price-amount">${{ $curso->precio }}</span>
                                     </div>
                                     <div class="course-actions">
-                                        <a href="{{ $curso->slug }}" class="btn btn-outline-primary custom-btn-outline">Ver
+                                        <a href="{{ route('cursoMenorDetalle', ['curso' => $curso->slug]) }}"
+                                            class="btn btn-outline-primary custom-btn-outline">Ver
                                             Más</a>
                                         <a href="" class="btn btn-primary custom-btn-primary">Inscribirse</a>
                                     </div>
@@ -59,7 +63,7 @@
                         </div>
                     </div>
                 @endforeach
-
+                {{ $cursos->links() }}
             </div>
         </div>
     </section>

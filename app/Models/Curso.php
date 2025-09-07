@@ -30,4 +30,9 @@ protected $fillable = [
     {
         return $this->hasMany(Preinscripcion::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

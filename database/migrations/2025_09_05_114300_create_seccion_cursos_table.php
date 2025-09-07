@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('seccion_cursos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100)->require();
-            $table->string('apellido', 100)->require();
-            $table->string('correo')->require();
+            $table->string('nombre', 100);
+            $table->string('apellido', 100);
+            $table->string('correo');
             $table->string('telefono', 20)->nullable();
             $table->enum('asunto', ['cursos-empresas', 'cursos-menores', 'cursos-ejecutivos', 'informacion-general', 'otro']);
-            $table->string('mensaje', 255)->require();
+            $table->string('mensaje', 255);
             $table->timestamps();
         });
     }

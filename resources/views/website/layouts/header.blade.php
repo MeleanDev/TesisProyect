@@ -36,9 +36,6 @@
                         <a class="nav-link @if (Request::is('contacto') ) active @endif" href="{{route('contacto')}}">Contacto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if (Request::is('preinscripcion') ) active @endif" href="{{route('preinscripcion')}}">Preinscripciones</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="">Verificar Certificado</a>
                     </li>
                     <li class="nav-item">

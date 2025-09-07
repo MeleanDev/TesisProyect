@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('apellido', 100);
             $table->string('correo');
             $table->string('telefono', 20)->nullable();
-            $table->enum('asunto', ['cursos-empresas', 'cursos-menores', 'cursos-ejecutivos', 'informacion-general', 'otro']);
+            $table->string('asunto');
             $table->string('mensaje', 255);
             $table->timestamps();
         });

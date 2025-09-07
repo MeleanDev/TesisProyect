@@ -197,4 +197,91 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="contactModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Solicitar Información</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="contactFormHome">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre"
+                                required maxlength="100" minlength="2">
+                            <label for="nombre">Nombre</label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido"
+                                required maxlength="100" minlength="2">
+                            <label for="apellido">Apellido</label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico"
+                                required>
+                            <label for="correo">Correo electrónico</label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Teléfono">
+                            <label for="telefono">Teléfono</label>
+                        </div>
+                        <div class="form-group mb-4">
+                            <textarea class="form-control" name="mensaje" id="mensaje" rows="4" maxlength="255" minlength="2"></textarea>
+                            <label for="mensaje">Mensaje</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary custom-btn-primary w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Enviar Solicitud
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var token = $('meta[name="csrf-token"]').attr('content');
+    const url = "{{route('fromContato')}}";
+
+    $('#contactFormHome').submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        formData.append('asunto', 'Informacion sobre: {{$curso->nombre}}');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            dataType: 'JSON',
+            contentType: false,
+            processData: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+            success: function(data) {
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Mensaje enviado",
+                        text: "Tu mensaje fue enviado con éxito al administrador."
+                    });
+                    $('#contactFormHome')[0].reset();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Tu mensaje no fue enviado",
+                        text: "Tu mensaje no pudo ser enviado."
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Falla en el sistema",
+                    text: "El mensaje no pudo ser enviado. Intente más tarde."
+                });
+            }
+        });
+    });
+</script>
 @endsection

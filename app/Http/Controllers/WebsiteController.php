@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContactoDosRequest;
 use App\Http\Requests\ContactoRequest;
 use App\Models\Curso;
 use App\Models\SeccionCurso;
@@ -24,8 +25,8 @@ class WebsiteController extends Controller
         $cursoEmpresaCuatroPrimero = Curso::where('categoria', 'empresarial')->limit(4)->get();
 
         return view('website.pages.inicio', compact(
-            'cursoMenorCantidad', 
-            'cursoEjecutivoCantidad', 
+            'cursoMenorCantidad',
+            'cursoEjecutivoCantidad',
             'cursoEmpresaCantidad',
             'cursoMenorCuatroPrimero',
             'cursoEjecutivoCuatroPrimero',

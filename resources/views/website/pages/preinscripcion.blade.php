@@ -1,142 +1,125 @@
 @extends('website.layouts.app')
-@section('subtitulo', 'Preinscripciones')
+@section('subtitulo', 'Preinscripción')
+@section('descripcion', 'Completa tu proceso de preinscripción en Academia CADI')
+@section('keywords', 'preinscripción, cursos, academia, formulario')
+
+@section('styles')
+<style>
+    .custom-card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        background-color: #ffffff;
+    }
+
+    .form-group label {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .form-text {
+        font-size: 0.8em;
+        color: #999;
+    }
+
+    .btn.loading {
+        position: relative;
+        color: transparent !important;
+    }
+
+    .btn.loading .spinner-border {
+        display: block !important;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .spinner-border {
+        display: none;
+    }
+
+    .curso-details-card {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .curso-details-card img {
+        border-radius: 0.5rem;
+        object-fit: cover;
+    }
+</style>
+@endsection
+
 @section('content')
-    <x-page-header titulo="Preinscripciones"
-        subtitulo="Completa el formulario para preinscribirte en nuestros cursos. Te contactaremos pronto."
-        icono="fas fa-user-plus" :breadcrumb="[
+    <x-page-header titulo="Preinscripción"
+        subtitulo="Completa tu proceso de preinscripción para nuestros cursos"
+        icono="fas fa-edit" :breadcrumb="[
             ['nombre' => 'Inicio', 'link' => 'index.html', 'activo' => false],
-            ['nombre' => 'Preinscripciones', 'link' => null, 'activo' => true],
+            ['nombre' => 'Preinscripción', 'link' => null, 'activo' => true],
         ]" />
 
-    <section class="py-5">
+    <section class="preinscripcion-section py-5">
         <div class="container">
-            <div class="section-header text-center">
-                <span class="section-badge">Preinscripcion</span>
-                <h2 class="section-title">¿Deseas inscribirte a uno de nuestros <span class="text-gradient">Cursos?</span>
-                </h2>
-                <p class="section-subtitle">Rellena el formulario. Y recibiremos tu preinscripcion a distancia.</p>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow h-100">
-                        <div class="card-body p-4">
-                            <h3 class="text-primary-blue mb-4">¿Por qué preinscribirte?</h3>
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-check-circle text-primary-orange me-3"></i>
-                                <span>Reserva tu cupo antes que se agoten</span>
+            <div class="row justify-content-center">
+                
+                <!-- Payment Information Section -->
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="card custom-card">
+                        <div class="card-body p-5">
+                            <h4 class="card-title text-center mb-4">Datos de Pago</h4>
+                            <div class="mb-5">
+                                <h5 class="mb-3">Transferencia Bancaria</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>Banco:</strong> Banco de Venezuela</li>
+                                    <li class="mb-2"><strong>Número de cuenta:</strong> 0123-4567-8901-2345</li>
+                                    <li class="mb-2"><strong>Teléfono:</strong> +58 412 1234567</li>
+                                    <li class="mb-2"><strong>Nombre del propietario:</strong> Academia CADI</li>
+                                    <li class="mb-2"><strong>Correo electrónico:</strong> pago@academiaca.com</li>
+                                </ul>
                             </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="fas fa-check-circle text-primary-orange me-3"></i>
-                                <span>Recibe información detallada del curso</span>
-                            </div>
-                            <div class="d-flex align-items-center mb-4">
-                                <i class="fas fa-check-circle text-primary-orange me-3"></i>
-                                <span>Asesoría personalizada</span>
-                            </div>
-
-                            <h4 class="text-primary-blue mb-3">Tipos de Cursos:</h4>
-                            <div class="course-type mb-3">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-building text-primary-orange me-3"></i>
-                                    <div>
-                                        <h6 class="mb-1 text-primary-blue">Cursos para Empresas</h6>
-                                        <small class="text-muted">Capacitación corporativa</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="course-type mb-3">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-child text-primary-orange me-3"></i>
-                                    <div>
-                                        <h6 class="mb-1 text-primary-blue">Cursos para Menores</h6>
-                                        <small class="text-muted">Programas educativos</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="course-type">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-user-tie text-primary-orange me-3"></i>
-                                    <div>
-                                        <h6 class="mb-1 text-primary-blue">Cursos Ejecutivos</h6>
-                                        <small class="text-muted">Formación profesional</small>
-                                    </div>
-                                </div>
+                            <div>
+                                <h5 class="mb-3">Pago Móvil</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>Banco:</strong> Banco de Venezuela</li>
+                                    <li class="mb-2"><strong>Teléfono:</strong> +58 412 1234567</li>
+                                    <li class="mb-2"><strong>Cédula de Identidad o Rif:</strong> J-12345678-9</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Pre-registration Form Section -->
                 <div class="col-lg-8">
-                    <div class="card border-0 shadow">
-                        <div class="card-body p-4">
-                            <h2 class="text-primary-blue mb-4">Formulario de Preinscripción</h2>
-                            <form id="preinscriptionForm">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="primerNombre" class="form-label">Primer Nombre *</label>
-                                        <input type="text" class="form-control" id="primerNombre" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="segundoNombre" class="form-label">Segundo Nombre</label>
-                                        <input type="text" class="form-control" id="segundoNombre">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="primerApellido" class="form-label">Primer Apellido *</label>
-                                        <input type="text" class="form-control" id="primerApellido" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
-                                        <input type="text" class="form-control" id="segundoApellido">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="cedulaRif" class="form-label">Cédula de Identidad / RIF *</label>
-                                        <input type="text" class="form-control" id="cedulaRif" required>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="correo" class="form-label">Correo Electrónico *</label>
-                                        <input type="email" class="form-control" id="correo" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
-                                        <input type="date" class="form-control" id="fechaNacimiento" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="telefono" class="form-label">Teléfono</label>
-                                        <input type="tel" class="form-control" id="telefono">
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="tipoCurso" class="form-label">Tipo de Curso de Interés *</label>
-                                        <div class="select2-responsive-container">
-                                            <select class="form-select w-100" id="tipoCurso" required>
-                                                <option value="">Selecciona un tipo de curso</option>
-                                                <option value="empresas">Cursos para Empresas</option>
-                                                <option value="menores">Cursos para Menores</option>
-                                                <option value="ejecutivos">Cursos Ejecutivos</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12" id="div-curso-especifico" style="display: none;">
-                                        <label for="cursoEspecifico" class="form-label">Curso de Interés *</label>
-                                        <div class="select2-responsive-container">
-                                            <select class="form-select w-100" id="cursoEspecifico" required>
-                                                <option value="">Cargando cursos...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="comentarios" class="form-label">Comentarios Adicionales</label>
-                                        <textarea class="form-control" id="comentarios" rows="4"
-                                            placeholder="Cuéntanos sobre tus expectativas o preguntas específicas..."></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary custom-btn-primary w-100">
-                                            <i class="fas fa-paper-plane me-2"></i>Enviar Mensaje
-                                        </button>
-                                    </div>
+                    <div class="card custom-card" id="verificacionCard">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-5">
+                                <h2 class="card-title">Verificación de Cliente</h2>
+                                <p class="card-text">Ingresa tu cédula de identidad y/o Rif para verificar si ya eres cliente de nuestra institución</p>
+                            </div>
+                            
+                            <form id="verificacionForm">
+                                @csrf
+                                <div class="form-group mb-4">
+                                    <input type="text" class="form-control" name="identidad" id="identidad" 
+                                        placeholder="Ejemplo: V12345678" required>
                                 </div>
+                                
+                                <button type="submit" class="btn btn-primary custom-btn-primary w-100" id="verifyBtn">
+                                    <span class="btn-text"><i class="fas fa-search me-2"></i>Verificar</span>
+                                </button>
                             </form>
                         </div>
                     </div>
+
+                    <div id="resultadoVerificacion" class="d-none">
+                        <!-- Aquí se cargará el formulario de preinscripción -->
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -144,139 +127,250 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            const $tipoCursoSelect = $('#tipoCurso');
-            const $divCursoEspecifico = $('#div-curso-especifico');
-            const $cursoEspecificoSelect = $('#cursoEspecifico');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function() {
+        // Manejar la verificación de identidad
+        $('#verificacionForm').submit(function(e) {
+            e.preventDefault();
+            const identidad = $('#identidad').val();
+            const $verifyBtn = $('#verifyBtn');
 
-            // Solución: Añadir 'width: 100%' para que Select2 se ajuste
-            $tipoCursoSelect.select2({
-                placeholder: "Selecciona un tipo de curso",
-                allowClear: true,
-                width: '100%'
-            });
+            // Mostrar estado de carga en el botón
+            $verifyBtn.addClass('loading').prop('disabled', true);
+            $('#resultadoVerificacion').addClass('d-none').empty();
 
-            // Solución: Añadir 'width: 100%' y el dropdownParent
-            $cursoEspecificoSelect.select2({
-                placeholder: "Selecciona un curso",
-                allowClear: true,
-                dropdownParent: $divCursoEspecifico,
-                width: '100%'
-            });
+            $.ajax({
+                url: "{{ route('verificacionCliente') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    identidad: identidad
+                },
+                success: function(response) {
+                    // Ocultar la tarjeta de verificación después de la respuesta exitosa
+                    $('#verificacionCard').hide();
 
-            const cursosDisponibles = {
-                'empresas': [{
-                    id: 1,
-                    text: 'Liderazgo y Gestión de Equipos'
-                }, {
-                    id: 2,
-                    text: 'Innovación y Estrategia Empresarial'
-                }, {
-                    id: 3,
-                    text: 'Finanzas para No Financieros'
-                }],
-                'menores': [{
-                    id: 4,
-                    text: 'Robótica y Programación Básica'
-                }, {
-                    id: 5,
-                    text: 'Inglés para Niños'
-                }, {
-                    id: 6,
-                    text: 'Pensamiento Lógico y Creativo'
-                }],
-                'ejecutivos': [{
-                    id: 7,
-                    text: 'Oratoria y Presentaciones de Impacto'
-                }, {
-                    id: 8,
-                    text: 'Desarrollo de Habilidades Gerenciales'
-                }, {
-                    id: 9,
-                    text: 'Negociación Estratégica'
-                }]
-            };
+                    if (response.existe) {
+                        // Cliente existe - mostrar formulario simplificado
+                        $('#resultadoVerificacion').html(`
+                            <div class="card custom-card">
+                                <div class="card-body p-5">
+                                    <div class="alert alert-success mt-4">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        Cliente verificado: <strong>${response.cliente.Pnombre} ${response.cliente.Papelldio}</strong>
+                                    </div>
+                                    <form id="preinscripcionFormExistente" enctype="multipart/form-data">
+                                        <input type="hidden" name="cliente_id" value="${response.cliente.id}">
+                                        <input type="hidden" name="identidad" value="${identidad}">
+                                        
+                                        <h5 class="mt-4 mb-3">Continuar preinscripción</h5>
+                                        
+                                        <div class="form-group mb-3">
+                                            <select class="form-control" name="curso_id" required>
+                                                <option value="">Seleccione un curso</option>
+                                                @foreach($cursos as $curso)
+                                                    <option value="{{ $curso->slug }}">{{ $curso->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div id="cursoDetailsContainer" class="d-none"></div>
+                                        
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Comprobante de pago *</label>
+                                            <input type="file" class="form-control" name="comprobante" accept="image/*,.pdf" required>
+                                            <div class="form-text">Formatos aceptados: JPG, PNG, PDF (Máx. 5MB)</div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-paper-plane me-2"></i>Enviar Preinscripción
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        `).removeClass('d-none');
+                    } else {
+                        $('#resultadoVerificacion').html(`
+                            <div class="card custom-card">
+                                <div class="card-body p-5">
+                                    <div class="alert alert-info mt-4">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        No encontramos tu cédula. Por favor, completa el formulario completo para registrarte.
+                                    </div>
+                                    <form id="preinscripcionFormNuevo" enctype="multipart/form-data">
+                                        <input type="hidden" name="identidad" value="${identidad}">
+                                        
+                                        <h5 class="mt-4 mb-3">Registrar nuevo cliente</h5>
 
-            $tipoCursoSelect.on('change', function() {
-                const tipoSeleccionado = $(this).val();
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label>Primer Nombre *</label>
+                                                    <input type="text" class="form-control" name="Pnombre" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label>Segundo Nombre</label>
+                                                    <input type="text" class="form-control" name="Snombre">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label>Primer Apellido *</label>
+                                                    <input type="text" class="form-control" name="Papelldio" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label>Segundo Apellido</label>
+                                                    <input type="text" class="form-control" name="Sapelldio">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label>Correo electrónico *</label>
+                                            <input type="email" class="form-control" name="email" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label>Teléfono *</label>
+                                            <input type="tel" class="form-control" name="telefono" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label>URL de Imagen</label>
+                                            <input type="text" class="form-control" name="image">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label>Fecha de nacimiento *</label>
+                                            <input type="date" class="form-control" name="fecha_nacimiento" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Curso a inscribir *</label>
+                                            <select class="form-control" name="curso_id" required>
+                                                <option value="">Seleccione un curso</option>
+                                                @foreach($cursos as $curso)
+                                                    <option value="{{ $curso->slug }}">{{ $curso->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div id="cursoDetailsContainer" class="d-none"></div>
 
-                if (tipoSeleccionado) {
-                    $divCursoEspecifico.show();
-
-                    const cursos = cursosDisponibles[tipoSeleccionado] || [];
-                    const newOptions = [{
-                        id: '',
-                        text: 'Selecciona un curso',
-                        disabled: true,
-                        selected: true
-                    }].concat(cursos);
-
-                    $cursoEspecificoSelect.empty().select2({
-                        data: newOptions,
-                        placeholder: "Selecciona un curso",
-                        allowClear: true,
-                        dropdownParent: $divCursoEspecifico,
-                        width: '100%' // Asegura que el ancho sea correcto al cambiar
-                    });
-                } else {
-                    $divCursoEspecifico.hide();
-                    $cursoEspecificoSelect.val(null).trigger('change');
-                }
-            });
-
-            const preinscriptionForm = document.getElementById('preinscriptionForm');
-            preinscriptionForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const formData = {
-                    primerNombre: document.getElementById('primerNombre').value,
-                    segundoNombre: document.getElementById('segundoNombre').value,
-                    primerApellido: document.getElementById('primerApellido').value,
-                    segundoApellido: document.getElementById('segundoApellido').value,
-                    cedulaRif: document.getElementById('cedulaRif').value,
-                    correo: document.getElementById('correo').value,
-                    fechaNacimiento: document.getElementById('fechaNacimiento').value,
-                    telefono: document.getElementById('telefono').value,
-                    tipoCurso: $tipoCursoSelect.val(),
-                    cursoEspecifico: $cursoEspecificoSelect.val(),
-                    comentarios: document.getElementById('comentarios').value
-                };
-
-                try {
+                                        <div class="form-group mb-4">
+                                            <label class="form-label">Comprobante de pago *</label>
+                                            <input type="file" class="form-control" name="comprobante" accept="image/*,.pdf" required>
+                                            <div class="form-text">Formatos aceptados: JPG, PNG, PDF (Máx. 5MB)</div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-paper-plane me-2"></i>Enviar Preinscripción
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        `).removeClass('d-none');
+                    }
+                },
+                error: function(xhr) {
                     Swal.fire({
-                        title: '¡Gracias! Preinscripción Enviada',
-                        text: 'Tu solicitud de preinscripción ha sido enviada con éxito. Nos pondremos en contacto contigo pronto para los próximos pasos en tu correo en electronico "No olvides revisar tu bandeja de spawn".',
-                        icon: 'success',
-                        confirmButtonText: 'Cerrar',
-                        customClass: {
-                            confirmButton: 'btn btn-primary custom-btn-primary'
-                        }
-                    })
-                } catch (error) {
-                    Swal.fire({
-                        title: '¡Error al Enviar!',
-                        text: 'Hubo un problema al enviar tu preinscripción. Por favor, inténtalo de nuevo más tarde.',
                         icon: 'error',
-                        confirmButtonText: 'Cerrar',
-                        customClass: {
-                            confirmButton: 'btn btn-primary custom-btn-primary'
-                        }
-                    })
+                        title: 'Error de conexión',
+                        text: 'No se pudo conectar con el servidor. Por favor, inténtelo de nuevo más tarde.',
+                        confirmButtonText: 'Entendido'
+                    });
                 }
-
-                preinscriptionForm.reset();
-
-                $tipoCursoSelect.val(null).trigger('change');
-                $divCursoEspecifico.hide();
-                $cursoEspecificoSelect.empty().select2({
-                    data: [{
-                        id: '',
-                        text: 'Cargando cursos...'
-                    }],
-                    width: '100%'
-                });
             });
         });
-    </script>
+        
+        // Manejar el cambio de curso y mostrar detalles
+        $(document).on('change', '#preinscripcionFormExistente select, #preinscripcionFormNuevo select', function() {
+            const cursoId = $(this).val();
+            const $detailsContainer = $('#cursoDetailsContainer');
+            const peticionCursoDatos = '{{route('detalleCurso')}}';
+            
+            if (cursoId) {
+                $.ajax({
+                    url: peticionCursoDatos+'/'+cursoId,
+                    method: 'GET',
+                    success: function(response) {
+                        const curso = response.curso;
+                        $detailsContainer.html(`
+                            <div class="curso-details-card mb-4 d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="${curso.image}" alt="Imagen del curso" class="img-fluid" style="width: 120px; height: 90px;">
+                                </div>
+                                <div class="ms-4">
+                                    <h5 class="mb-1">${curso.nombre}</h5>
+                                    <p class="mb-1"><strong>Precio:</strong> $${curso.precio}</p>
+                                    <p class="mb-1"><strong>Duración:</strong> ${curso.horasAcademicas} Horas</p>
+                                    <p class="mb-0"><strong>Idioma:</strong> ${curso.idioma}</p>
+                                </div>
+                            </div>
+                        `).removeClass('d-none');
+                    },
+                    error: function(xhr) {
+                        $detailsContainer.html(`
+                            <div class="alert alert-danger mt-4">
+                                Error al cargar los detalles del curso.
+                            </div>
+                        `).removeClass('d-none');
+                    }
+                });
+            } else {
+                $detailsContainer.addClass('d-none').empty();
+            }
+        });
+
+        // Delegación de eventos para los formularios dinámicos de envío
+        $(document).on('submit', '#preinscripcionFormExistente, #preinscripcionFormNuevo', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const $submitBtn = $(this).find('button[type="submit"]');
+
+            $submitBtn.addClass('loading').prop('disabled', true);
+
+            $.ajax({
+                url: "", // Asegúrate de que esta ruta exista
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    $submitBtn.removeClass('loading').prop('disabled', false);
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Preinscripción exitosa!',
+                            html: `Tu preinscripción ha sido registrada correctamente. <br>
+                                <strong>Número de referencia:</strong> ${response.referencia}<br>
+                                Estatus: <span class="badge bg-warning">Pendiente de verificación</span>`,
+                            confirmButtonText: 'Entendido'
+                        }).then(() => {
+                            window.location.href = "{{ route('inicio') }}";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message || 'Ocurrió un error al procesar la preinscripción.'
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    $submitBtn.removeClass('loading').prop('disabled', false);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al enviar',
+                        text: 'Ocurrió un error al procesar la preinscripción. Intente nuevamente.'
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endsection

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactoDosRequest;
 use App\Http\Requests\ContactoRequest;
+use App\Http\Requests\VerificacionCliente;
+use App\Models\ClienteRegistrado;
 use App\Models\Curso;
 use App\Models\SeccionCurso;
 use Illuminate\Http\JsonResponse;
@@ -52,7 +54,8 @@ class WebsiteController extends Controller
 
     public function preinscripcion(): View
     {
-        return view('website.pages.preinscripcion');
+        $cursos = Curso::all();
+        return view('website.pages.preinscripcion', compact('cursos'));
     }
 
     public function cursoEmpresa(): View
@@ -76,5 +79,23 @@ class WebsiteController extends Controller
     public function cursoDetalle(Curso $curso)
     {
         return view('website.pages.cursoDetalle', compact('curso'));
+    }
+
+    public function verificacionCliente(VerificacionCliente $datos)
+    {
+        try {
+            $cliente = ClienteRegistrado::where('identidad', $datos->identidad)->firstOrFail();
+            $respuesta = response()->json(['existe' => true, 'cliente' => $cliente]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            $respuesta = response()->json(['existe' => false, 'error' => 'No se encontró el registro.']);
+        } catch (\Throwable $th) {
+            $respuesta = response()->json(['error' => true, 'mensaje' => 'Ha ocurrido un error inesperado.']);
+        }
+        return $respuesta;
+    }
+
+    public function detalleCurso(Curso $slug)
+    {
+        return response()->json(['curso' => $slug]);
     }
 }

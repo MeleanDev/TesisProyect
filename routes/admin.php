@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClienteController;
+use App\Http\Controllers\Admin\dashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->prefix('Sistema')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('interno.page.panelPrincipal');
-    })->name('dashboard');
+    
+    Route::controller(dashboardController::class)->group(function () {
+        Route::get('dashboard', 'index')->name('dashboard');
+    });
 
     Route::controller(ClienteController::class)->group(function () {
         Route::get('/cliente', 'index')->name('cliente');
@@ -17,6 +20,17 @@ Route::middleware('auth')->prefix('Sistema')->group(function () {
         Route::post('/cliente/editar/{id}', 'editar');
         Route::delete('/cliente/{id}', 'eliminar');
     });
+
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/administrador', 'index')->name('administrador');
+        Route::get('/administrador/lista', 'lista');
+        Route::get('/administrador/detalle/{id}', 'detalle');
+        Route::post('/administrador', 'guardar');
+        Route::post('/administrador/editar/{id}', 'editar');
+        Route::delete('/administrador/{id}', 'eliminar');
+    });
+
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

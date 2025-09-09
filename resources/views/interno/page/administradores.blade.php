@@ -1,4 +1,4 @@
-@extends('dashboard.app.app')
+@extends('interno.app.app')
 @section('page', 'Administradores')
 @section('tittle', 'Administradores')
 
@@ -10,30 +10,26 @@
                     <h3>Administradores</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <button onclick="criar()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">Adicionar Administrador</button>
+                    <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">
+                        Agregar Administrador
+                    </button>
                     <div class="container mt-4">
                         <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
                             style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>Nomes</th>
-                                    <th>Apelidos</th>
-                                    <th data-priority="1">NIF/BI</th>
+                                    <th>Nombre</th>
                                     <th>Email</th>
-                                    <th>Telefone</th>
-                                    <th class="text-center" data-priority="2">Ação</th>
+                                    <th class="text-center" data-priority="2">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Nomes</th>
-                                    <th>Apelidos</th>
-                                    <th>NIF/BI</th>
+                                    <th>Nombre</th>
                                     <th>Email</th>
-                                    <th>Telefone</th>
-                                    <th class="text-center">Ação</th>
+                                    <th class="text-center">Acción</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -51,66 +47,43 @@
                     @csrf
                     <div id="bg-titulo" class="modal-header">
                         <h5 class="modal-title" id="titulo"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            {{-- Campo de Nombre --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name" class="form-control-label">Nome</label>
+                                    <label for="name" class="form-control-label">Nombre</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Nome" minlength="3" maxlength="50" required>
-                                    <small class="form-text">Nome (Obrigatório)</small>
+                                        placeholder="Nombre" minlength="3" maxlength="50" required>
+                                    <small class="form-text">Nombre (Obligatorio)</small>
                                 </div>
                             </div>
+                            {{-- Campo de Correo Electrónico --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="last_name" class="form-control-label">Apelido</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name"
-                                        minlength="3" maxlength="50" placeholder="Apelido" required />
-                                    <small class="form-text">Apelido (Obrigatório)</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="dni" class="form-control-label">NIF/BI</label>
-                                    <input type="text" class="form-control" id="dni" name="dni"
-                                        placeholder="Número de Identificação" minlength="5" maxlength="15" required>
-                                    <small class="form-text">NIF / Bilhete de Identidade (Obrigatório)</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone" class="form-control-label">Telefone</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone"
-                                        placeholder="Número de Telefone">
-                                    <small class="form-text">Telefone (Opcional)</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-control-label">Endereço de Email</label>
+                                    <label for="email" class="form-control-label">Correo Electrónico</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Endereço de Email" required>
-                                    <small class="form-text">Endereço de Email (Obrigatório)</small>
+                                        placeholder="Dirección de Correo Electrónico" required>
+                                    <small class="form-text">Correo Electrónico (Obligatorio)</small>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            {{-- Campo de Contraseña --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="password" class="form-control-label">Palavra-passe</label>
+                                    <label for="password" class="form-control-label">Contraseña</label>
                                     <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Palavra-passe" minlength="6" required>
-                                    <small class="form-text">Palavra-passe (Obrigatório, mínimo 8 caracteres)</small>
+                                        placeholder="Contraseña" minlength="6" required>
+                                    <small class="form-text">Contraseña (Obligatorio, mínimo 8 caracteres)</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" id="submit" class="btn bg-gradient-success">Guardar</button>
                     </div>
                 </form>
@@ -127,7 +100,7 @@
         const urlCompleta = window.location.href;
 
         var table = new DataTable('#datatable', {
-            ajax: urlCompleta + '/Lista',
+            ajax: urlCompleta + '/lista',
             responsive: true,
             processing: true,
             serverSide: true,
@@ -141,23 +114,8 @@
                     className: 'text-center',
                 },
                 {
-                    data: 'last_name',
-                    name: 'last_name',
-                    className: 'text-center',
-                },
-                {
-                    data: 'dni',
-                    name: 'dni',
-                    className: 'text-center',
-                },
-                {
                     data: 'email',
                     name: 'email',
-                    className: 'text-center',
-                },
-                {
-                    data: 'phone',
-                    name: 'phone',
                     className: 'text-center',
                 },
                 {
@@ -181,26 +139,26 @@
             ],
             columnDefs: [{
                 orderable: false,
-                targets: [4],
+                targets: [2],
                 responsivePriority: 1,
                 responsivePriority: 2,
 
             }],
             language: {
-                "zeroRecords": "Nenhum resultado encontrado",
-                "emptyTable": "Nenhum dado disponível nesta tabela",
-                "lengthMenu": "Mostrar _MENU_ registos",
-                "info": "A mostrar registos de _START_ a _END_ de um total de _TOTAL_ registos",
-                "infoEmpty": "A mostrar registos de 0 a 0 de um total de 0 registos",
-                "infoFiltered": "(filtrado de um total de _MAX_ registos)",
-                "sSearch": "Procurar:",
+                "zeroRecords": "Ningún resultado encontrado",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
                 "oPaginate": {
-                    "sFirst": "Primeiro",
+                    "sFirst": "Primero",
                     "sLast": "Último",
-                    "sNext": "Seguinte",
+                    "sNext": "Siguiente",
                     "sPrevious": "Anterior"
                 },
-                "sProcessing": "A processar...",
+                "sProcessing": "Procesando...",
             },
         });
 
@@ -208,7 +166,7 @@
         consulta = function(id) {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: urlCompleta + "/Ver/" + id,
+                    url: urlCompleta + "/detalle/" + id,
                     method: "GET",
                     success: function(Data) {
                         resolve(Data);
@@ -220,7 +178,7 @@
             });
         };
 
-        // Enviar dados
+        // Enviar datos
         $('#formulario').submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -229,42 +187,42 @@
                 method: 'POST',
                 data: formData,
                 dataType: 'JSON',
-                contentType: false, 
-                processData: false, 
+                contentType: false,
+                processData: false,
                 cache: false,
                 headers: {
-                    'X-CSRF-TOKEN': token 
+                    'X-CSRF-TOKEN': token
                 },
                 success: function(data) {
                     table.ajax.reload(null, false);
                     if (data.success) {
                         if (acao ===
-                            1) { 
+                            1) {
                             notificacao.fire({
                                 icon: "success",
-                                title: "Informação Guardada!!",
-                                text: "Registo guardado com sucesso."
+                                title: "¡Información guardada!",
+                                text: "Registro guardado con éxito."
                             });
                         } else {
                             notificacao.fire({
                                 icon: "success",
-                                title: "Informação Editada!!",
-                                text: "Registo editado com sucesso."
+                                title: "¡Información editada!",
+                                text: "Registro editado con éxito."
                             });
                         }
                     } else {
                         notificacao.fire({
                             icon: "error",
-                            title: "Registo não carregado.",
+                            title: "Registro no cargado.",
                             text: data.message ||
-                                "Ocorreu um erro ao guardar o registo."
+                                "Ocurrió un error al guardar el registro."
                         });
                     }
                 },
                 error: function(xhr, status, error) {
                     Swal.fire({
-                        title: "Falha no sistema",
-                        text: "O registo não foi adicionado ao sistema!!",
+                        title: "Fallo en el sistema",
+                        text: "¡El registro no se agregó al sistema!",
                         icon: "error"
                     });
                 }
@@ -273,23 +231,20 @@
             $('#modalCRUD').modal('hide');
         });
 
-        // AÇÕES
-        criar = function() {
-            rotaAcao = urlCompleta + "/Criar";
+        // ACCIONES
+        crear = function() {
+            rotaAcao = urlCompleta;
             acao = 1;
 
-            // reinicializar Formulário
+            // reinicializar Formulario
             $("#formulario").trigger("reset");
 
             // Editar Modal
-            $("#titulo").html("Adicionar Administrador");
+            $("#titulo").html("Agregar Administrador");
             $("#titulo").attr("class", "modal-title text-white");
             $("#bg-titulo").attr("class", "modal-header bg-gradient-primary");
 
             $("#name").attr("readonly", false);
-            $("#last_name").attr("readonly", false);
-            $("#dni").attr("readonly", false);
-            $("#phone").attr("readonly", false);
             $("#email").attr("readonly", false);
             $("#password").attr("readonly", false);
 
@@ -300,25 +255,16 @@
         ver = async function(id) {
             try {
                 $("#formulario").trigger("reset");
-                dados = await consulta(id);
-                $("#titulo").html("Ver Administrador -> " + dados.dni);
+                datos = await consulta(id);
+                $("#titulo").html("Ver Administrador -> " + datos.email);
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-info");
 
-                // atribuição de valores
-                $("#name").val(dados.name);
+                // atribución de valores
+                $("#name").val(datos.name);
                 $("#name").attr("readonly", true);
 
-                $("#last_name").val(dados.last_name);
-                $("#last_name").attr("readonly", true);
-
-                $("#dni").val(dados.dni);
-                $("#dni").attr("readonly", true);
-
-                $("#phone").val(dados.phone);
-                $("#phone").attr("readonly", true);
-
-                $("#email").val(dados.email);
+                $("#email").val(datos.email);
                 $("#email").attr("readonly", true);
 
                 $("#password").attr("readonly", true);
@@ -328,36 +274,27 @@
             } catch (error) {
                 notificacao.fire({
                     icon: "error",
-                    title: "Eliminado!",
-                    text: "O seu registo não pode ser visualizado."
+                    title: "¡Eliminado!",
+                    text: "Su registro no se puede visualizar."
                 });
             }
         };
 
         editar = async function(id) {
-            rotaAcao = urlCompleta + "/Editar/" + id;
+            rotaAcao = urlCompleta + "/editar/" + id;
             acao = 2;
             try {
                 $("#formulario").trigger("reset");
-                dados = await consulta(id);
-                $("#titulo").html("Editar Administrador -> " + dados.dni);
+                datos = await consulta(id);
+                $("#titulo").html("Editar Administrador -> " + datos.email);
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-warning");
 
-                // atribuição de valores
-                $("#name").val(dados.name);
+                // atribución de valores
+                $("#name").val(datos.name);
                 $("#name").attr("readonly", false);
 
-                $("#last_name").val(dados.last_name);
-                $("#last_name").attr("readonly", false);
-
-                $("#dni").val(dados.dni);
-                $("#dni").attr("readonly", false);
-
-                $("#phone").val(dados.phone);
-                $("#phone").attr("readonly", false);
-
-                $("#email").val(dados.email);
+                $("#email").val(datos.email);
                 $("#email").attr("readonly", false);
 
                 $("#password").attr("readonly", false);
@@ -367,26 +304,26 @@
             } catch (error) {
                 notificacao.fire({
                     icon: "error",
-                    title: "Eliminado!",
-                    text: "O seu registo não pode ser visualizado."
+                    title: "¡Eliminado!",
+                    text: "Su registro no se puede visualizar."
                 });
             }
         };
 
         eliminar = function(id) {
             Swal.fire({
-                title: 'Tem a certeza que deseja eliminar o registo?',
-                text: "Não poderá reverter esta ação!",
+                title: '¿Está seguro de que desea eliminar el registro?',
+                text: "¡No podrá revertir esta acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, eliminar!',
+                confirmButtonText: 'Sí, ¡eliminar!',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: urlCompleta + "/Eliminar/" + id,
+                        url: urlCompleta + "/" + id,
                         method: "DELETE",
                         headers: {
                             'X-CSRF-TOKEN': token
@@ -396,21 +333,21 @@
                                 table.row('#' + id).remove().draw();
                                 notificacao.fire({
                                     icon: "success",
-                                    title: "Eliminado!",
-                                    text: "O seu registo foi eliminado."
+                                    title: "¡Eliminado!",
+                                    text: "Su registro fue eliminado."
                                 });
                             } else {
                                 notificacao.fire({
                                     icon: "error",
-                                    title: "Erro!",
-                                    text: "O seu registo não foi eliminado."
+                                    title: "¡Error!",
+                                    text: "Su registro no fue eliminado."
                                 });
                             }
                         },
                         error: function(xhr, status, error) {
                             Swal.fire({
-                                title: "Erro no sistema",
-                                text: "O registo não foi adicionado ao sistema!!",
+                                title: "Error en el sistema",
+                                text: "¡El registro no se agregó al sistema!",
                                 icon: "error"
                             });
                         }
@@ -419,6 +356,6 @@
             });
         };
 
-        // FIM AÇÕES
+        // FIN ACCIONES
     </script>
 @endsection

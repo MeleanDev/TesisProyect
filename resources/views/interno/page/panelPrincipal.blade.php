@@ -14,7 +14,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Administradores</p>
-                                <h5 id="h5ventaMes" class="font-weight-bolder"></h5>
+                                <h5 id="h5ventaMes" class="font-weight-bolder">{{$administradores}}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -56,7 +56,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Clientes Registrados</p>
-                                <h5 id="h5fatura" class="font-weight-bolder"></h5>
+                                <h5 id="h5fatura" class="font-weight-bolder">{{$clientes}}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">

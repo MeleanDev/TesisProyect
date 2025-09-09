@@ -7,7 +7,7 @@
               document.write(new Date().getFullYear())
             </script>,
             Todos los derechos reservados.
-            <a href="#" class="font-weight-bold" target="_blank">@include('dashboard.app.nombre')</a>.
+            <a href="#" class="font-weight-bold" target="_blank">@include('interno.app.nombre')</a>.
           </div>
         </div>
       </div>

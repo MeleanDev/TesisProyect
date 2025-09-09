@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail(),
                 'telefono' => $faker->phoneNumber(),
                 'image' => $faker->imageUrl(640, 480, 'people', true, 'Faker'),
-                'fecha_nacimiento' => $faker->dateTimeBetween('-80 years', '-18 years'),
+                'fecha_nacimiento' => $faker->dateTimeBetween('-80 years', '-18 years')->format('Y-m-d'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

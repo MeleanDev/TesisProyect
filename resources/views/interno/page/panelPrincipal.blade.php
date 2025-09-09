@@ -1,25 +1,25 @@
-@extends('dashboard.app.app')
-@section('page', 'Painel Principal')
-@section('tittle', 'Painel Principal')
+@extends('interno.app.app')
+@section('page', 'Panel Principal')
+@section('tittle', 'Panel Principal')
 
 @section('contenido')
     {{-- Card --}}
     <div class="row">
 
-        {{-- Vendas registradas --}}
+        {{-- Total Administradores --}}
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">R$ ganhos em vendas</p>
-                                <h5 id="h5ventaMes" class="font-weight-bolder">R$ {{ $montoGanhos }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Administradores</p>
+                                <h5 id="h5ventaMes" class="font-weight-bolder"></h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-info shadow-info text-center rounded-circle">
-                                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa fa-user-secret text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -27,20 +27,20 @@
             </div>
         </div>
 
-        {{-- Produtos Registrados --}}
+        {{-- Cursos Registrados --}}
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Produtos Registrados</p>
-                                <h5 id="h5ventaAnio" class="font-weight-bolder">{{ $productos }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Cursos Registrados</p>
+                                <h5 id="h5ventaAnio" class="font-weight-bolder"></h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa fa-file-text-o text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -48,20 +48,20 @@
             </div>
         </div>
 
-        {{-- Pedidos --}}
+        {{-- Clientes Registrados --}}
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Pedidos Solicitados</p>
-                                <h5 id="h5fatura" class="font-weight-bolder">{{ $cantidadVentas }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Clientes Registrados</p>
+                                <h5 id="h5fatura" class="font-weight-bolder"></h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                <i class="ni ni-book-bookmark text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -69,20 +69,20 @@
             </div>
         </div>
 
-        {{-- Clientes --}}
+        {{-- Total Preinscripciones --}}
         <div class="col-xl-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Clientes</p>
-                                <h5 id="h5Cliente" class="font-weight-bolder">{{ $userClientes }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Preinscripciones</p>
+                                <h5 id="h5Cliente" class="font-weight-bolder"></h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="fa fa-graduation-cap text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -131,29 +131,7 @@
                             </tr>
                         </thead>
                         <tbody id="productos">
-                            @foreach ($producMasVendidos as $producto)
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                {{-- Accede directamente a $producto->image --}}
-                                                <img src="{{ asset('storage/' . $producto->image) }}"
-                                                    class="avatar avatar-sm me-3" alt="product image">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{-- Accede directamente a $producto->product_name --}}
-                                        <p class="text-xs font-weight-bold mb-0">{{ $producto->product_name }}</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        {{-- Accede directamente a $producto->sold_quantity --}}
-                                        <span class="text-xs font-weight-bold">{{ $producto->sold_quantity }}</span>
-                                    </td>
-                                    {{-- Si necesitas el ID del producto, puedes usar $producto->product_id --}}
-                                    {{-- <td>{{ $producto->product_id }}</td> --}}
-                                </tr>
-                            @endforeach
+                           
                         </tbody>
                     </table>
                 </div>
@@ -180,22 +158,7 @@
                             </tr>
                         </thead>
                         <tbody id="facturas">
-                            @foreach ($mejoresVentas as $factura)
-                                <tr>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $factura->stripe_payment_intent_id }}
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">
-                                            ${{ number_format($factura->total_amount, 2) }}</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span
-                                            class="text-xs font-weight-bold">{{ $factura->created_at->format('d/m/Y') }}</span>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>
@@ -211,22 +174,22 @@
             var rutaActual = window.location.href;
 
             // grafica
-            $.ajax({
-                url: rutaActual + '/grafica',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    grafica(data)
-                },
-                error: function(error) {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Error al obtener los datos de la gráfica.",
-                        icon: "error",
-                        confirmButtonText: "Aceptar"
-                    });
-                }
-            });
+            // $.ajax({
+            //     url: rutaActual + '/grafica',
+            //     type: 'GET',
+            //     dataType: 'json',
+            //     success: function(data) {
+            //         grafica(data)
+            //     },
+            //     error: function(error) {
+            //         Swal.fire({
+            //             title: "Error",
+            //             text: "Error al obtener los datos de la gráfica.",
+            //             icon: "error",
+            //             confirmButtonText: "Aceptar"
+            //         });
+            //     }
+            // });
 
         });
 

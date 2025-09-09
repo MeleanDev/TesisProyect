@@ -32,7 +32,7 @@
     <meta name="twitter:creator" content="@VeDistribuidora">
 
     <title>
-        @include('dashboard.app.nombre') || @yield('tittle')
+        @include('interno.app.nombre') || @yield('tittle')
     </title>
 
     <!-- Fonts and icons -->
@@ -79,18 +79,18 @@
         class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
         id="sidenav-main">
         <!-- Sidenav-->
-        @include('dashboard.app.sidenav')
+        @include('interno.app.sidenav')
 
         <hr class="horizontal dark mt-0">
 
         {{-- Menu --}}
-        @include('dashboard.app.navbar')
+        @include('interno.app.navbar')
 
     </aside>
 
     <main class="main-content position-relative border-radius-lg ">
         <!-- Navbar -->
-        @include('dashboard.app.nav')
+        @include('interno.app.nav')
 
         <!-- End Navbar -->
         <div class="container-fluid py-4">
@@ -98,7 +98,7 @@
             @yield('contenido')
 
             <!-- Footer -->
-            @include('dashboard.app.footer')
+            @include('interno.app.footer')
         </div>
     </main>
 

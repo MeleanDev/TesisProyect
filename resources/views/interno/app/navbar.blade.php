@@ -4,7 +4,7 @@
 
         {{-- Panel Principal --}}
         <li class="nav-item">
-            <a class="nav-link @if (Route::currentRouteName() === 'dashboard') active @endif" href="{{ route('dashboard') }}">
+            <a class="nav-link  @if (Route::currentRouteName() === 'dashboard') active @endif" href="{{ route('dashboard') }}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
@@ -15,10 +15,10 @@
 
         {{-- Gestion Clientes --}}
         <li class="nav-item">
-            <a class="nav-link @if (Route::currentRouteName() === 'pedidos') active @endif" href="{{ route('pedidos') }}">
+            <a class="nav-link @if (Route::currentRouteName() === 'cliente') active @endif" href="{{route('cliente')}}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-bag-17 text-success text-sm opacity-10"></i>
+                    <i class="fa fa-users text-success text-sm opacity-10"></i>
                 </div>
                 <span class="nav-link-text ms-1">Gestion Clientes</span>
             </a>
@@ -26,10 +26,10 @@
 
         {{-- Gestion Cursos --}}
         <li class="nav-item">
-            <a class="nav-link @if (Route::currentRouteName() === 'productos') active @endif" href="{{ route('productos') }}">
+            <a class="nav-link " href="">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-box-2 text-danger text-sm opacity-10"></i>
+                    <i class="fa fa-file-text-o text-danger text-sm opacity-10"></i>
                 </div>
                 <span class="nav-link-text ms-1">Gestion Cursos</span>
             </a>
@@ -37,21 +37,32 @@
 
         {{-- Gestion Preinscripciones --}}
         <li class="nav-item">
-            <a class="nav-link @if (Route::currentRouteName() === 'clientes') active @endif" href="{{ route('clientes') }}">
+            <a class="nav-link " href="">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-users text-info text-sm opacity-10"></i>
+                    <i class="fa fa-graduation-cap text-info text-sm opacity-10"></i>
                 </div>
                 <span class="nav-link-text ms-1">Gestion Preinscripciones</span>
             </a>
         </li>
 
-        {{-- Administradores --}}
+        {{-- Gestion Certificado --}}
         <li class="nav-item">
-            <a class="nav-link @if (Route::currentRouteName() === 'administradores') active @endif" href="{{ route('administradores') }}">
+            <a class="nav-link" href="">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-single-02 text-success text-sm opacity-10"></i>
+                    <i class="fa fa-address-card text-warning text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Gestion Certificado</span>
+            </a>
+        </li>
+
+        {{-- Administradores --}}
+        <li class="nav-item">
+            <a class="nav-link" href="">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="fa fa-user-secret text-success text-sm opacity-10"></i>
                 </div>
                 <span class="nav-link-text ms-1">Administradores</span>
             </a>

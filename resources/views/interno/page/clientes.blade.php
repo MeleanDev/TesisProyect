@@ -1,4 +1,4 @@
-@extends('dashboard.app.app')
+@extends('interno.app.app')
 @section('page', 'Clientes')
 @section('tittle', 'Clientes')
 
@@ -10,30 +10,34 @@
                     <h3>Clientes</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">Adicionar Cliente</button>
+                    <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">Añadir Cliente</button>
                     <div class="container mt-4">
                         <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
                             style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>Nomes</th>
-                                    <th>Sobrenomes</th>
-                                    <th data-priority="1">CPF</th>
+                                    <th data-priority="1">Identificacion</th>
+                                    <th data-priority="2">Imagen</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
                                     <th>Email</th>
                                     <th>Telefone</th>
-                                    <th class="text-center" data-priority="2">Ação</th>
+                                    <th>Fecha Nacimt.</th>
+                                    <th class="text-center" data-priority="3">Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Nomes</th>
-                                    <th>Sobrenomes</th>
-                                    <th>CPF</th>
+                                    <th>Identificacion</th>
+                                    <th>Imagen</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
                                     <th>Email</th>
                                     <th>Telefone</th>
-                                    <th class="text-center">Ação</th>
+                                    <th>Fecha Nacimt.</th>
+                                    <th>Accion</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -55,38 +59,61 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col-md-12 text-center" id="image-display" style="display: none;">
+                                <img id="modal-image" src="" alt="Client Image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name" class="form-control-label">Nome</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Nome" minlength="3" maxlength="50" required>
-                                    <small class="form-text">Nome (Obrigatório)</small>
+                                    <label for="Pnombre" class="form-control-label">Primer Nombre</label>
+                                    <input type="text" class="form-control" id="Pnombre" name="Pnombre"
+                                        placeholder="Primer Nombre" maxlength="100" minlength="2" required>
+                                    <small class="form-text">Primer Nombre (Obrigatório)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="last_name" class="form-control-label">Sobrenome</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name"
-                                        minlength="3" maxlength="50" placeholder="Sobrenome" required />
-                                    <small class="form-text">Sobrenome (Obrigatório)</small>
+                                    <label for="Snombre" class="form-control-label">Segundo Nombre</label>
+                                    <input type="text" class="form-control" id="Snombre" name="Snombre" maxlength="100"
+                                        minlength="2" placeholder="Segundo Nombre">
+                                    <small class="form-text">Segundo Nombre (Opcional)</small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="dni" class="form-control-label">CPF</label>
-                                    <input type="text" class="form-control" id="dni" name="dni"
-                                        placeholder="Número do Documento" minlength="5" maxlength="15" required>
-                                    <small class="form-text">CPF / Cédula (Obrigatório)</small>
+                                    <label for="Papelldio" class="form-control-label">Primer Apellido</label>
+                                    <input type="text" class="form-control" id="Papelldio" name="Papelldio"
+                                        placeholder="Primer Apellido" maxlength="100" minlength="2" required>
+                                    <small class="form-text">Primer Apellido (Obrigatório)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="phone" class="form-control-label">Telefone</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone"
-                                        placeholder="Número de Telefone">
-                                    <small class="form-text">Telefone (Opcional)</small>
+                                    <label for="Sapelldio" class="form-control-label">Segundo Apellido</label>
+                                    <input type="text" class="form-control" id="Sapelldio" name="Sapelldio"
+                                        maxlength="100" minlength="2" placeholder="Segundo Apellido">
+                                    <small class="form-text">Segundo Apellido (Opcional)</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="identidad" class="form-control-label">Cédula</label>
+                                    <input type="text" class="form-control" id="identidad" name="identidad"
+                                        placeholder="Número de Cédula" maxlength="20" required>
+                                    <small class="form-text">Cédula (Obrigatório)</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="telefono" class="form-control-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="telefono" name="telefono"
+                                        placeholder="Número de Teléfono" maxlength="20">
+                                    <small class="form-text">Teléfono (Opcional)</small>
                                 </div>
                             </div>
                         </div>
@@ -101,10 +128,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="password" class="form-control-label">Senha</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Senha" minlength="6" required>
-                                    <small class="form-text">Senha (Obrigatório, mínimo 8 caracteres)</small>
+                                    <label for="fecha_nacimiento" class="form-control-label">Fecha de Nacimiento</label>
+                                    <input type="date" class="form-control" id="fecha_nacimiento"
+                                        name="fecha_nacimiento" required>
+                                    <small class="form-text">Fecha de Nacimiento (Obrigatório)</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="image-upload-row">
+                             <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="image" class="form-control-label">Imagen</label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                    <small class="form-text">Selecciona una imagen para el cliente (Opcional)</small>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +163,7 @@
         const urlCompleta = window.location.href;
 
         var table = new DataTable('#datatable', {
-            ajax: urlCompleta + '/Lista',
+            ajax: urlCompleta + '/lista',
             responsive: true,
             processing: true,
             serverSide: true,
@@ -136,19 +172,45 @@
                 [5, 10],
             ],
             columns: [{
-                    data: 'name',
-                    name: 'name',
+                    data: 'identidad',
+                    name: 'identidad',
                     className: 'text-center',
                 },
                 {
-                    data: 'last_name',
-                    name: 'last_name',
+                    data: 'image',
+                    name: 'image',
                     className: 'text-center',
+                    render: function(data, type, row) {
+                        if (row.image) {
+                            return `<img src="${row.image}" width="100" height="100" style="object-fit: cover; border-radius: 50%;">`;
+                        } else {
+                            return '<span class="text-muted">Imagem não disponível</span>';
+                        }
+                    }
                 },
                 {
-                    data: 'dni',
-                    name: 'dni',
+                    data: 'Pnombre',
+                    name: 'Pnombre',
                     className: 'text-center',
+                    render: function(data, type, row) {
+                        if (row.Pnombre) {
+                            return row.Pnombre + ' ' + (row.Snombre || '');
+                        } else {
+                            return 'Error al Obtener Dato';
+                        }
+                    }
+                },
+                {
+                    data: 'Papelldio',
+                    name: 'Papelldio',
+                    className: 'text-center',
+                    render: function(data, type, row) {
+                        if (row.Papelldio) {
+                            return row.Papelldio + ' ' + (row.Sapelldio || '');
+                        } else {
+                            return 'Error al Obtener Dato';
+                        }
+                    }
                 },
                 {
                     data: 'email',
@@ -156,8 +218,13 @@
                     className: 'text-center',
                 },
                 {
-                    data: 'phone',
-                    name: 'phone',
+                    data: 'telefono',
+                    name: 'telefono',
+                    className: 'text-center',
+                },
+                {
+                    data: 'fecha_nacimiento',
+                    name: 'fecha_nacimiento',
                     className: 'text-center',
                 },
                 {
@@ -172,7 +239,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver</a></li>
                                 <li><a class="dropdown-item" data-id="${row.id}" href="javascript:editar(${row.id});"><i class="fa fa-edit text-warning"></i> Editar</a></li>
-                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Excluir</a></li>
+                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Eliminar</a></li>
                             </ul>
                         </div>`;
                     },
@@ -208,7 +275,7 @@
         consulta = function(id) {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: urlCompleta + "/Ver/" + id,
+                    url: urlCompleta + "/detalle/" + id,
                     method: "GET",
                     success: function(Data) {
                         resolve(Data);
@@ -238,33 +305,32 @@
                 success: function(data) {
                     table.ajax.reload(null, false);
                     if (data.success) {
-                        if (accion ===
-                            1) {
+                        if (accion === 1) {
                             notificacion.fire({
                                 icon: "success",
-                                title: "Informação Salva!",
-                                text: "Registro salvo com sucesso."
+                                title: "¡Información guardada!",
+                                text: "Registro guardado con éxito."
                             });
                         } else {
                             notificacion.fire({
                                 icon: "success",
-                                title: "Informação Editada!",
-                                text: "Registro editado com sucesso."
+                                title: "¡Información editada!",
+                                text: "Registro editado con éxito."
                             });
                         }
                     } else {
                         notificacion.fire({
                             icon: "error",
-                            title: "Registro não carregado.",
+                            title: "Registro no cargado.",
                             text: data.message ||
-                                "Ocorreu um erro ao salvar o registro."
+                                "Ocurrió un error al guardar el registro."
                         });
                     }
                 },
                 error: function(xhr, status, error) {
                     Swal.fire({
-                        title: "Falha no sistema",
-                        text: "O registro não foi adicionado ao sistema!!",
+                        title: "Fallo en el sistema",
+                        text: "¡El registro no se agregó al sistema!",
                         icon: "error"
                     });
                 }
@@ -275,7 +341,7 @@
 
         // ACCIONES
         crear = function() {
-            rutaAccion = urlCompleta + "/Crear";
+            rutaAccion = urlCompleta;
             accion = 1;
 
             // reinicial Formulario
@@ -286,12 +352,18 @@
             $("#titulo").attr("class", "modal-title text-white");
             $("#bg-titulo").attr("class", "modal-header bg-gradient-primary");
 
-            $("#name").attr("readonly", false);
-            $("#last_name").attr("readonly", false);
-            $("#dni").attr("readonly", false);
-            $("#phone").attr("readonly", false);
+            $("#image-upload-row").show();
+            $("#image-display").hide();
+            $("#modal-image").attr("src", "");
+
+            $("#Pnombre").attr("readonly", false);
+            $("#Snombre").attr("readonly", false);
+            $("#Papelldio").attr("readonly", false);
+            $("#Sapelldio").attr("readonly", false);
+            $("#identidad").attr("readonly", false);
+            $("#telefono").attr("readonly", false);
             $("#email").attr("readonly", false);
-            $("#password").attr("readonly", false);
+            $("#fecha_nacimiento").attr("readonly", false);
 
             $('#submit').show()
             $('#modalCRUD').modal('show');
@@ -301,92 +373,123 @@
             try {
                 $("#formulario").trigger("reset");
                 datos = await consulta(id);
-                $("#titulo").html("Ver Cliente -> " + datos.dni);
+                $("#titulo").html("Ver Cliente -> " + datos.datos.identidad);
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-info");
 
-                // asigancion de valores
-                $("#name").val(datos.name);
-                $("#name").attr("readonly", true);
+                // Asignación de valores
+                $("#Pnombre").val(datos.datos.Pnombre);
+                $("#Pnombre").attr("readonly", true);
 
-                $("#last_name").val(datos.last_name);
-                $("#last_name").attr("readonly", true);
+                $("#Snombre").val(datos.datos.Snombre);
+                $("#Snombre").attr("readonly", true);
 
-                $("#dni").val(datos.dni);
-                $("#dni").attr("readonly", true);
+                $("#Papelldio").val(datos.datos.Papelldio);
+                $("#Papelldio").attr("readonly", true);
 
-                $("#phone").val(datos.phone);
-                $("#phone").attr("readonly", true);
+                $("#Sapelldio").val(datos.datos.Sapelldio);
+                $("#Sapelldio").attr("readonly", true);
 
-                $("#email").val(datos.email);
+                $("#identidad").val(datos.datos.identidad);
+                $("#identidad").attr("readonly", true);
+
+                $("#telefono").val(datos.datos.telefono);
+                $("#telefono").attr("readonly", true);
+
+                $("#email").val(datos.datos.email);
                 $("#email").attr("readonly", true);
 
-                $("#password").attr("readonly", true);
+                $("#fecha_nacimiento").val(datos.datos.fecha_nacimiento);
+                $("#fecha_nacimiento").attr("readonly", true);
 
+                // Mostrar la imagen
+                if (datos.datos.image) {
+                    $("#modal-image").attr("src", datos.datos.image);
+                    $("#image-display").show();
+                } else {
+                    $("#modal-image").attr("src", "");
+                    $("#image-display").hide();
+                }
+
+                $("#image-upload-row").hide();
                 $('#submit').hide()
                 $('#modalCRUD').modal('show');
             } catch (error) {
                 notificacion.fire({
                     icon: "error",
                     title: "Erro!",
-                    text: "Não foi possível visualizar o registro."
+                    text: "No se puede ver el registro."
                 });
             }
         };
 
         editar = async function(id) {
-            rutaAccion = urlCompleta + "/Editar/" + id;
+            rutaAccion = urlCompleta + "/editar/" + id;
             accion = 2;
             try {
                 $("#formulario").trigger("reset");
                 datos = await consulta(id);
-                $("#titulo").html("Editar Cliente -> " + datos.dni);
+                $("#titulo").html("Editar Cliente -> " + datos.datos.identidad);
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-warning");
 
-                // asigancion de valores
-                $("#name").val(datos.name);
-                $("#name").attr("readonly", false);
+                // Asignación de valores
+                $("#Pnombre").val(datos.datos.Pnombre);
+                $("#Pnombre").attr("readonly", false);
+                $("#Snombre").val(datos.datos.Snombre);
+                $("#Snombre").attr("readonly", false);
 
-                $("#last_name").val(datos.last_name);
-                $("#last_name").attr("readonly", false);
+                $("#Papelldio").val(datos.datos.Papelldio);
+                $("#Papelldio").attr("readonly", false);
+                $("#Sapelldio").val(datos.datos.Sapelldio);
+                $("#Sapelldio").attr("readonly", false);
 
-                $("#dni").val(datos.dni);
-                $("#dni").attr("readonly", false);
+                $("#identidad").val(datos.datos.identidad);
+                $("#identidad").attr("readonly", false);
 
-                $("#phone").val(datos.phone);
-                $("#phone").attr("readonly", false);
+                $("#telefono").val(datos.datos.telefono);
+                $("#telefono").attr("readonly", false);
 
-                $("#email").val(datos.email);
+                $("#email").val(datos.datos.email);
                 $("#email").attr("readonly", false);
 
-                $("#password").attr("readonly", false);
+                $("#fecha_nacimiento").val(datos.datos.fecha_nacimiento);
+                $("#fecha_nacimiento").attr("readonly", false);
 
+                if (datos.datos.image) {
+                    $("#modal-image").attr("src", datos.datos.image);
+                    $("#image-display").show();
+                } else {
+                    $("#modal-image").attr("src", "");
+                    $("#image-display").hide();
+                }
+
+                $("#image-upload-row").show();
                 $('#submit').show()
                 $('#modalCRUD').modal('show');
             } catch (error) {
                 notificacion.fire({
                     icon: "error",
                     title: "Erro!",
-                    text: "Não foi possível visualizar o registro."
+                    text: "No se puede ver el registro."
                 });
             }
         };
 
         eliminar = function(id) {
             Swal.fire({
-                title: 'Tem certeza que deseja excluir o registro?',
-                text: "Você não poderá reverter isso!",
+                title: '¿Está seguro que desea eliminar el registro?',
+                text: "¡Esto no lo podrás revertir!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, excluir!',
+                confirmButtonText: '¡Sí, borrar!',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: urlCompleta + "/Eliminar/" + id,
+                        url: urlCompleta + "/" + id,
                         method: "DELETE",
                         headers: {
                             'X-CSRF-TOKEN': token
@@ -397,20 +500,20 @@
                                 notificacion.fire({
                                     icon: "success",
                                     title: "Excluído!",
-                                    text: "Seu registro foi excluído."
+                                    text: "Su registro ha sido eliminado"
                                 });
                             } else {
                                 notificacion.fire({
                                     icon: "error",
                                     title: "Erro!",
-                                    text: "Seu registro não foi excluído."
+                                    text: "Su registro no ha sido eliminado"
                                 });
                             }
                         },
                         error: function(xhr, status, error) {
                             Swal.fire({
-                                title: "Erro no sistema",
-                                text: "O registro não foi adicionado ao sistema!!",
+                                title: "Error en el Sistema",
+                                text: "¡¡El sistema no registro la accion!!",
                                 icon: "error"
                             });
                         }

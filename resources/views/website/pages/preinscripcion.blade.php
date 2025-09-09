@@ -206,49 +206,47 @@
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-group">
-                                                    <label>Primer Nombre *</label>
                                                     <input type="text" class="form-control" name="Pnombre" required>
+                                                    <label>Primer Nombre *</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-group">
-                                                    <label>Segundo Nombre</label>
                                                     <input type="text" class="form-control" name="Snombre">
+                                                    <label>Segundo Nombre</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-group">
-                                                    <label>Primer Apellido *</label>
                                                     <input type="text" class="form-control" name="Papelldio" required>
+                                                    <label>Primer Apellido *</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-group">
-                                                    <label>Segundo Apellido</label>
                                                     <input type="text" class="form-control" name="Sapelldio">
+                                                    <label>Segundo Apellido</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label>Correo electrónico *</label>
                                             <input type="email" class="form-control" name="email" required>
+                                            <label>Correo electrónico *</label>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label>Teléfono *</label>
                                             <input type="tel" class="form-control" name="telefono" required>
+                                            <label>Telefono</label>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label>URL de Imagen</label>
                                             <input type="text" class="form-control" name="image">
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label>Fecha de nacimiento *</label>
                                             <input type="date" class="form-control" name="fecha_nacimiento" required>
+                                            <label>Fecha de nacimiento *</label>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <label class="form-label">Curso a inscribir *</label>
                                             <select class="form-control" name="curso_id" required>
                                                 <option value="">Seleccione un curso</option>
                                                 @foreach($cursos as $curso)

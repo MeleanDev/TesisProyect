@@ -39,9 +39,9 @@
                         <a class="nav-link" href="">Verificar Certificado</a>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-outline-primary custom-btn-outline ms-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <a href="{{route('login')}}" class="btn btn-outline-primary custom-btn-outline ms-2">
                             <i class="fas fa-user me-1"></i>Login
-                        </button>
+                        </a>
                     </li>
                 </ul>
             </div>

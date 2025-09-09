@@ -1,13 +1,13 @@
 @extends('interno.app.app')
-@section('page', 'Administradores')
-@section('tittle', 'Administradores')
+@section('page', 'Gestion Administradores')
+@section('tittle', 'Gestion Administradores')
 
 @section('contenido')
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 text-center">
-                    <h3>Administradores</h3>
+                    <h3>Gestion Administradores</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">

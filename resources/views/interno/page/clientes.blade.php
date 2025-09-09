@@ -1,13 +1,13 @@
 @extends('interno.app.app')
-@section('page', 'Clientes')
-@section('tittle', 'Clientes')
+@section('page', 'Gestion Cliente')
+@section('tittle', 'Gestion Cliente')
 
 @section('contenido')
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 text-center">
-                    <h3>Clientes</h3>
+                    <h3>Gestion Cliente</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">Añadir Cliente</button>

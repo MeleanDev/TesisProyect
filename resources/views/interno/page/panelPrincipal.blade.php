@@ -35,7 +35,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Cursos Registrados</p>
-                                <h5 id="h5ventaAnio" class="font-weight-bolder"></h5>
+                                <h5 id="h5ventaAnio" class="font-weight-bolder">{{$cursos}}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -77,7 +77,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Preinscripciones</p>
-                                <h5 id="h5Cliente" class="font-weight-bolder"></h5>
+                                <h5 id="h5Cliente" class="font-weight-bolder">{{$preinscripciones}}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">

@@ -1,88 +1,47 @@
-@extends('dashboard.app.app')
-
+@extends('interno.app.app')
 @section('page', 'Pedidos')
-
 @section('tittle', 'Pedidos')
 
-
-
 @section('contenido')
-
     <div class="row">
-
         <div class="col-12">
-
             <div class="card mb-4">
-
                 <div class="card-header pb-0 text-center">
-
                     <h3>Pedidos</h3>
-
                 </div>
-
                 <div class="card-body px-0 pt-0 pb-2">
-
                     <div class="container mt-4">
-
                         <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
                             style="width: 100%">
-
                             <thead>
-
                                 <tr>
-
                                     <th data-priority="1">Cliente</th>
-
                                     <th>Total Pago</th>
-
                                     <th>Método de Pagamento</th>
-
                                     <th>Status</th>
-
                                     <th>ID do Pagamento</th>
-
                                     <th>Data do Pagamento</th>
-
                                     <th>Ações</th>
                                 </tr>
-
                             </thead>
-
                             <tbody>
-
                             </tbody>
-
                             <tfoot>
-
                                 <tr>
-
                                     <th data-priority="1">Cliente</th>
-
                                     <th>Total Pago</th>
-
                                     <th>Método de Pagamento</th>
-
                                     <th>Status</th>
-
                                     <th>ID do Pagamento</th>
-
                                     <th>Data do Pagamento</th>
-
                                     <th>Ações</th>
                                 </tr>
-
                             </tfoot>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="modal fade" id="modalCRUD" tabindex="-1" role="dialog" aria-labelledby="modalCRUDLabel"

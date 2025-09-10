@@ -26,7 +26,7 @@
 
         {{-- Gestion Cursos --}}
         <li class="nav-item">
-            <a class="nav-link " href="">
+            <a class="nav-link @if (Route::currentRouteName() === 'cursos') active @endif" href="{{route('cursos')}}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fa fa-file-text-o text-danger text-sm opacity-10"></i>
@@ -37,7 +37,7 @@
 
         {{-- Gestion Preinscripciones --}}
         <li class="nav-item">
-            <a class="nav-link " href="">
+            <a class="nav-link @if (Route::currentRouteName() === 'preinscripciones') active @endif" href="{{route('preinscripciones')}}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fa fa-graduation-cap text-info text-sm opacity-10"></i>

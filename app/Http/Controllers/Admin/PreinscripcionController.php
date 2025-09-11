@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Preinscripcion;
 use Illuminate\View\View;
 
 class PreinscripcionController extends Controller
@@ -14,7 +15,8 @@ class PreinscripcionController extends Controller
 
     public function lista()
     {
-
+        $datos = Preinscripcion::with('clienteRegistrado', 'curso');
+        return datatables()->of($datos)->toJson();
     }
 
     public function guardar()

@@ -1,13 +1,13 @@
 @extends('interno.app.app')
-@section('page', 'Pedidos')
-@section('tittle', 'Pedidos')
+@section('page', 'Gestion Preinscripciones')
+@section('tittle', 'Gestion Preinscripciones')
 
 @section('contenido')
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 text-center">
-                    <h3>Pedidos</h3>
+                    <h3>Gestion Preinscripciones</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="container mt-4">
@@ -16,25 +16,21 @@
                             <thead>
                                 <tr>
                                     <th data-priority="1">Cliente</th>
-                                    <th>Total Pago</th>
-                                    <th>Método de Pagamento</th>
-                                    <th>Status</th>
-                                    <th>ID do Pagamento</th>
-                                    <th>Data do Pagamento</th>
-                                    <th>Ações</th>
+                                    <th>Curso</th>
+                                    <th>Estado</th>
+                                    <th>Comentario</th>
+                                    <th data-priority="2">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th data-priority="1">Cliente</th>
-                                    <th>Total Pago</th>
-                                    <th>Método de Pagamento</th>
-                                    <th>Status</th>
-                                    <th>ID do Pagamento</th>
-                                    <th>Data do Pagamento</th>
-                                    <th>Ações</th>
+                                    <th>Cliente</th>
+                                    <th>Curso</th>
+                                    <th>Estado</th>
+                                    <th>Comentario</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -48,27 +44,27 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content rounded-lg shadow-lg">
-                {{-- Cabeçalho do Modal --}}
+                {{-- Encabezado del Modal --}}
                 <div class="modal-header rounded-t-lg" id="bg-titulo">
-                    <h5 class="modal-title text-white" id="titulo">Detalhes do Pedido</h5>
+                    <h5 class="modal-title text-white" id="titulo">Detalles del Pedido</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                {{-- Corpo do Modal --}}
+                {{-- Cuerpo del Modal --}}
                 <div class="modal-body p-4">
-                    <h5 class="fw-bold mb-3">Informações do Cliente:</h5>
+                    <h5 class="fw-bold mb-3">Información del Cliente:</h5>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="modal-cliente-dni" class="form-label fw-bold">CPF/RG do Cliente:</label>
+                            <label for="modal-cliente-dni" class="form-label fw-bold">DNI/ID del Cliente:</label>
                             <p id="modal-cliente-dni" class="form-control-plaintext"></p>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="modal-cliente-nome" class="form-label fw-bold">Nome Completo:</label>
-                            <p id="modal-cliente-nome" class="form-control-plaintext"></p>
+                            <label for="modal-cliente-nombre" class="form-label fw-bold">Nombre Completo:</label>
+                            <p id="modal-cliente-nombre" class="form-control-plaintext"></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="modal-cliente-telefono" class="form-label fw-bold">Telefone:</label>
+                            <label for="modal-cliente-telefono" class="form-label fw-bold">Teléfono:</label>
                             <p id="modal-cliente-telefono" class="form-control-plaintext"></p>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -79,59 +75,58 @@
 
                     <hr class="my-4">
 
-                    <h5 class="fw-bold mb-3">Detalhes do Pagamento:</h5>
+                    <h5 class="fw-bold mb-3">Detalles del Pago:</h5>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="modal-total-pago" class="form-label fw-bold">Valor do Pagamento:</label>
+                            <label for="modal-total-pago" class="form-label fw-bold">Valor del Pago:</label>
                             <p id="modal-total-pago" class="form-control-plaintext"></p>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="modal-metodo-pago" class="form-label fw-bold">Método de Pagamento:</label>
+                            <label for="modal-metodo-pago" class="form-label fw-bold">Método de Pago:</label>
                             <p id="modal-metodo-pago" class="form-control-plaintext"></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="modal-status" class="form-label fw-bold">Status do Pagamento:</label>
+                            <label for="modal-status" class="form-label fw-bold">Estado del Pago:</label>
                             <p id="modal-status" class="form-control-plaintext"></p>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="modal-id-pago" class="form-label fw-bold">ID do Pagamento (Stripe):</label>
+                            <label for="modal-id-pago" class="form-label fw-bold">ID del Pago (Stripe):</label>
                             <p id="modal-id-pago" class="form-control-plaintext"></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="modal-fecha-pago" class="form-label fw-bold">Data do Pedido:</label>
+                            <label for="modal-fecha-pago" class="form-label fw-bold">Fecha del Pedido:</label>
                             <p id="modal-fecha-pago" class="form-control-plaintext"></p>
                         </div>
                     </div>
 
-                    {{-- Seção de Produtos --}}
+                    {{-- Sección de Productos --}}
                     <hr class="my-4">
-                    <h5 class="fw-bold mb-3">Produtos do Pedido:</h5>
+                    <h5 class="fw-bold mb-3">Productos del Pedido:</h5>
                     <div id="modal-productos-lista" class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Produto</th>
-                                    <th class="text-center">Quantidade</th>
-                                    <th class="text-end">Preço Unitário</th>
+                                    <th>Producto</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-end">Precio Unitario</th>
                                     <th class="text-end">Subtotal</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Os produtos serão inseridos aqui dinamicamente -->
                             </tbody>
                         </table>
                     </div>
-                    <p id="modal-no-productos" class="text-muted fst-italic text-center d-none">Não há produtos neste
+                    <p id="modal-no-productos" class="text-muted fst-italic text-center d-none">No hay productos en este
                         pedido.</p>
 
                 </div>
-                {{-- Rodapé do Modal --}}
+                {{-- Pie de página del Modal --}}
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -149,7 +144,7 @@
         const urlCompleta = window.location.href;
 
         var table = new DataTable('#datatable', {
-            ajax: urlCompleta + '/Lista',
+            ajax: urlCompleta + '/lista',
             responsive: true,
             processing: true,
             serverSide: true,
@@ -158,51 +153,42 @@
                 [5, 10],
             ],
             columns: [{
-                    data: 'user.dni',
-                    name: 'user.dni',
+
+                    data: 'cliente_registrado_id',
+                    name: 'cliente_registrado_id',
                     className: 'text-center',
                 },
                 {
-                    data: 'total_amount',
-                    name: 'total_amount',
+                    data: 'curso.nombre',
+                    name: 'curso.nombre',
                     className: 'text-center',
                 },
                 {
-                    data: 'payment_method',
-                    name: 'payment_method',
-                    className: 'text-center',
-                },
-                {
-                    data: 'status',
-                    name: 'status',
+                    data: 'estado',
+                    name: 'estado',
                     className: 'text-center',
                     render: function(data, type, row) {
                         if (data === 'succeeded') {
-                            return '<span class="badge bg-success">Pagamento Concluído</span>';
+                            return '<span class="badge bg-success">Pago Concluido</span>';
                         } else if (data === 'requires_payment_method') {
-                            return '<span class="badge bg-danger">Método de Pagamento Necessário</span>';
+                            return '<span class="badge bg-danger">Método de Pago Necesario</span>';
                         } else if (data === 'requires_confirmation') {
-                            return '<span class="badge bg-warning">Requer Confirmação</span>';
+                            return '<span class="badge bg-warning">Requiere Confirmación</span>';
                         } else if (data === 'requires_action') {
-                            return '<span class="badge bg-info">Requer Ação</span>';
+                            return '<span class="badge bg-info">Requiere Acción</span>';
                         } else if (data === 'processing') {
-                            return '<span class="badge bg-secondary">Processando</span>';
+                            return '<span class="badge bg-secondary">Procesando</span>';
                         } else if (data === 'canceled') {
                             return '<span class="badge bg-dark">Cancelado</span>';
                         } else if (data === 'requires_capture') {
-                            return '<span class="badge bg-warning">Requer Captura</span>';
+                            return '<span class="badge bg-warning">Requiere Captura</span>';
                         }
                         return data;
                     }
                 },
                 {
-                    data: 'stripe_payment_intent_id',
-                    name: 'stripe_payment_intent_id',
-                    className: 'text-center',
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at',
+                    data: 'comentario',
+                    name: 'comentario',
                     className: 'text-center',
                 },
                 {
@@ -211,7 +197,7 @@
                     "render": function(data, type, row, meta) {
                         // Enlace para ver detalles, siempre visible
                         const verDetalhesLink =
-                            `<li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver Detalhes</a></li>`;
+                            `<li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver Detalles</a></li>`;
 
                         // Enlace para cancelar, visible solo si el estado NO es 'canceled'
                         const cancelarLink = (row.status !== 'canceled') ?
@@ -235,25 +221,25 @@
             ],
             columnDefs: [{
                 orderable: false,
-                targets: [5, 0],
+                targets: [4, 3],
                 responsivePriority: 1,
                 responsivePriority: 2,
             }],
             language: {
-                "zeroRecords": "Nenhum resultado encontrado",
-                "emptyTable": "Nenhum dado disponível nesta tabela",
+                "zeroRecords": "Ningún resultado encontrado",
+                "emptyTable": "Ningún dato disponible en esta tabla",
                 "lengthMenu": "Mostrar _MENU_ registros",
-                "info": "Mostrando de _START_ a _END_ de um total de _TOTAL_ registros",
-                "infoEmpty": "Mostrando de 0 a 0 de um total de 0 registros",
-                "infoFiltered": "(filtrado de um total de _MAX_ registros)",
+                "info": "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando de 0 a 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
                 "sSearch": "Buscar:",
                 "oPaginate": {
-                    "sFirst": "Primeiro",
+                    "sFirst": "Primero",
                     "sLast": "Último",
-                    "sNext": "Próximo",
+                    "sNext": "Siguiente",
                     "sPrevious": "Anterior"
                 },
-                "sProcessing": "Processando...",
+                "sProcessing": "Procesando...",
             },
         });
 
@@ -277,24 +263,24 @@
             try {
                 const datos = await consulta(id);
 
-                // Título do modal: revertendo para o DNI do cliente, pois estava funcionando e é mais informativo
-                $("#titulo").html("Detalhes do Pedido: " + datos.stripe_payment_intent_id || 'N/A');
+                // Título del modal: revertiendo al DNI del cliente, ya que funcionaba y es más informativo
+                $("#titulo").html("Detalles del Pedido: " + datos.stripe_payment_intent_id || 'N/A');
                 $("#titulo").attr("class", "modal-title text-white");
-                $("#bg-titulo").attr("class", "modal-header bg-warning rounded-t-lg"); // Mantive a cor info
+                $("#bg-titulo").attr("class", "modal-header bg-warning rounded-t-lg"); // Mantuve el color info
 
-                // Preenchendo o nome completo do cliente de forma mais robusta
+                // Llenando el nombre completo del cliente de forma más robusta
                 let clientFullName = 'N/A';
                 if (datos.user) {
                     const firstName = datos.user.name || '';
                     const lastName = datos.user.last_name || '';
-                    // Combinar nome e sobrenome, e remover espaços extras se um deles estiver vazio
+                    // Combinar nombre y apellido, y eliminar espacios extra si uno está vacío
                     if (firstName || lastName) {
                         clientFullName = `${firstName} ${lastName}`.trim();
                     }
                 }
-                $('#modal-cliente-nome').text(clientFullName);
+                $('#modal-cliente-nombre').text(clientFullName);
 
-                // Preenchendo os demais campos
+                // Llenando los demás campos
                 $('#modal-cliente-dni').text(datos.user ? datos.user.dni : 'N/A');
                 $('#modal-cliente-telefono').text(datos.user ? datos.user.phone : 'N/A');
                 $('#modal-cliente-email').text(datos.user ? datos.user.email : 'N/A');
@@ -307,25 +293,25 @@
                 let statusBadge = '';
                 switch (datos.status) {
                     case 'succeeded':
-                        statusBadge = '<span class="badge bg-success">Pagamento Concluído</span>';
+                        statusBadge = '<span class="badge bg-success">Pago Concluido</span>';
                         break;
                     case 'requires_payment_method':
-                        statusBadge = '<span class="badge bg-danger">Método de Pagamento Necessário</span>';
+                        statusBadge = '<span class="badge bg-danger">Método de Pago Necesario</span>';
                         break;
                     case 'requires_confirmation':
-                        statusBadge = '<span class="badge bg-warning">Requer Confirmação</span>';
+                        statusBadge = '<span class="badge bg-warning">Requiere Confirmación</span>';
                         break;
                     case 'requires_action':
-                        statusBadge = '<span class="badge bg-info">Requer Ação</span>';
+                        statusBadge = '<span class="badge bg-info">Requiere Acción</span>';
                         break;
                     case 'processing':
-                        statusBadge = '<span class="badge bg-secondary">Processando</span>';
+                        statusBadge = '<span class="badge bg-secondary">Procesando</span>';
                         break;
                     case 'canceled':
                         statusBadge = '<span class="badge bg-dark">Cancelado</span>';
                         break;
                     case 'requires_capture':
-                        statusBadge = '<span class="badge bg-warning">Requer Captura</span>';
+                        statusBadge = '<span class="badge bg-warning">Requiere Captura</span>';
                         break;
                     default:
                         statusBadge = datos.status || 'N/A';
@@ -338,7 +324,7 @@
 
                 if (datos.items && datos.items.length > 0) {
                     datos.items.forEach(item => {
-                        const productName = item.product ? item.product.name : 'Produto Desconhecido';
+                        const productName = item.product ? item.product.name : 'Producto Desconocido';
                         const row = `
                         <tr>
                             <td>${productName}</td>
@@ -355,16 +341,16 @@
 
                 $('#modalCRUD').modal('show');
             } catch (error) {
-                console.error("Erro ao visualizar o registro:", error);
+                console.error("Error al visualizar el registro:", error);
                 if (typeof notificacion !== 'undefined' && typeof notificacion.fire === 'function') {
                     notificacion.fire({
                         icon: "error",
-                        title: "Erro!",
-                        text: "Não foi possível visualizar o registro. Por favor, tente novamente."
+                        title: "¡Error!",
+                        text: "No fue posible visualizar el registro. Por favor, inténtalo de nuevo."
                     });
                 } else {
                     console.error(
-                        "Não foi possível mostrar a notificação de erro. Verifique se SweetAlert2 ou similar está configurado."
+                        "No se pudo mostrar la notificación de error. Verifica que SweetAlert2 o similar esté configurado."
                     );
                 }
             }
@@ -389,7 +375,7 @@
                         method: "POST", // Usar POST según la instrucción
                         data: {
                             _token: token,
-                            _method: 'DELETE' // Mas informa ao Laravel que é um DELETE
+                            _method: 'DELETE' // Le informa a Laravel que es un DELETE
                         },
                         success: function(response) {
                             if (response.success) {

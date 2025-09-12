@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cliente_registrado_id')->nullable()->constrained('cliente_registrados')->onDelete('set null');
             $table->foreignId('curso_id')->nullable()->constrained('cursos')->onDelete('set null');
-            $table->enum('asunto', ['Pendiente', 'Aceptado', 'Negado']);
+            $table->enum('estado', ['Pendiente', 'Aceptado', 'Negado']);
             $table->string('comentario')->nullable();
             $table->timestamps();
         });

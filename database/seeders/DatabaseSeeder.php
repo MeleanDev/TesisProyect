@@ -8,11 +8,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
+        
         $modalidades = ['online', 'presencial', 'semi-presencial'];
         $certificaciones = ['si', 'no'];
         $tiposCurso = ['computacion', 'administracion', 'diseno'];

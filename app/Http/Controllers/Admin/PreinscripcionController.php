@@ -15,6 +15,7 @@ class PreinscripcionController extends Controller
 
     public function lista()
     {
+<<<<<<< HEAD
         $preinscripciones = Preinscripcion::with('clienteRegistrado', 'curso')->get();
 
         foreach ($preinscripciones as $item) {
@@ -22,6 +23,10 @@ class PreinscripcionController extends Controller
         }
 
         return datatables()->of($preinscripciones)->toJson();
+=======
+        $datos = Preinscripcion::with('clienteRegistrado', 'curso');
+        return datatables()->of($datos)->toJson();
+>>>>>>> a8069d3cf252a5f21af83a1c2a8fe8888c379933
     }
 
     public function guardar() {}

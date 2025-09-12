@@ -19,10 +19,10 @@
                         <div class="footer-section">
                             <h4>Enlaces</h4>
                             <ul>
-                                <li><a href="index.html">Inicio</a></li>
-                                <li><a href="cursos-empresas.html">Empresas</a></li>
-                                <li><a href="cursos-menores.html">Menores</a></li>
-                                <li><a href="cursos-ejecutivos.html">Ejecutivos</a></li>
+                                <li><a href="{{route('inicio')}}">Inicio</a></li>
+                                <li><a href="{{route('cursoEmpresa')}}">Empresas</a></li>
+                                <li><a href="{{route('cursoMenor')}}">Menores</a></li>
+                                <li><a href="{{route('cursoEjecutivo')}}">Ejecutivos</a></li>
                             </ul>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
                         <div class="footer-section">
                             <h4>Servicios</h4>
                             <ul>
-                                <li><a href="contacto.html">Contacto</a></li>
-                                <li><a href="preinscripciones.html">Preinscripciones</a></li>
+                                <li><a href="{{route('contacto')}}">Contacto</a></li>
+                                <li><a href="{{route('preinscripcion')}}">Preinscripciones</a></li>
                                 <li><a href="#">Certificaciones</a></li>
                             </ul>
                         </div>

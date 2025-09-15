@@ -24,7 +24,7 @@
                     <div class="col-lg-6">
                         <div class="course-card">
                             <div class="course-image">
-                                <img src="yo.png" height="250" width="400" alt="{{ $curso->nombre }}">
+                                <img src="{{ $curso->image_url }}" height="250" width="400" alt="{{ $curso->nombre }}">
                                 <div class="course-overlay">
                                     <a href="{{ route('cursoEmpresaDetalle', ['curso' => $curso->slug]) }}"
                                         class="btn btn-primary custom-btn-primary">

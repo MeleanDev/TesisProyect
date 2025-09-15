@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="course-hero-image">
-                        <img src="{{ $curso->image }}" height="400" width="500" alt="{{ $curso->nombre }}"
+                        <img src="{{ $curso->image_url }}" height="400" width="500" alt="{{ $curso->nombre }}"
                             class="img-fluid">
                         <div class="course-price-card">
                             <div class="price-badge">

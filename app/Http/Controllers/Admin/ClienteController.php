@@ -32,38 +32,37 @@ class ClienteController extends Controller
     }
 
     public function guardar(ClienteRegistradoRequest $request): JsonResponse
-{
-    try {
-        $client = ClienteRegistrado::where('identidad', $request->identidad)->first();
+    {
+        try {
+            $client = ClienteRegistrado::where('identidad', $request->identidad)->first();
 
-        if (!$client) {
-            $client = new ClienteRegistrado();
+            if (!$client) {
+                $client = new ClienteRegistrado();
+            }
+
+            $nombreFoto = $client->image;
+            if ($request->hasFile('image')) {
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $request->file('image')->storeAs('Clientes/', $filename, 'public');
+                $nombreFoto = 'Clientes/' . $filename;
+            }
+
+            $client->fill($request->validated());
+            $client->image = $nombreFoto;
+            $client->estado = true;
+            $client->save();
+            $respuesta = response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            $respuesta = response()->json([
+                'error' => true,
+                'message' => 'Ocurrió un error al guardar el registro.',
+                'exception' => $th->getMessage()
+            ]);
         }
 
-        $nombreFoto = $client->image; 
-        if ($request->hasFile('image')) {
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $request->file('image')->storeAs('Clientes/', $filename, 'public');
-            $nombreFoto = 'Clientes/' . $filename;
-        }
-
-        $client->fill($request->validated());
-        $client->image = $nombreFoto;
-        $client->estado = true;
-        $client->save();
-        $respuesta = response()->json(['success' => true]);
-
-    } catch (\Throwable $th) {
-        $respuesta = response()->json([
-            'error' => true, 
-            'message' => 'Ocurrió un error al guardar el registro.',
-            'exception' => $th->getMessage() 
-        ]);
+        return $respuesta;
     }
-
-    return $respuesta;
-}
 
     public function editar($id, ClienteRegistradoRequest $datos): JsonResponse
     {

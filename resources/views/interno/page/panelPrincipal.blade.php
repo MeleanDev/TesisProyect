@@ -91,12 +91,11 @@
         </div>
     </div>
 
-    <!-- Chartjs -->
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="card z-index-2 h-100">
                 <div class="card-header pb-0 pt-3 bg-transparent">
-                    <h6 class="text-capitalize">Dinheiro Acumulado em Vendas</h6>
+                    <h6 class="text-capitalize">Cantidad Preinscripciones Mensuales</h6>
                 </div>
                 <div class="card-body p-3">
                     <div class="chart">
@@ -106,91 +105,18 @@
             </div>
         </div>
     </div>
-
-    <!-- produtos e Fatura -->
-    <div class="row mt-4">
-
-        <!-- produtos -->
-        <div class="col-lg-7 mb-lg-0 mb-4">
-            <div class="card">
-                <div class="card-header pb-0 p-3">
-                    <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Top 4 Produtos Mais Vendidos</h6>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-11">Foto</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-11 ps-2">Nome
-                                </th>
-                                <th
-                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-11">
-                                    Quantidade Vendida</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productos">
-                           
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Fatura -->
-        <div class="col-lg-5">
-            <div class="card">
-                <div class="card-header pb-0 p-3">
-                    <h6 class="mb-0">5 Maiores Vendas</h6>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-11">Código
-                                    Fatura</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-11 ps-2">Valor
-                                </th>
-                                <th
-                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-11">
-                                    Data</th>
-                            </tr>
-                        </thead>
-                        <tbody id="facturas">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </div>
 @endsection
 
 @section('scripts')
     <script>
         $(document).ready(function() {
-            var rutaActual = window.location.href;
-
-            // grafica
-            // $.ajax({
-            //     url: rutaActual + '/grafica',
-            //     type: 'GET',
-            //     dataType: 'json',
-            //     success: function(data) {
-            //         grafica(data)
-            //     },
-            //     error: function(error) {
-            //         Swal.fire({
-            //             title: "Error",
-            //             text: "Error al obtener los datos de la gráfica.",
-            //             icon: "error",
-            //             confirmButtonText: "Aceptar"
-            //         });
-            //     }
-            // });
-
+            // Sample data for the chart
+            var sampleData = {
+                label: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                data: [50, 40, 300, 220, 500, 250, 400, 230, 500, 420, 380, 450]
+            };
+            
+            grafica(sampleData);
         });
 
         function grafica(datos) {
@@ -206,7 +132,7 @@
                 data: {
                     labels: datos.label,
                     datasets: [{
-                        label: "",
+                        label: "Preinscripciones",
                         tension: 0.4,
                         borderWidth: 0,
                         pointRadius: 0,
@@ -216,7 +142,6 @@
                         fill: true,
                         data: datos.data,
                         maxBarThickness: 6
-
                     }],
                 },
                 options: {

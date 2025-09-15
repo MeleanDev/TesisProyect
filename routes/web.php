@@ -10,6 +10,7 @@ Route::controller(WebsiteController::class)->group(function () {
     Route::get('/preinscripcion', 'preinscripcion')->name('preinscripcion');
     Route::get('/cursoDetalle/{slug?}', 'detalleCurso')->name('detalleCurso');
     Route::post('/verificacion-cliente', 'verificacionCliente')->name('verificacionCliente');
+    Route::post('/guardarPreinscripcion', 'store')->name('guardarPreinscripcion');
 
     route::prefix('cursos')->group(function () {
         Route::get('/curso-empresa', 'cursoEmpresa')->name('cursoEmpresa');

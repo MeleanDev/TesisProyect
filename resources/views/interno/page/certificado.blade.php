@@ -20,6 +20,7 @@
                                 <tr>
                                     <th>Cliente</th>
                                     <th>Curso</th>
+                                    <th>Codigo</th>
                                     <th class="text-center" data-priority="2">Acción</th>
                                 </tr>
                             </thead>
@@ -29,6 +30,7 @@
                                 <tr>
                                     <th>Cliente</th>
                                     <th>Curso</th>
+                                    <th>Codigo</th>
                                     <th class="text-center">Acción</th>
                                 </tr>
                             </tfoot>
@@ -51,33 +53,41 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            {{-- Campo de Nombre --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name" class="form-control-label">Nombre</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Nombre" minlength="3" maxlength="50" required>
-                                    <small class="form-text">Nombre (Obligatorio)</small>
+                                    <label for="estudiante_id" class="form-control-label">Estudiante</label>
+                                    <select class="form-control" id="estudiante_id" name="estudiante_id" required>
+                                        <option value="">Seleccione un estudiante</option>
+                                    </select>
+                                    <small class="form-text">Estudiante (Obligatorio)</small>
                                 </div>
                             </div>
-                            {{-- Campo de Correo Electrónico --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="email" class="form-control-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Dirección de Correo Electrónico" required>
-                                    <small class="form-text">Correo Electrónico (Obligatorio)</small>
+                                    <label for="curso_id" class="form-control-label">Curso</label>
+                                    <select class="form-control" id="curso_id" name="curso_id" required>
+                                        <option value="">Seleccione un curso</option>
+                                    </select>
+                                    <small class="form-text">Curso (Obligatorio)</small>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            {{-- Campo de Contraseña --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="password" class="form-control-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Contraseña" minlength="6" required>
-                                    <small class="form-text">Contraseña (Obligatorio, mínimo 8 caracteres)</small>
+                                    <label for="ruta_certificado" class="form-control-label">Ruta del Certificado</label>
+                                    <input type="text" class="form-control" id="ruta_certificado" name="ruta_certificado"
+                                        placeholder="Ruta al archivo del certificado" required>
+                                    <small class="form-text">Ruta del Certificado (Obligatorio)</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="codigo_certificado" class="form-control-label">Código del
+                                        Certificado</label>
+                                    <input type="text" class="form-control" id="codigo_certificado"
+                                        name="codigo_certificado" placeholder="Código único del certificado" required>
+                                    <small class="form-text">Código del Certificado (Obligatorio)</small>
                                 </div>
                             </div>
                         </div>
@@ -109,13 +119,18 @@
                 [5, 10],
             ],
             columns: [{
-                    data: 'name',
-                    name: 'name',
+                    data: 'cliente_registrado.identidad',
+                    name: 'cliente_registrado.identidad',
                     className: 'text-center',
                 },
                 {
-                    data: 'email',
-                    name: 'email',
+                    data: 'curso.nombre',
+                    name: 'curso.nombre',
+                    className: 'text-center',
+                },
+                {
+                    data: 'codigo',
+                    name: 'codigo',
                     className: 'text-center',
                 },
                 {
@@ -139,7 +154,7 @@
             ],
             columnDefs: [{
                 orderable: false,
-                targets: [2],
+                targets: [3],
                 responsivePriority: 1,
                 responsivePriority: 2,
 
@@ -196,8 +211,7 @@
                 success: function(data) {
                     table.ajax.reload(null, false);
                     if (data.success) {
-                        if (acao ===
-                            1) {
+                        if (acao === 1) {
                             notificacao.fire({
                                 icon: "success",
                                 title: "¡Información guardada!",

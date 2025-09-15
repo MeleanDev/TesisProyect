@@ -32,6 +32,11 @@ class Curso extends Model
         return $this->hasMany(Preinscripcion::class);
     }
 
+    public function certificacion(): HasMany
+    {
+        return $this->hasMany(Certificacion::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

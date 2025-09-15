@@ -57,11 +57,11 @@ class WebsiteController extends Controller
 
     public function preinscripcion(): View
     {
-        $cursos = Curso::all();
+        $cursos = Curso::where('estado', true)->get();
         return view('website.pages.preinscripcion', compact('cursos'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -161,7 +161,6 @@ class WebsiteController extends Controller
             ], 500);
         }
     }
-
 
     public function cursoEmpresa(): View
     {

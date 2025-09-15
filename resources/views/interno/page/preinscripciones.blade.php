@@ -96,7 +96,7 @@
             ],
             columns: [{
                     data: 'cliente_registrado.identidad',
-                    name: 'user.dni',
+                    name: 'cliente_registrado.identidad',
                     className: 'text-center',
                 },
                 {

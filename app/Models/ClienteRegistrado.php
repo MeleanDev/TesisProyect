@@ -27,4 +27,9 @@ class ClienteRegistrado extends Model
     {
         return $this->hasMany(Preinscripcion::class);
     }
+
+    public function certificacion(): HasMany
+    {
+        return $this->hasMany(Certificacion::class);
+    }
 }

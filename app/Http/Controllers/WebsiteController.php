@@ -120,6 +120,8 @@ class WebsiteController extends Controller
             // 4. Verificar si la preinscripción ya existe para este cliente y curso
             $preinscripcionExistente = Preinscripcion::where('cliente_registrado_id', $cliente->id)
                 ->where('curso_id', $curso->id)
+                ->where('estado', 'Aceptado')
+                ->orWhere('estado', 'Pendiente')
                 ->first();
 
             if ($preinscripcionExistente) {
@@ -175,7 +177,7 @@ class WebsiteController extends Controller
 
     public function cursoMenor(): View
     {
-        $cursos = Curso::where('categoria', 'menores')->Curso::where('estado', true)->paginate(6);
+        $cursos = Curso::where('categoria', 'menores')->where('estado', true)->paginate(6);
         return view('website.pages.cursoMenor', compact('cursos'));
     }
 

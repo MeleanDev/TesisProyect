@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CertificadoController;
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\dashboardController;
@@ -35,10 +36,17 @@ Route::middleware('auth')->prefix('Sistema')->group(function () {
     Route::controller(PreinscripcionController::class)->group(function () {
         Route::get('preinscripciones', 'index')->name('preinscripciones');
         Route::get('preinscripciones/lista', 'lista');
-        Route::get('preinscripciones/detalle/{id}', 'detalle');
-        Route::post('preinscripciones', 'guardar');
-        Route::post('preinscripciones/editar/{id}', 'editar');
-        Route::delete('preinscripciones/{id}', 'eliminar');
+        Route::post('preinscripciones/aceptar/{id}', 'aceptar');
+        Route::post('preinscripciones/anular/{id}', 'anular');
+    });
+
+    Route::controller(CertificadoController::class)->group(function () {
+        Route::get('certificados', 'index')->name('certificados');
+        Route::get('certificados/lista', 'lista');
+        Route::get('certificados/detalle/{id}', 'detalle');
+        Route::post('certificados', 'guardar');
+        Route::post('certificados/editar/{id}', 'editar');
+        Route::delete('certificados/{id}', 'eliminar');
     });
 
     Route::controller(AdminController::class)->group(function () {

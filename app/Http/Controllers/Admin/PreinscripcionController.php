@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Preinscripcion;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PreinscripcionController extends Controller
@@ -24,9 +26,29 @@ class PreinscripcionController extends Controller
         return datatables()->of($preinscripciones)->toJson();
     }
 
-    public function guardar() {}
+    public function aceptar(Preinscripcion $id, Request $datos): JsonResponse
+    {
+        try {
+            $id->estado = 'Aceptado';
+            $id->comentario = $datos->comentario;
+            $id->save();
+            $repuesta = response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            $repuesta = response()->json(['error' => true]);
+        }
+        return $repuesta;
+    }
 
-    public function editar() {}
-
-    public function eliminar() {}
+    public function anular(Preinscripcion $id, Request $datos): JsonResponse
+    {
+        try {
+            $id->estado = 'Negado';
+            $id->comentario = $datos->comentario;
+            $id->save();
+            $repuesta = response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            $repuesta = response()->json(['error' => true]);
+        }
+        return $repuesta;
+    }
 }

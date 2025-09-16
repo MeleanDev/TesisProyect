@@ -115,6 +115,8 @@
                             return '<span class="badge bg-warning">Requiere Acción</span>';
                         } else if (data === 'Negado') {
                             return '<span class="badge bg-danger">Cancelado</span>';
+                        } else if (data === 'Graduado') {
+                            return '<span class="badge bg-info">Graduado</span>';
                         }
                         return data;
                     }

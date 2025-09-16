@@ -58,6 +58,9 @@
                                     <label for="estudiante_id" class="form-control-label">Estudiante</label>
                                     <select class="form-control" id="estudiante_id" name="estudiante_id" required>
                                         <option value="">Seleccione un estudiante</option>
+                                        @foreach ($cliente as $item)
+                                            <option value="{{$item->id}}">{{$item->identidad}}</option>
+                                        @endforeach
                                     </select>
                                     <small class="form-text">Estudiante (Obligatorio)</small>
                                 </div>

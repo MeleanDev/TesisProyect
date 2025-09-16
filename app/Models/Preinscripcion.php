@@ -11,6 +11,7 @@ class Preinscripcion extends Model
         'cliente_registrado_id',
         'curso_id',
         'asunto',
+        'estado',
         'comentario'
     ];
 

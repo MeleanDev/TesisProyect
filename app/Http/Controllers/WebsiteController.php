@@ -122,6 +122,7 @@ class WebsiteController extends Controller
                 ->where('curso_id', $curso->id)
                 ->where('estado', 'Aceptado')
                 ->orWhere('estado', 'Pendiente')
+                ->orWhere('estado', 'Graduado')
                 ->first();
 
             if ($preinscripcionExistente) {

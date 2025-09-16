@@ -13,9 +13,11 @@ use Illuminate\View\View;
 class CertificadoController extends Controller
 {
     public function index(): View
-    {   
+    {
         $cursos = Curso::where('estado', true)->get();
-        $cliente = ClienteRegistrado::where('estado', true)->get();
+        $cliente = ClienteRegistrado::whereHas('preinscripcions', function ($query) {
+            $query->where('estado', 'Aceptado');
+        })->get();
         return view('interno.page.certificado', compact('cliente', 'cursos'));
     }
 
@@ -25,9 +27,13 @@ class CertificadoController extends Controller
         return datatables()->of($datos)->toJson();
     }
 
-    public function detalle(Preinscripcion $id)
+    public function detalle($id)
     {
-
+        $certificacion = Certificacion::with('clienteRegistrado', 'curso')->find($id->id);
+        if (!$certificacion) {
+            return response()->json(['error' => 'Certificación no encontrada'], 404);
+        }
+        return response()->json($certificacion);
     }
 
     public function guardar(Request $datos)
@@ -46,8 +52,5 @@ class CertificadoController extends Controller
         return $respuesta;
     }
 
-    public function eliminar()
-    {
-
-    }
+    public function eliminar() {}
 }

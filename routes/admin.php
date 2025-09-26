@@ -44,6 +44,7 @@ Route::middleware('auth')->prefix('Sistema')->group(function () {
         Route::get('certificados', 'index')->name('certificados');
         Route::get('certificados/lista', 'lista');
         Route::get('certificados/detalle/{id}', 'detalle');
+        Route::get('certificados/estudianteInfo/{id}', 'usuarioCursos');
         Route::post('certificados', 'guardar');
         Route::post('certificados/editar/{id}', 'editar');
         Route::delete('certificados/{id}', 'eliminar');

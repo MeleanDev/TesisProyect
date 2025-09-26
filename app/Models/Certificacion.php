@@ -15,7 +15,7 @@ class Certificacion extends Model
     protected $fillable = [
         'cliente_registrado_id',
         'curso_id',
-        'ruta',
+        'pdfcertificado',
         'codigo'
     ];
 

@@ -59,7 +59,7 @@
                                     <select class="form-control" id="estudiante_id" name="estudiante_id" required>
                                         <option value="">Seleccione un estudiante</option>
                                         @foreach ($cliente as $item)
-                                            <option value="{{$item->id}}">{{$item->identidad}}</option>
+                                            <option value="{{ $item->id }}">{{ $item->identidad }}</option>
                                         @endforeach
                                     </select>
                                     <small class="form-text">Estudiante (Obligatorio)</small>
@@ -68,7 +68,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="curso_id" class="form-control-label">Curso</label>
-                                    <select class="form-control" id="curso_id" name="curso_id" required>
+                                    <select disabled class="form-control" id="curso_id" name="curso_id" required>
                                         <option value="">Seleccione un curso</option>
                                     </select>
                                     <small class="form-text">Curso (Obligatorio)</small>
@@ -78,10 +78,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="ruta_certificado" class="form-control-label">Ruta del Certificado</label>
-                                    <input type="text" class="form-control" id="ruta_certificado" name="ruta_certificado"
-                                        placeholder="Ruta al archivo del certificado" required>
-                                    <small class="form-text">Ruta del Certificado (Obligatorio)</small>
+                                    <label for="pdf_certificado" class="form-control-label">PDF del Certificado</label>
+                                    <input type="file" class="form-control" id="pdf_certificado" name="pdf_certificado"
+                                        placeholder="Ruta al archivo del certificado" accept=".pdf" required>
+                                    <small class="form-text">PDF del Certificado (Obligatorio)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -231,7 +231,7 @@
                         notificacao.fire({
                             icon: "error",
                             title: "Registro no cargado.",
-                            text: data.message ||
+                            text: data.msj ||
                                 "Ocurrió un error al guardar el registro."
                         });
                     }
@@ -252,49 +252,20 @@
         crear = function() {
             rotaAcao = urlCompleta;
             acao = 1;
-
-            // reinicializar Formulario
             $("#formulario").trigger("reset");
 
             // Editar Modal
-            $("#titulo").html("Agregar Administrador");
+            $("#titulo").html("Asignar Certificado");
             $("#titulo").attr("class", "modal-title text-white");
             $("#bg-titulo").attr("class", "modal-header bg-gradient-primary");
 
-            $("#name").attr("readonly", false);
-            $("#email").attr("readonly", false);
-            $("#password").attr("readonly", false);
+            $("#curso_id").attr("readonly", false);
+            $("#pdf_certificado").attr("readonly", false);
+            $("#codigo_certificado").attr("readonly", false);
+            $("#estudiante_id").attr("readonly", false);
 
             $('#submit').show()
             $('#modalCRUD').modal('show');
-        };
-
-        ver = async function(id) {
-            try {
-                $("#formulario").trigger("reset");
-                datos = await consulta(id);
-                $("#titulo").html("Ver Administrador -> " + datos.email);
-                $("#titulo").attr("class", "modal-title text-white");
-                $("#bg-titulo").attr("class", "modal-header bg-info");
-
-                // atribución de valores
-                $("#name").val(datos.name);
-                $("#name").attr("readonly", true);
-
-                $("#email").val(datos.email);
-                $("#email").attr("readonly", true);
-
-                $("#password").attr("readonly", true);
-
-                $('#submit').hide()
-                $('#modalCRUD').modal('show');
-            } catch (error) {
-                notificacao.fire({
-                    icon: "error",
-                    title: "¡Eliminado!",
-                    text: "Su registro no se puede visualizar."
-                });
-            }
         };
 
         editar = async function(id) {
@@ -303,7 +274,7 @@
             try {
                 $("#formulario").trigger("reset");
                 datos = await consulta(id);
-                $("#titulo").html("Editar Administrador -> " + datos.email);
+                $("#titulo").html("Editar Certificacion -> " + datos.cliente_registrado.identidad);
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-warning");
 
@@ -372,6 +343,68 @@
                 }
             });
         };
+
+        $(document).ready(function() {
+            $('#estudiante_id').on('change', function() {
+                var estudianteId = $(this).val();
+                var cursoSelect = $('#curso_id');
+                console.log(estudianteId);
+
+                if (estudianteId) {
+                    cursoSelect.prop('disabled', false);
+
+                    cursoSelect.find('option:not(:first)').remove();
+
+                    cursoSelect.append('<option value="">Cargando cursos...</option>');
+
+                    $.ajax({
+                        url: urlCompleta + '/estudianteInfo/' + estudianteId,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            cursoSelect.find('option:not(:first)').remove();
+                            if (response.cursos && response.cursos.length > 0) {
+                                $.each(response.cursos, function(index, curso) {
+                                    cursoSelect.append(
+                                        $('<option></option>').attr('value', curso
+                                            .id).text(curso.nombre)
+                                    );
+                                });
+                            } else {
+                                cursoSelect.append(
+                                    '<option value="">No hay cursos disponibles</option>');
+                            }
+                        },
+                        error: function() {
+                            cursoSelect.find('option:not(:first)').remove();
+                            cursoSelect.append(
+                                '<option value="">Error al cargar cursos</option>');
+                        }
+                    });
+                } else {
+                    cursoSelect.prop('disabled', true);
+                    cursoSelect.find('option:not(:first)').remove();
+                }
+            });
+
+
+            $('#codigo_certificado').on('input', function() {
+                $(this).val($(this).val().replace(/[^A-Za-z0-9]/g, ''));
+            });
+
+            $('#codigo_certificado').on('paste', function(e) {
+                e.preventDefault();
+                var pastedText = (e.originalEvent.clipboardData || window.clipboardData).getData('text');
+                var cleanedText = pastedText.replace(/[^A-Za-z0-9]/g, '');
+                document.execCommand('insertText', false, cleanedText);
+            });
+
+            $('#codigo_certificado').on('keypress', function(e) {
+                if (e.which === 32) {
+                    e.preventDefault();
+                }
+            });
+        });
 
         // FIN ACCIONES
     </script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Certificacion;
 use App\Models\ClienteRegistrado;
 use App\Models\Curso;
+use App\Models\Preinscripcion;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -57,6 +58,11 @@ class CertificadoController extends Controller
             $certi->codigo = $datos->codigo_certificado;
             $certi->pdfcertificado = $ruta;
             $certi->save();
+            
+            // Preinscripcion
+            $preinscripcion = Preinscripcion::where('cliente_registrado_id', $datos->estudiante_id)->where('curso_id', $datos->curso_id)->first();
+            $preinscripcion->estado = 'Graduado';
+            $preinscripcion->save();
 
             return response()->json(['success' => true, 'message' => 'Certificado guardado correctamente']);
         } catch (\Throwable $th) {

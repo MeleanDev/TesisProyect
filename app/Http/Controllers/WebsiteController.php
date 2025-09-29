@@ -204,4 +204,15 @@ class WebsiteController extends Controller
         $slug->image = asset('storage/' . $slug->image);
         return response()->json(['curso' => $slug]);
     }
+
+    public function verCertificado($nombre): JsonResponse
+    {
+        try {
+            
+            $respuesta = response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            $respuesta = response()->json(['erro' => true]);
+        }
+        return $respuesta;
+    }
 }

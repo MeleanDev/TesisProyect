@@ -12,6 +12,8 @@ Route::controller(WebsiteController::class)->group(function () {
     Route::post('/verificacion-cliente', 'verificacionCliente')->name('verificacionCliente');
     Route::post('/guardarPreinscripcion', 'store')->name('guardarPreinscripcion');
 
+    Route::get('/certificados/ver/{id}', 'verCertificado');
+
     route::prefix('cursos')->group(function () {
         Route::get('/curso-empresa', 'cursoEmpresa')->name('cursoEmpresa');
         Route::get('/curso-ejecutivo', 'cursoEjecutivo')->name('cursoEjecutivo');
@@ -22,6 +24,7 @@ Route::controller(WebsiteController::class)->group(function () {
         Route::get('/curso-menor/{curso}', 'cursoDetalle')->name('cursoMenorDetalle');
     });
 });
+
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-image">
-                        <img src="{{asset('estilos/website/img/yo.png')}}" width="700" height="600" alt="Estudiantes aprendiendo" class="img-fluid">
+                        <img src="{{asset('estilos/website/img/curso.png')}}" width="700" height="600" alt="Estudiantes aprendiendo" class="img-fluid">
                         <div class="floating-card card-1">
                             <i class="fas fa-chart-line"></i>
                             <span>Crecimiento Profesional</span>
@@ -77,7 +77,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="course-category-card">
                         <div class="card-image">
-                            <img src="{{asset('estilos/website/img/yo.png')}}" height="250" width="400" alt="Cursos para Empresas">
+                            <img src="{{asset('estilos/website/img/empresa.png')}}" height="250" width="400" alt="Cursos para Empresas">
                             <div class="card-overlay">
                                 <div class="card-icon">
                                     <i class="fas fa-building"></i>
@@ -106,7 +106,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="course-category-card">
                         <div class="card-image">
-                            <img src="{{asset('estilos/website/img/yo.png')}}" height="250" width="400" alt="Cursos para Menores">
+                            <img src="{{asset('estilos/website/img/menores.png')}}" height="250" width="400" alt="Cursos para Menores">
                             <div class="card-overlay">
                                 <div class="card-icon">
                                     <i class="fas fa-child"></i>
@@ -135,7 +135,7 @@
                 <div class="col-lg-4 col-md-6"> 
                     <div class="course-category-card">
                         <div class="card-image">
-                            <img src="{{asset('estilos/website/img/yo.png')}}" height="250" width="400" alt="Cursos Ejecutivos">
+                            <img src="{{asset('estilos/website/img/ejecutivo.png')}}" height="250" width="400" alt="Cursos Ejecutivos">
                             <div class="card-overlay">
                                 <div class="card-icon">
                                     <i class="fas fa-user-tie"></i>
@@ -218,7 +218,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="about-image">
-                        <img src="{{asset('estilos/website/img/yo.png')}}" height="500" width="600" alt="Nuestra academia" class="img-fluid">
+                        <img src="{{asset('estilos/website/img/logo.png')}}" height="500" width="600" alt="Nuestra academia" class="img-fluid">
                         <div class="experience-badge">
                             <span class="experience-number">10+</span>
                             <span class="experience-text">Años de Experiencia</span>

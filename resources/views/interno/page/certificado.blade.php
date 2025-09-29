@@ -109,7 +109,6 @@
     <script>
         var token = $('meta[name="csrf-token"]').attr('content');
         var rotaAcao = "";
-        var acao = 0;
         const urlCompleta = window.location.href;
 
         var table = new DataTable('#datatable', {
@@ -146,7 +145,7 @@
                                 <i class="fa fa-ellipsis-v text-xs"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:editar(${row.id});"><i class="fa fa-edit text-warning"></i> Editar</a></li>
+                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-search text-info"></i> Ver Certificado</a></li>
                                 <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Eliminar</a></li>
                             </ul>
                         </div>`;
@@ -213,21 +212,13 @@
                 success: function(data) {
                     table.ajax.reload(null, false);
                     if (data.success) {
-                        if (acao === 1) {
-                            notificacao.fire({
-                                icon: "success",
-                                title: "¡Información guardada!",
-                                text: "Registro guardado con éxito."
-                            });
-                        } else {
-                            notificacao.fire({
-                                icon: "success",
-                                title: "¡Información editada!",
-                                text: "Registro editado con éxito."
-                            });
-                        }
+                        notificacion.fire({
+                            icon: "success",
+                            title: "¡Información guardada!",
+                            text: "Registro guardado con éxito."
+                        });
                     } else {
-                        notificacao.fire({
+                        notificacion.fire({
                             icon: "error",
                             title: "Registro no cargado.",
                             text: data.msj ||
@@ -250,7 +241,6 @@
         // ACCIONES
         crear = function() {
             rotaAcao = urlCompleta;
-            acao = 1;
             $("#formulario").trigger("reset");
 
             // Editar Modal
@@ -267,32 +257,38 @@
             $('#modalCRUD').modal('show');
         };
 
-        editar = async function(id) {
-            rotaAcao = urlCompleta + "/editar/" + id;
-            acao = 2;
+        ver = async function(id) {
             try {
-                $("#formulario").trigger("reset");
-                datos = await consulta(id);
-                $("#titulo").html("Editar Certificacion -> " + datos.cliente_registrado.identidad);
-                $("#titulo").attr("class", "modal-title text-white");
-                $("#bg-titulo").attr("class", "modal-header bg-warning");
+                // Modificado para llamar a la nueva ruta /verCertificado/{id}
+                const response = await $.ajax({
+                    url: urlCompleta + "/ver/" + id, // Ajustado a la ruta correcta
+                    method: "GET",
+                    dataType: "json"
+                });
 
-                // atribución de valores
-                $("#name").val(datos.name);
-                $("#name").attr("readonly", false);
+                if (response.success && response.url) {
+                    // Abrir el PDF en una nueva pestaña o ventana
+                    window.open(response.url, '_blank');
+                } else {
+                    // Manejo si la respuesta es exitosa pero no tiene la URL (o tiene 'error: true')
+                    notificacion.fire({
+                        icon: "error",
+                        title: "Error al obtener URL",
+                        text: "No se pudo obtener la URL del certificado."
+                    });
+                }
 
-                $("#email").val(datos.email);
-                $("#email").attr("readonly", false);
-
-                $("#password").attr("readonly", false);
-
-                $('#submit').show()
-                $('#modalCRUD').modal('show');
             } catch (error) {
-                notificacao.fire({
+                // Manejo de errores de la llamada AJAX
+                let errorText = "Ocurrió un error en el servidor o la URL no es válida.";
+                if (error.responseJSON && error.responseJSON.message) {
+                    errorText = error.responseJSON.message;
+                }
+
+                notificacion.fire({
                     icon: "error",
-                    title: "¡Eliminado!",
-                    text: "Su registro no se puede visualizar."
+                    title: "Error de Visualización",
+                    text: errorText
                 });
             }
         };
@@ -300,7 +296,7 @@
         eliminar = function(id) {
             Swal.fire({
                 title: '¿Está seguro de que desea eliminar el registro?',
-                text: "¡No podrá revertir esta acción!",
+                text: "¡No podrá revertir esta acción, y el estado de la preinscripcion volvera a su estado Anterior!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -318,13 +314,13 @@
                         success: function(data) {
                             if (data.success) {
                                 table.row('#' + id).remove().draw();
-                                notificacao.fire({
+                                notificacion.fire({
                                     icon: "success",
                                     title: "¡Eliminado!",
                                     text: "Su registro fue eliminado."
                                 });
                             } else {
-                                notificacao.fire({
+                                notificacion.fire({
                                     icon: "error",
                                     title: "¡Error!",
                                     text: "Su registro no fue eliminado."
@@ -332,7 +328,7 @@
                             }
                         },
                         error: function(xhr, status, error) {
-                            Swal.fire({
+                            notificacion.fire({
                                 title: "Error en el sistema",
                                 text: "¡El registro no se agregó al sistema!",
                                 icon: "error"

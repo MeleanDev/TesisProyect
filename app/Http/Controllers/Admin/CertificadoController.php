@@ -7,6 +7,7 @@ use App\Models\Certificacion;
 use App\Models\ClienteRegistrado;
 use App\Models\Curso;
 use App\Models\Preinscripcion;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -26,7 +27,7 @@ class CertificadoController extends Controller
         return datatables()->of($datos)->toJson();
     }
 
-    public function detalle($id)
+    public function detalle($id): JsonResponse
     {
         $certificacion = Certificacion::with('clienteRegistrado', 'curso')->find($id->id);
         if (!$certificacion) {
@@ -35,7 +36,7 @@ class CertificadoController extends Controller
         return response()->json($certificacion);
     }
 
-    public function guardar(Request $datos)
+    public function guardar(Request $datos): JsonResponse
     {
         try {
             // Validar todos los campos
@@ -48,7 +49,7 @@ class CertificadoController extends Controller
 
             // Procesar archivo
             $archivo = $datos->file('pdf_certificado');
-            $filename = time() . '_' . $archivo->getClientOriginalName();
+            $filename = time() . '_' . $datos->curso_id;
             $ruta = $archivo->storeAs('Certificados', $filename, 'public');
 
             // Guardar en base de datos
@@ -58,7 +59,7 @@ class CertificadoController extends Controller
             $certi->codigo = $datos->codigo_certificado;
             $certi->pdfcertificado = $ruta;
             $certi->save();
-            
+
             // Preinscripcion
             $preinscripcion = Preinscripcion::where('cliente_registrado_id', $datos->estudiante_id)->where('curso_id', $datos->curso_id)->first();
             $preinscripcion->estado = 'Graduado';
@@ -70,7 +71,7 @@ class CertificadoController extends Controller
         }
     }
 
-    public function usuarioCursos($id)
+    public function usuarioCursos($id): JsonResponse
     {
         try {
             $cursos = Curso::whereHas('preinscripcions', function ($query) use ($id) {
@@ -78,6 +79,36 @@ class CertificadoController extends Controller
                     ->where('estado', 'Aceptado');
             })->get(['id', 'nombre']);
             $respuesta = response()->json(['success' => true, 'cursos' => $cursos]);
+        } catch (\Throwable $th) {
+            $respuesta = response()->json(['error' => true]);
+        }
+        return $respuesta;
+    }
+
+    public function eliminar(Certificacion $id): JsonResponse
+    {
+        try {
+
+            $preinscripcion = Preinscripcion::where('cliente_registrado_id', $id->cliente_registrado_id)->where('curso_id', $id->curso_id)->first();
+            $preinscripcion->estado = 'Aceptado';
+            $preinscripcion->save();
+            $id->delete();
+            $respuesta = response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            $respuesta = response()->json([
+                'error' => true,
+                'type' => get_class($th),
+                'message' => $th->getMessage(), 
+            ]);
+        }
+        return $respuesta;
+    }
+
+    public function ver(Certificacion $id): JsonResponse
+    {
+        try {
+            $id->pdfcertificado = asset('storage/' . $id->pdfcertificado);
+            $respuesta = response()->json(['success' => true, 'url' => $id->pdfcertificado ]);
         } catch (\Throwable $th) {
             $respuesta = response()->json(['error' => true]);
         }

@@ -46,7 +46,7 @@ Route::middleware('auth')->prefix('Sistema')->group(function () {
         Route::get('certificados/detalle/{id}', 'detalle');
         Route::get('certificados/estudianteInfo/{id}', 'usuarioCursos');
         Route::post('certificados', 'guardar');
-        Route::post('certificados/editar/{id}', 'editar');
+        Route::get('certificados/ver/{id}', 'ver');
         Route::delete('certificados/{id}', 'eliminar');
     });
 

@@ -10,9 +10,6 @@
                     <h3>Recepcion De Mensajes</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">
-                        Agregar Administrador
-                    </button>
                     <div class="container mt-4">
                         <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
                             style="width: 100%">
@@ -132,80 +129,7 @@
             });
         };
 
-        // Enviar datos
-        $('#formulario').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                url: rotaAcao,
-                method: 'POST',
-                data: formData,
-                dataType: 'JSON',
-                contentType: false,
-                processData: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': token
-                },
-                success: function(data) {
-                    table.ajax.reload(null, false);
-                    if (data.success) {
-                        if (acao ===
-                            1) {
-                            notificacao.fire({
-                                icon: "success",
-                                title: "¡Información guardada!",
-                                text: "Registro guardado con éxito."
-                            });
-                        } else {
-                            notificacao.fire({
-                                icon: "success",
-                                title: "¡Información editada!",
-                                text: "Registro editado con éxito."
-                            });
-                        }
-                    } else {
-                        notificacao.fire({
-                            icon: "error",
-                            title: "Registro no cargado.",
-                            text: data.message ||
-                                "Ocurrió un error al guardar el registro."
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        title: "Fallo en el sistema",
-                        text: "¡El registro no se agregó al sistema!",
-                        icon: "error"
-                    });
-                }
-            });
-
-            $('#modalCRUD').modal('hide');
-        });
-
         // ACCIONES
-        crear = function() {
-            rotaAcao = urlCompleta;
-            acao = 1;
-
-            // reinicializar Formulario
-            $("#formulario").trigger("reset");
-
-            // Editar Modal
-            $("#titulo").html("Agregar Administrador");
-            $("#titulo").attr("class", "modal-title text-white");
-            $("#bg-titulo").attr("class", "modal-header bg-gradient-primary");
-
-            $("#name").attr("readonly", false);
-            $("#email").attr("readonly", false);
-            $("#password").attr("readonly", false);
-
-            $('#submit').show()
-            $('#modalCRUD').modal('show');
-        };
-
         ver = async function(id) {
             try {
                 $("#formulario").trigger("reset");
@@ -233,83 +157,6 @@
                 });
             }
         };
-
-        editar = async function(id) {
-            rotaAcao = urlCompleta + "/editar/" + id;
-            acao = 2;
-            try {
-                $("#formulario").trigger("reset");
-                datos = await consulta(id);
-                $("#titulo").html("Editar Administrador -> " + datos.email);
-                $("#titulo").attr("class", "modal-title text-white");
-                $("#bg-titulo").attr("class", "modal-header bg-warning");
-
-                // atribución de valores
-                $("#name").val(datos.name);
-                $("#name").attr("readonly", false);
-
-                $("#email").val(datos.email);
-                $("#email").attr("readonly", false);
-
-                $("#password").attr("readonly", false);
-
-                $('#submit').show()
-                $('#modalCRUD').modal('show');
-            } catch (error) {
-                notificacao.fire({
-                    icon: "error",
-                    title: "¡Eliminado!",
-                    text: "Su registro no se puede visualizar."
-                });
-            }
-        };
-
-        eliminar = function(id) {
-            Swal.fire({
-                title: '¿Está seguro de que desea eliminar el registro?',
-                text: "¡No podrá revertir esta acción!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, ¡eliminar!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: urlCompleta + "/" + id,
-                        method: "DELETE",
-                        headers: {
-                            'X-CSRF-TOKEN': token
-                        },
-                        success: function(data) {
-                            if (data.success) {
-                                table.row('#' + id).remove().draw();
-                                notificacao.fire({
-                                    icon: "success",
-                                    title: "¡Eliminado!",
-                                    text: "Su registro fue eliminado."
-                                });
-                            } else {
-                                notificacao.fire({
-                                    icon: "error",
-                                    title: "¡Error!",
-                                    text: "Su registro no fue eliminado."
-                                });
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            Swal.fire({
-                                title: "Error en el sistema",
-                                text: "¡El registro no se agregó al sistema!",
-                                icon: "error"
-                            });
-                        }
-                    });
-                }
-            });
-        };
-
         // FIN ACCIONES
     </script>
 @endsection

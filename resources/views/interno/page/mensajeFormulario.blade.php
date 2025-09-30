@@ -41,6 +41,83 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalCRUD" tabindex="-1" role="dialog" aria-labelledby="modalCRUD" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <form id="formulario">
+                    <div id="bg-titulo" class="modal-header">
+                        <h5 class="modal-title" id="titulo"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center" id="image-display" style="display: none;">
+                                <img id="modal-image" src="" alt="Client Image"
+                                    style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre" class="form-control-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre"
+                                        placeholder="Nombre">
+                                    <small class="form-text">Nombre</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="apelldio" class="form-control-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apelldio" name="apelldio"
+                                        placeholder="Apellido">
+                                    <small class="form-text">Apellido</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="form-control-label">E-mail</label>
+                                    <input type="email" class="form-control" id="email">
+                                    <small class="form-text">E-mail</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="telefono" class="form-control-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="telefono"
+                                        placeholder="Número de Teléfono">
+                                    <small class="form-text">Teléfono</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="asunto" class="form-control-label">Asunto</label>
+                                    <input type="asunto" class="form-control" id="asunto"
+                                        placeholder="E-mail">
+                                    <small class="form-text">asunto</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="image-upload-row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="mensaje" class="form-control-label">Mensaje</label>
+                                    <input type="file" class="form-control" id="mensaje">
+                                    <small class="form-text">Mensaje</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -60,12 +137,12 @@
                 [5, 10],
             ],
             columns: [{
-                    data: 'name',
-                    name: 'name',
+                    data: 'nombre',
+                    name: 'nombre',
                     className: 'text-center',
                 },
                 {
-                    data: 'email',
+                    data: 'apellido',
                     name: 'email',
                     className: 'text-center',
                 },
@@ -133,8 +210,7 @@
         ver = async function(id) {
             try {
                 $("#formulario").trigger("reset");
-                datos = await consulta(id);
-                $("#titulo").html("Ver Administrador -> " + datos.email);
+                $("#titulo").html("Ver Mensaje -> " + datos.nombre + " " + datos.apellido);
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-info");
 
@@ -150,7 +226,7 @@
                 $('#submit').hide()
                 $('#modalCRUD').modal('show');
             } catch (error) {
-                notificacao.fire({
+                notificacion.fire({
                     icon: "error",
                     title: "¡Eliminado!",
                     text: "Su registro no se puede visualizar."

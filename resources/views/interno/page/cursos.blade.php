@@ -343,7 +343,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    Swal.fire({
+                    notificacion.fire({
                         title: "Fallo en el sistema",
                         text: "¡El registro no se ha añadido al sistema!",
                         icon: "error"

@@ -20,6 +20,7 @@
                                     <th>Correo</th>
                                     <th>Telefono</th>
                                     <th>Asunto</th>
+                                    <th>Fecha Recepcion</th>
                                     <th class="text-center" data-priority="2">Acción</th>
                                 </tr>
                             </thead>
@@ -32,6 +33,7 @@
                                     <th>Correo</th>
                                     <th>Telefono</th>
                                     <th>Asunto</th>
+                                    <th>Fecha Recepcion</th>
                                     <th class="text-center">Acción</th>
                                 </tr>
                             </tfoot>
@@ -60,16 +62,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nombre" class="form-control-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" name="nombre"
-                                        placeholder="Nombre">
+                                    <input type="text" class="form-control" id="nombre" placeholder="Nombre" readonly>
                                     <small class="form-text">Nombre</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="apelldio" class="form-control-label">Apellido</label>
-                                    <input type="text" class="form-control" id="apelldio" name="apelldio"
-                                        placeholder="Apellido">
+                                    <label for="apellido" class="form-control-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido" placeholder="Apellido" readonly>
                                     <small class="form-text">Apellido</small>
                                 </div>
                             </div>
@@ -77,15 +77,15 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="email" class="form-control-label">E-mail</label>
-                                    <input type="email" class="form-control" id="email">
-                                    <small class="form-text">E-mail</small>
+                                    <label for="correo" class="form-control-label">Correo Electronico</label>
+                                    <input type="email" class="form-control" id="correo" readonly>
+                                    <small class="form-text">Correo Electronico</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="telefono" class="form-control-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="telefono"
+                                    <input type="tel" class="form-control" id="telefono" readonly
                                         placeholder="Número de Teléfono">
                                     <small class="form-text">Teléfono</small>
                                 </div>
@@ -95,8 +95,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="asunto" class="form-control-label">Asunto</label>
-                                    <input type="asunto" class="form-control" id="asunto"
-                                        placeholder="E-mail">
+                                    <input type="asunto" class="form-control" id="asunto" placeholder="E-mail" readonly>
                                     <small class="form-text">asunto</small>
                                 </div>
                             </div>
@@ -105,7 +104,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="mensaje" class="form-control-label">Mensaje</label>
-                                    <input type="file" class="form-control" id="mensaje">
+                                    <textarea class="form-control" id="mensaje" cols="10" rows="10" readonly></textarea>
                                     <small class="form-text">Mensaje</small>
                                 </div>
                             </div>
@@ -123,8 +122,6 @@
 @section('scripts')
     <script>
         var token = $('meta[name="csrf-token"]').attr('content');
-        var rotaAcao = "";
-        var acao = 0;
         const urlCompleta = window.location.href;
 
         var table = new DataTable('#datatable', {
@@ -143,7 +140,27 @@
                 },
                 {
                     data: 'apellido',
-                    name: 'email',
+                    name: 'apellido',
+                    className: 'text-center',
+                },
+                {
+                    data: 'correo',
+                    name: 'correo',
+                    className: 'text-center',
+                },
+                {
+                    data: 'telefono',
+                    name: 'telefono',
+                    className: 'text-center',
+                },
+                {
+                    data: 'asunto',
+                    name: 'asunto',
+                    className: 'text-center',
+                },
+                {
+                    data: 'fecha_creacion_formateada',
+                    name: 'fecha_creacion_formateada',
                     className: 'text-center',
                 },
                 {
@@ -157,17 +174,16 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver</a></li>
-                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:editar(${row.id});"><i class="fa fa-edit text-warning"></i> Editar</a></li>
-                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Eliminar</a></li>
                             </ul>
                         </div>`;
                     },
                     "orderable": false
                 },
             ],
+            "order": [[ 5, "desc" ]],
             columnDefs: [{
                 orderable: false,
-                targets: [2],
+                targets: [6],
                 responsivePriority: 1,
                 responsivePriority: 2,
 
@@ -210,20 +226,18 @@
         ver = async function(id) {
             try {
                 $("#formulario").trigger("reset");
+                datos = await consulta(id);
                 $("#titulo").html("Ver Mensaje -> " + datos.nombre + " " + datos.apellido);
                 $("#titulo").attr("class", "modal-title text-white");
-                $("#bg-titulo").attr("class", "modal-header bg-info");
+                $("#bg-titulo").attr("class", "modal-header bg-warning");
 
-                // atribución de valores
-                $("#name").val(datos.name);
-                $("#name").attr("readonly", true);
+                $("#nombre").val(datos.nombre);
+                $("#apellido").val(datos.apellido);
+                $("#correo").val(datos.correo);
+                $("#telefono").val(datos.telefono);
+                $("#asunto").val(datos.asunto);
+                $("#mensaje").val(datos.mensaje);
 
-                $("#email").val(datos.email);
-                $("#email").attr("readonly", true);
-
-                $("#password").attr("readonly", true);
-
-                $('#submit').hide()
                 $('#modalCRUD').modal('show');
             } catch (error) {
                 notificacion.fire({

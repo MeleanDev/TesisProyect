@@ -23,10 +23,7 @@ class Curso extends Model
         'categoria',
         'idioma',
     ];
-
-    /**
-     * Un Curso puede tener muchas preinscripciones.
-     */
+    
     public function preinscripcions(): HasMany
     {
         return $this->hasMany(Preinscripcion::class);

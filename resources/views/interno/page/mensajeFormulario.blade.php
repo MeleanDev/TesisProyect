@@ -104,7 +104,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="mensaje" class="form-control-label">Mensaje</label>
-                                    <textarea class="form-control" id="mensaje" cols="10" rows="10" readonly></textarea>
+                                    <textarea class="form-control" id="mensaje" rows="10" readonly></textarea>
                                     <small class="form-text">Mensaje</small>
                                 </div>
                             </div>

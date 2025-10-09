@@ -164,6 +164,7 @@
                     "orderable": false
                 },
             ],
+            "order": [[ 4, "desc" ]],
             columnDefs: [{
                 orderable: false,
                 targets: [5, 3],

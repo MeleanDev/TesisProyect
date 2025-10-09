@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\Admin\dashboardController;
 use App\Http\Controllers\Admin\PreinscripcionController;
+use App\Http\Controllers\Admin\SeccionFormularioController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,12 @@ Route::middleware('auth')->prefix('Sistema')->group(function () {
         Route::get('preinscripciones/lista', 'lista');
         Route::post('preinscripciones/aceptar/{id}', 'aceptar');
         Route::post('preinscripciones/anular/{id}', 'anular');
+    });
+
+    Route::controller(SeccionFormularioController::class)->group(function () {
+        Route::get('seccion-formulario', 'index')->name('seccionFormulario');
+        Route::get('seccion-formulario/lista', 'lista');
+        Route::get('seccion-formulario/detalle/{id}', 'detalle');
     });
 
     Route::controller(CertificadoController::class)->group(function () {

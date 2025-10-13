@@ -123,17 +123,14 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-8">
-                    <!-- Course Overview -->
                     <div class="course-section">
                         <h2 class="section-title">Descripción del <span class="text-gradient">Curso</span></h2>
                         <p class="section-description">{{ $curso->descripcion }}.</p>
                     </div>
                 </div>
 
-                <!-- Sidebar -->
                 <div class="col-lg-4">
                     <div class="course-sidebar">
-                        <!-- Course Info Card -->
                         <div class="sidebar-card">
                             <h3>Información del Curso</h3>
                             <div class="course-info-list">
@@ -240,6 +237,21 @@
     </div>
 
     <script>
+    // --- INICIO: LÓGICA DE VALIDACIÓN ---
+
+    // Validación en tiempo real: Solo letras y espacios para nombres y apellidos.
+    $('#nombre, #apellido').on('input', function(e) {
+        $(this).val($(this).val().replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, ''));
+    });
+
+    // Validación en tiempo real: Solo números para el teléfono.
+    $('#telefono').on('input', function(e) {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
+    // --- FIN: LÓGICA DE VALIDACIÓN ---
+
+
     var token = $('meta[name="csrf-token"]').attr('content');
     const url = "{{route('fromContato')}}";
 

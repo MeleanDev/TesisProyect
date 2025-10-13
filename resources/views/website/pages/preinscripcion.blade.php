@@ -96,9 +96,12 @@
                                     <span class="input-group-text p-0 border-0 bg-transparent">
                                         <select class="form-select border-1" id="prefixSelect" name="identidad_prefix"
                                             style="width: auto;">
-                                            <option value="V">V</option>
+                                            <option value="V" selected>V</option>
                                             <option value="E">E</option>
                                             <option value="J">J</option>
+                                            <option value="G">G</option>
+                                            <option value="P">P</option>
+                                            <option value="C">C</option>
                                         </select>
                                     </span>
                                     <input type="text" class="form-control" name="identidad_number" id="identidad"
@@ -128,6 +131,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        function calculateDateLimit(yearsAgo) {
+            const today = new Date();
+            // Clona la fecha de hoy y réstale los años requeridos
+            const limitDate = new Date(today.getFullYear() - yearsAgo, today.getMonth(), today.getDate());
+            
+            // Formatea la fecha como YYYY-MM-DD (necesario para input type="date")
+            const year = limitDate.getFullYear();
+            const month = String(limitDate.getMonth() + 1).padStart(2, '0');
+            const day = String(limitDate.getDate()).padStart(2, '0');
+            
+            return `${year}-${month}-${day}`;
+        }
+
+        const maxDateString = calculateDateLimit(10); 
+        const minDateString = calculateDateLimit(80); 
         $(document).ready(function() {
             // Referencias a los elementos del DOM
             const prefixSelect = $('#prefixSelect');
@@ -144,20 +162,18 @@
             // A. Agregar listeners para actualizar el campo cuando los valores cambien
             prefixSelect.on('change', updateFullIdentidad);
             identidadInput.on('input', updateFullIdentidad);
-
+            
             // B. Actualizar el valor inicial al cargar la página
             updateFullIdentidad();
 
             // 2. Manejar la verificación de identidad
             $('#verificacionForm').submit(function(e) {
                 e.preventDefault();
-                // Asegurar que el campo oculto esté actualizado antes de enviar
                 updateFullIdentidad();
 
-                const identidadCompleta = fullIdentidadInput.val(); // Usar el valor del campo oculto
+                const identidadCompleta = fullIdentidadInput.val(); 
                 const $verifyBtn = $('#verifyBtn');
 
-                // Mostrar estado de carga en el botón
                 $verifyBtn.addClass('loading').prop('disabled', true);
                 $('#resultadoVerificacion').addClass('d-none').empty();
 
@@ -166,12 +182,13 @@
                     method: 'POST',
                     data: {
                         _token: "{{ csrf_token() }}",
-                        identidad: identidadCompleta // Enviar la identidad completa
+                        identidad: identidadCompleta 
                     },
                     success: function(response) {
                         $('#verificacionCard').hide();
 
                         if (response.existe) {
+                            // Cliente EXISTE (Formulario de curso solamente)
                             $('#resultadoVerificacion').html(`
                                 <div class="card custom-card">
                                     <div class="card-body p-5">
@@ -204,6 +221,7 @@
                                 </div>
                             `).removeClass('d-none');
                         } else {
+                            // Cliente NO EXISTE (Formulario de registro completo)
                             $('#resultadoVerificacion').html(`
                                 <div class="card custom-card">
                                     <div class="card-body p-5">
@@ -220,13 +238,13 @@
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" name="Pnombre" required>
+                                                        <input type="text" class="form-control solo-letras" name="Pnombre" required>
                                                         <label>Primer Nombre *</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" name="Snombre">
+                                                        <input type="text" class="form-control solo-letras" name="Snombre">
                                                         <label>Segundo Nombre</label>
                                                     </div>
                                                 </div>
@@ -234,13 +252,13 @@
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" name="Papelldio" required>
+                                                        <input type="text" class="form-control solo-letras" name="Papelldio" required>
                                                         <label>Primer Apellido *</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" name="Sapelldio">
+                                                        <input type="text" class="form-control solo-letras" name="Sapelldio">
                                                         <label>Segundo Apellido</label>
                                                     </div>
                                                 </div>
@@ -250,7 +268,7 @@
                                                 <label>Correo electrónico *</label>
                                             </div>
                                             <div class="form-group mb-3">
-                                                <input type="tel" class="form-control" name="telefono" required>
+                                                <input type="tel" class="form-control solo-numeros" name="telefono" required maxlength="15">
                                                 <label>Telefono</label>
                                             </div>
                                             <div class="form-group mb-3">
@@ -258,18 +276,23 @@
                                                 <label for="image">Foto de Perfil del estudiante Y/O empresa *</label>
                                                 <small class="form-text text-muted">Archivos permitidos: JPG, JPEG, PNG. Tamaño máximo: 5MB.</small>
                                             </div>
+                                            
                                             <div class="form-group mb-3">
-                                                <input type="date" class="form-control" name="fecha_nacimiento" required>
+                                                <input type="date" class="form-control" name="fecha_nacimiento" required 
+                                                       max="${maxDateString}" 
+                                                       min="${minDateString}">
                                                 <label>Fecha de nacimiento *</label>
+                                                <small class="form-text text-muted">Edad permitida: Mínimo 10 años y Máximo 80 años.</small>
                                             </div>
+                                            
                                             <div class="form-group mb-3">
                                                 <select class="form-control" name="curso_id" required>
                                                     <option value="">Seleccione un curso</option>
                                                     @foreach ($cursos as $curso)
                                                     <option value="{{ $curso->slug }}">{{ $curso->nombre }}</option>
                                                     @endforeach
-                                                    </select>
-                                                    <label>Curso *</label>
+                                                </select>
+                                                <label>Curso *</label>
                                             </div>
                                             <div id="cursoDetailsContainer" class="d-none"></div>
                                             
@@ -291,7 +314,6 @@
                         });
                     },
                     complete: function() {
-                        // Ocultar estado de carga al completar
                         $verifyBtn.removeClass('loading').prop('disabled', false);
                     }
                 });
@@ -338,9 +360,8 @@
                         $detailsContainer.addClass('d-none').empty();
                     }
                 });
-
-            // 4. Delegación de eventos para los formularios dinámicos de envío
-            // 4. Delegación de eventos para los formularios dinámicos de envío
+                
+            // 4. Manejar el envío de ambos formularios de preinscripción
             $(document).on('submit', '#preinscripcionFormExistente, #preinscripcionFormNuevo', function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
@@ -364,8 +385,8 @@
                                 icon: 'success',
                                 title: '¡Preinscripción exitosa!',
                                 html: `Tu preinscripción ha sido registrada correctamente. <br>
-                    <strong>Número de referencia:</strong> ${response.referencia}<br>
-                    Estatus: <span class="badge bg-warning">Pendiente de verificación</span>`,
+                                    <strong>Número de referencia:</strong> ${response.referencia}<br>
+                                    Estatus: <span class="badge bg-warning">Pendiente de verificación</span>`,
                                 confirmButtonText: 'Entendido'
                             }).then(() => {
                                 window.location.href = "{{ route('inicio') }}";
@@ -381,9 +402,7 @@
                     },
                     error: function(xhr) {
                         $submitBtn.removeClass('loading').prop('disabled', false);
-
-                        // Nuevo manejo de errores específico
-                        if (xhr.status === 422) { // Error de validación de formulario
+                        if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
                             let errorMessage = 'Por favor, corrige los siguientes errores:<br>';
                             for (let field in errors) {
@@ -394,15 +413,14 @@
                                 title: 'Error de validación',
                                 html: errorMessage
                             });
-                        } else if (xhr.status ===
-                            409) { // Error de conflicto (preinscripción duplicada)
+                        } else if (xhr.status === 409) {
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Preinscripción duplicada',
                                 text: xhr.responseJSON.message ||
                                     'Ya te has preinscrito en este curso.'
                             });
-                        } else { // Otros errores del servidor (ej. 500)
+                        } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error al enviar',
@@ -412,6 +430,19 @@
                     }
                 });
             });
+
+            // 5. Validar solo letras (Nombres/Apellidos)
+            $(document).on('input', '.solo-letras', function() {
+                // Permite letras (a-z, A-Z), acentos, ñ, y espacios
+                this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            });
+
+            // 6. Validar solo números (Teléfono)
+            $(document).on('input', '.solo-numeros', function() {
+                // Permite solo dígitos (0-9)
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
         });
     </script>
 @endsection

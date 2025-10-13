@@ -57,14 +57,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="nombre" id="nombre"
-                                        placeholder="Nombre" required maxlength="100">
+                                        placeholder="Nombre" required maxlength="100"
+                                        pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+"
+                                        title="Solo se permiten letras, acentos y espacios."
+                                        oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,'');">
                                     <label for="nombre">Nombre *</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="apellido" id="apellido"
-                                        placeholder="Apellido" required maxlength="100">
+                                        placeholder="Apellido" required maxlength="100"
+                                        pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+"
+                                        title="Solo se permiten letras, acentos y espacios."
+                                        oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,'');">
                                     <label for="apellido">Apellido *</label>
                                 </div>
                             </div>
@@ -78,7 +84,10 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <input type="tel" class="form-control" name="telefono" id="telefono"
-                                        placeholder="Teléfono" maxlength="20">
+                                        placeholder="Teléfono" maxlength="20"
+                                        pattern="[0-9]{7,20}"
+                                        title="Solo se permiten números (7 a 20 dígitos)."
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,this.maxLength);">
                                     <label for="telefono">Teléfono</label>
                                 </div>
                             </div>

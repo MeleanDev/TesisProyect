@@ -1,13 +1,13 @@
 @extends('interno.app.app')
-@section('page', 'Gestion Cliente')
-@section('tittle', 'Gestion Cliente')
+@section('page', 'Gestión de Cliente')
+@section('tittle', 'Gestión de Cliente')
 
 @section('contenido')
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 text-center">
-                    <h3>Gestion Cliente</h3>
+                    <h3>Gestión de Cliente</h3>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">Añadir Cliente</button>
@@ -16,28 +16,28 @@
                             style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th data-priority="1">Identificacion</th>
+                                    <th data-priority="1">Identificación</th>
                                     <th data-priority="2">Imagen</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
                                     <th>Email</th>
-                                    <th>Telefone</th>
-                                    <th>Fecha Nacimt.</th>
-                                    <th class="text-center" data-priority="3">Accion</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha Nacim.</th>
+                                    <th class="text-center" data-priority="3">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Identificacion</th>
+                                    <th>Identificación</th>
                                     <th>Imagen</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
                                     <th>Email</th>
-                                    <th>Telefone</th>
-                                    <th>Fecha Nacimt.</th>
-                                    <th>Accion</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha Nacim.</th>
+                                    <th>Acción</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -55,12 +55,13 @@
                     @csrf
                     <div id="bg-titulo" class="modal-header">
                         <h5 class="modal-title" id="titulo"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12 text-center" id="image-display" style="display: none;">
-                                <img id="modal-image" src="" alt="Client Image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+                                <img id="modal-image" src="" alt="Client Image"
+                                    style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -69,7 +70,7 @@
                                     <label for="Pnombre" class="form-control-label">Primer Nombre</label>
                                     <input type="text" class="form-control" id="Pnombre" name="Pnombre"
                                         placeholder="Primer Nombre" maxlength="100" minlength="2" required>
-                                    <small class="form-text">Primer Nombre (Obrigatório)</small>
+                                    <small class="form-text">Primer Nombre (Obligatorio)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -87,7 +88,7 @@
                                     <label for="Papelldio" class="form-control-label">Primer Apellido</label>
                                     <input type="text" class="form-control" id="Papelldio" name="Papelldio"
                                         placeholder="Primer Apellido" maxlength="100" minlength="2" required>
-                                    <small class="form-text">Primer Apellido (Obrigatório)</small>
+                                    <small class="form-text">Primer Apellido (Obligatorio)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -102,10 +103,22 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="identidad" class="form-control-label">Cédula</label>
-                                    <input type="text" class="form-control" id="identidad" name="identidad"
-                                        placeholder="Número de Cédula" maxlength="20" required>
-                                    <small class="form-text">Cédula (Obrigatório)</small>
+                                    <label for="identidad_numero" class="form-control-label">Cédula</label>
+                                    <div class="input-group">
+                                        <select class="form-select" id="identidad_prefijo" name="identidad_prefijo"
+                                            style="max-width: 80px;" required>
+                                            <option value="V" selected>V</option>
+                                            <option value="E">E</option>
+                                            <option value="J">J</option>
+                                            <option value="G">G</option>
+                                            <option value="P">P</option>
+                                            <option value="C">C</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="identidad_numero"
+                                            name="identidad_numero" placeholder="Número de Cédula" maxlength="15"
+                                            required>
+                                    </div>
+                                    <small class="form-text">Cédula (Obligatorio)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -123,7 +136,7 @@
                                     <label for="email" class="form-control-label">E-mail</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="E-mail" required>
-                                    <small class="form-text">E-mail (Obrigatório)</small>
+                                    <small class="form-text">E-mail (Obligatorio)</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -131,23 +144,24 @@
                                     <label for="fecha_nacimiento" class="form-control-label">Fecha de Nacimiento</label>
                                     <input type="date" class="form-control" id="fecha_nacimiento"
                                         name="fecha_nacimiento" required>
-                                    <small class="form-text">Fecha de Nacimiento (Obrigatório)</small>
+                                    <small class="form-text">Fecha de Nacimiento (Obligatorio)</small>
                                 </div>
                             </div>
                         </div>
                         <div class="row" id="image-upload-row">
-                             <div class="col-md-12">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="image" class="form-control-label">Imagen</label>
-                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                    <input type="file" class="form-control" id="image" name="image"
+                                        accept="image/*">
                                     <small class="form-text">Selecciona una imagen para el cliente (Opcional)</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">Fechar</button>
-                        <button type="submit" id="submit" class="btn bg-gradient-success">Salvar</button>
+                        <button type="button" class="btn bg-danger text-white" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" id="submit" class="btn bg-gradient-success">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -157,6 +171,27 @@
 
 @section('scripts')
     <script>
+        function mostrarError(mensaje) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Dato Inválido',
+                text: mensaje
+            });
+        }
+
+        // Validación en tiempo real: Solo letras y espacios para nombres y apellidos.
+        $('#Pnombre, #Snombre, #Papelldio, #Sapelldio').on('input', function(e) {
+            $(this).val($(this).val().replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, ''));
+        });
+
+        // Validación en tiempo real: Solo números para el número de cédula y teléfono.
+        $('#identidad_numero, #telefono').on('input', function(e) {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        });
+
+        // --- FIN: LÓGICA DE VALIDACIÓN ---
+
+
         var token = $('meta[name="csrf-token"]').attr('content');
         var rutaAccion = "";
         var accion = 0;
@@ -184,7 +219,7 @@
                         if (row.image) {
                             return `<img src="${row.image}" width="100" height="100" style="object-fit: cover; border-radius: 50%;">`;
                         } else {
-                            return '<span class="text-muted">Imagem não disponível</span>';
+                            return '<span class="text-muted">Imagen no disponible</span>';
                         }
                     }
                 },
@@ -237,7 +272,7 @@
                                 <i class="fa fa-ellipsis-v text-xs"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver</a></li>
+                                <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-info"></i> Ver</a></li>
                                 <li><a class="dropdown-item" data-id="${row.id}" href="javascript:editar(${row.id});"><i class="fa fa-edit text-warning"></i> Editar</a></li>
                                 <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Eliminar</a></li>
                             </ul>
@@ -254,24 +289,24 @@
 
             }],
             language: {
-                "zeroRecords": "Nenhum resultado encontrado",
-                "emptyTable": "Nenhum dado disponível nesta tabela",
+                "zeroRecords": "Ningún resultado encontrado",
+                "emptyTable": "Ningún dato disponible en esta tabla",
                 "lengthMenu": "Mostrar _MENU_ registros",
-                "info": "Mostrando registros de _START_ a _END_ de um total de _TOTAL_ registros",
-                "infoEmpty": "Mostrando registros de 0 a 0 de um total de 0 registros",
-                "infoFiltered": "(filtrado de um total de _MAX_ registros)",
+                "info": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros de 0 a 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
                 "sSearch": "Buscar:",
                 "oPaginate": {
-                    "sFirst": "Primeiro",
+                    "sFirst": "Primero",
                     "sLast": "Último",
-                    "sNext": "Próximo",
+                    "sNext": "Siguiente",
                     "sPrevious": "Anterior"
                 },
-                "sProcessing": "Processando...",
+                "sProcessing": "Procesando...",
             },
         });
 
-        //  Consultas EndPoint
+        // Consultas EndPoint
         consulta = function(id) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -287,10 +322,41 @@
             });
         };
 
-        // Enviar dados
+        // Enviar datos
         $('#formulario').submit(function(e) {
             e.preventDefault();
+
+            // --- VALIDACIÓN ANTES DE ENVIAR ---
+            const fechaNacimientoStr = $('#fecha_nacimiento').val();
+            if (fechaNacimientoStr) {
+                const selectedDate = new Date(fechaNacimientoStr + 'T00:00:00');
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const maxAllowedDate = new Date(today);
+                maxAllowedDate.setFullYear(today.getFullYear() - 10);
+                const minAllowedDate = new Date(today);
+                minAllowedDate.setFullYear(today.getFullYear() - 80);
+
+                if (selectedDate > maxAllowedDate || selectedDate < minAllowedDate) {
+                    mostrarError('La fecha de nacimiento debe corresponder a una edad entre 10 y 80 años.');
+                    return;
+                }
+            }
+
             var formData = new FormData(this);
+
+            // --- MANEJO DE IDENTIDAD ---
+            // Unir prefijo y número en un solo campo para el backend
+            const prefijo = $('#identidad_prefijo').val();
+            const numero = $('#identidad_numero').val();
+            if (prefijo && numero) {
+                formData.append('identidad', prefijo + numero);
+            }
+            // Eliminar los campos individuales para no enviarlos
+            formData.delete('identidad_prefijo');
+            formData.delete('identidad_numero');
+            // --- FIN MANEJO DE IDENTIDAD ---
+
             $.ajax({
                 url: rutaAccion,
                 method: 'POST',
@@ -343,12 +409,9 @@
         crear = function() {
             rutaAccion = urlCompleta;
             accion = 1;
-
-            // reinicial Formulario
             $("#formulario").trigger("reset");
 
-            // Editar Modal
-            $("#titulo").html("Adicionar Cliente");
+            $("#titulo").html("Añadir Cliente");
             $("#titulo").attr("class", "modal-title text-white");
             $("#bg-titulo").attr("class", "modal-header bg-gradient-primary");
 
@@ -356,18 +419,26 @@
             $("#image-display").hide();
             $("#modal-image").attr("src", "");
 
-            $("#Pnombre").attr("readonly", false);
-            $("#Snombre").attr("readonly", false);
-            $("#Papelldio").attr("readonly", false);
-            $("#Sapelldio").attr("readonly", false);
-            $("#identidad").attr("readonly", false);
-            $("#telefono").attr("readonly", false);
-            $("#email").attr("readonly", false);
-            $("#fecha_nacimiento").attr("readonly", false);
+            // Habilitar todos los campos
+            $('#formulario input, #formulario select').attr('readonly', false);
 
-            $('#submit').show()
+            $('#submit').show();
             $('#modalCRUD').modal('show');
         };
+        
+        // Función para separar la identidad y llenar los campos
+        function llenarIdentidad(identidadCompleta) {
+            if (identidadCompleta && identidadCompleta.length > 1) {
+                const prefijo = identidadCompleta.substring(0, 1);
+                const numero = identidadCompleta.substring(1);
+                
+                $("#identidad_prefijo").val(prefijo);
+                $("#identidad_numero").val(numero);
+            } else {
+                 $("#identidad_prefijo").val('V'); // Valor por defecto
+                 $("#identidad_numero").val(identidadCompleta || '');
+            }
+        }
 
         ver = async function(id) {
             try {
@@ -379,45 +450,35 @@
 
                 // Asignación de valores
                 $("#Pnombre").val(datos.datos.Pnombre);
-                $("#Pnombre").attr("readonly", true);
-
                 $("#Snombre").val(datos.datos.Snombre);
-                $("#Snombre").attr("readonly", true);
-
                 $("#Papelldio").val(datos.datos.Papelldio);
-                $("#Papelldio").attr("readonly", true);
-
                 $("#Sapelldio").val(datos.datos.Sapelldio);
-                $("#Sapelldio").attr("readonly", true);
-
-                $("#identidad").val(datos.datos.identidad);
-                $("#identidad").attr("readonly", true);
+                
+                // Llenar campos de identidad separados
+                llenarIdentidad(datos.datos.identidad);
 
                 $("#telefono").val(datos.datos.telefono);
-                $("#telefono").attr("readonly", true);
-
                 $("#email").val(datos.datos.email);
-                $("#email").attr("readonly", true);
-
                 $("#fecha_nacimiento").val(datos.datos.fecha_nacimiento);
-                $("#fecha_nacimiento").attr("readonly", true);
+
+                // Deshabilitar todos los campos del formulario
+                 $('#formulario input, #formulario select').attr('readonly', true);
 
                 // Mostrar la imagen
                 if (datos.datos.image) {
                     $("#modal-image").attr("src", datos.datos.image);
                     $("#image-display").show();
                 } else {
-                    $("#modal-image").attr("src", "");
                     $("#image-display").hide();
                 }
 
                 $("#image-upload-row").hide();
-                $('#submit').hide()
+                $('#submit').hide();
                 $('#modalCRUD').modal('show');
             } catch (error) {
                 notificacion.fire({
                     icon: "error",
-                    title: "Erro!",
+                    title: "¡Error!",
                     text: "No se puede ver el registro."
                 });
             }
@@ -433,45 +494,37 @@
                 $("#titulo").attr("class", "modal-title text-white");
                 $("#bg-titulo").attr("class", "modal-header bg-warning");
 
+                // Habilitar todos los campos
+                $('#formulario input, #formulario select').attr('readonly', false);
+
                 // Asignación de valores
                 $("#Pnombre").val(datos.datos.Pnombre);
-                $("#Pnombre").attr("readonly", false);
                 $("#Snombre").val(datos.datos.Snombre);
-                $("#Snombre").attr("readonly", false);
-
                 $("#Papelldio").val(datos.datos.Papelldio);
-                $("#Papelldio").attr("readonly", false);
                 $("#Sapelldio").val(datos.datos.Sapelldio);
-                $("#Sapelldio").attr("readonly", false);
-
-                $("#identidad").val(datos.datos.identidad);
-                $("#identidad").attr("readonly", false);
+                
+                // Llenar campos de identidad separados
+                llenarIdentidad(datos.datos.identidad);
 
                 $("#telefono").val(datos.datos.telefono);
-                $("#telefono").attr("readonly", false);
-
                 $("#email").val(datos.datos.email);
-                $("#email").attr("readonly", false);
-
                 $("#fecha_nacimiento").val(datos.datos.fecha_nacimiento);
-                $("#fecha_nacimiento").attr("readonly", false);
 
                 if (datos.datos.image) {
                     $("#modal-image").attr("src", datos.datos.image);
                     $("#image-display").show();
                 } else {
-                    $("#modal-image").attr("src", "");
                     $("#image-display").hide();
                 }
 
                 $("#image-upload-row").show();
-                $('#submit').show()
+                $('#submit').show();
                 $('#modalCRUD').modal('show');
             } catch (error) {
                 notificacion.fire({
                     icon: "error",
-                    title: "Erro!",
-                    text: "No se puede ver el registro."
+                    title: "¡Error!",
+                    text: "No se puede cargar el registro para editar."
                 });
             }
         };
@@ -496,24 +549,24 @@
                         },
                         success: function(data) {
                             if (data.success) {
-                                table.row('#' + id).remove().draw();
+                                table.ajax.reload(null, false);
                                 notificacion.fire({
                                     icon: "success",
-                                    title: "Excluído!",
-                                    text: "Su registro ha sido eliminado"
+                                    title: "¡Eliminado!",
+                                    text: "Su registro ha sido eliminado."
                                 });
                             } else {
                                 notificacion.fire({
                                     icon: "error",
-                                    title: "Erro!",
-                                    text: "Su registro no ha sido eliminado"
+                                    title: "¡Error!",
+                                    text: "Su registro no ha sido eliminado."
                                 });
                             }
                         },
                         error: function(xhr, status, error) {
                             Swal.fire({
                                 title: "Error en el Sistema",
-                                text: "¡¡El sistema no registro la accion!!",
+                                text: "¡¡El sistema no registró la acción!!",
                                 icon: "error"
                             });
                         }
@@ -522,6 +575,6 @@
             });
         };
 
-        // FIM AÇÕES
+        // FIN ACCIONES
     </script>
 @endsection

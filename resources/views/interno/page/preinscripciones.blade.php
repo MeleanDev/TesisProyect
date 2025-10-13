@@ -11,8 +11,33 @@
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="container mt-4">
-                        <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
-                            style="width: 100%">
+                        <div class="row border rounded p-3 mb-4 align-items-end">
+                            <div class="col-md-3">
+                                <label for="filtro_fecha_desde">Fecha Desde</label>
+                                <input type="date" id="filtro_fecha_desde" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtro_fecha_hasta">Fecha Hasta</label>
+                                <input type="date" id="filtro_fecha_hasta" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtro_estado">Estado</label>
+                                <select id="filtro_estado" class="form-select form-select-sm">
+                                    <option value="">Todos</option>
+                                    <option value="Pendiente">Requiere Acción</option>
+                                    <option value="Aceptado">Aceptado</option>
+                                    <option value="Negado">Cancelado</option>
+                                    <option value="Graduado">Graduado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="btn_limpiar_filtros" class="btn btn-info btn-sm w-100">
+                                    <i class="fas fa-eraser"></i> Limpiar Filtros
+                                </button>
+                            </div>
+                        </div>
+                        <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0"
+                            id="datatable" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th data-priority="1">Cliente</th>
@@ -49,21 +74,22 @@
             <div class="modal-content">
                 <div class="modal-header" id="modalHeader">
                     <h5 class="modal-title text-white" id="modalConfirmacionLabel">Confirmar acción</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="formConfirmacion">
                         @csrf
                         <input type="hidden" id="preinscripcion_id" name="preinscripcion_id">
                         <input type="hidden" id="accion" name="accion">
-                        
+
                         <div class="mb-3">
                             <p id="textoConfirmacion">¿Está seguro que desea realizar esta acción?</p>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="comentario" class="form-label">Comentario (opcional, máximo 100 caracteres)</label>
-                            <textarea class="form-control" id="comentario" name="comentario" rows="3" maxlength="100" 
+                            <textarea class="form-control" id="comentario" name="comentario" rows="3" maxlength="100"
                                 placeholder="Ingrese un comentario breve sobre la acción"></textarea>
                             <div class="form-text"><span id="contadorCaracteres">0</span>/100 caracteres</div>
                         </div>
@@ -86,7 +112,14 @@
         var accionActual = '';
 
         var table = new DataTable('#datatable', {
-            ajax: urlCompleta + '/lista',
+            ajax: {
+                url: urlCompleta + '/lista',
+                data: function(d) {
+                    d.fecha_desde = $('#filtro_fecha_desde').val();
+                    d.fecha_hasta = $('#filtro_fecha_hasta').val();
+                    d.estado = $('#filtro_estado').val();
+                }
+            },
             responsive: true,
             processing: true,
             serverSide: true,
@@ -94,17 +127,17 @@
                 [5, 10],
                 [5, 10],
             ],
-            columns: [{
+            columns: [
+                // ... (tus columnas van aquí, no es necesario cambiarlas)
+                {
                     data: 'cliente_registrado.identidad',
                     name: 'cliente_registrado.identidad',
                     className: 'text-center',
-                },
-                {
+                }, {
                     data: 'curso.nombre',
                     name: 'curso.nombre',
                     className: 'text-center',
-                },
-                {
+                }, {
                     data: 'estado',
                     name: 'estado',
                     className: 'text-center',
@@ -120,8 +153,7 @@
                         }
                         return data;
                     }
-                },
-                {
+                }, {
                     data: 'comentario',
                     name: 'comentario',
                     className: 'text-center',
@@ -133,8 +165,7 @@
                         }
                         return data;
                     }
-                },
-                {
+                }, {
                     data: 'fecha_creacion_formateada',
                     name: 'fecha_creacion_formateada',
                     className: 'text-center',
@@ -143,28 +174,29 @@
                     "className": "align-middle text-center",
                     "render": function(data, type, row, meta) {
                         let botones = '';
-                        
                         if (row.estado === 'Pendiente') {
                             botones = `
-                                <div class="dropdown">
-                                    <button class="btn btn-link text-secondary mb-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="right">
-                                        <i class="fa fa-ellipsis-v text-xs"></i>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="javascript:abrirModalConfirmacion(${row.id}, 'aceptar');"><i class="fas fa-check-circle text-success"></i> Aceptar</a></li>
-                                        <li><a class="dropdown-item" href="javascript:abrirModalConfirmacion(${row.id}, 'anular');"><i class="fas fa-times-circle text-danger"></i> Anular</a></li>
-                                    </ul>
-                                </div>`;
+                        <div class="dropdown">
+                            <button class="btn btn-link text-secondary mb-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="right">
+                                <i class="fa fa-ellipsis-v text-xs"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="javascript:abrirModalConfirmacion(${row.id}, 'aceptar');"><i class="fas fa-check-circle text-success"></i> Aceptar</a></li>
+                                <li><a class="dropdown-item" href="javascript:abrirModalConfirmacion(${row.id}, 'anular');"><i class="fas fa-times-circle text-danger"></i> Anular</a></li>
+                            </ul>
+                        </div>`;
                         } else {
                             botones = '<span class="badge bg-secondary">Acción realizada</span>';
                         }
-                        
                         return botones;
                     },
                     "orderable": false
                 },
             ],
-            "order": [[ 4, "desc" ]],
+            "order": [
+                [4, "desc"]
+            ],
+            // ... (tu config de columnDefs y language va aquí)
             columnDefs: [{
                 orderable: false,
                 targets: [5, 3],
@@ -189,28 +221,63 @@
             },
         });
 
+        // --- LÓGICA DE FILTROS ---
+
+        // 1. Recargar la tabla cuando un filtro cambia
+        $('#filtro_fecha_desde, #filtro_fecha_hasta, #filtro_estado').on('change', function() {
+            table.ajax.reload();
+        });
+
+        // 2. Lógica del botón para limpiar los filtros
+        $('#btn_limpiar_filtros').on('click', function() {
+            $('#filtro_fecha_desde').val('');
+            $('#filtro_fecha_hasta').val('');
+            $('#filtro_estado').val('');
+
+            // Disparamos el evento 'change' para que la tabla se recargue
+            $('#filtro_estado').trigger('change');
+        });
+
+        // 3. Validación de Fechas
+        $('#filtro_fecha_desde').on('change', function() {
+            // Establece la fecha mínima para el campo "hasta"
+            $('#filtro_fecha_hasta').attr('min', $(this).val());
+        });
+
+        $('#filtro_fecha_hasta').on('change', function() {
+            const fechaDesde = $('#filtro_fecha_desde').val();
+            const fechaHasta = $(this).val();
+
+            // Si se selecciona una fecha "hasta" anterior a la "desde", la corrige
+            if (fechaDesde && fechaHasta && fechaHasta < fechaDesde) {
+                alert('La fecha "Hasta" no puede ser anterior a la fecha "Desde". Se corregirá automáticamente.');
+                $(this).val(fechaDesde);
+            }
+        });
         // Función para abrir el modal de confirmación
         function abrirModalConfirmacion(id, accion) {
             $('#preinscripcion_id').val(id);
             $('#accion').val(accion);
             $('#comentario').val('');
             $('#contadorCaracteres').text('0');
-            
+
             // Configurar el texto y colores según la acción
             if (accion === 'aceptar') {
                 // Estilo para ACEPTAR (verde)
                 $('#modalHeader').removeClass('bg-danger').addClass('bg-success');
                 $('#modalConfirmacionLabel').html('Confirmar aceptación');
                 $('#textoConfirmacion').html('¿Está seguro que desea <strong>aceptar</strong> esta preinscripción?');
-                $('#btnConfirmarAccion').removeClass('btn-danger').addClass('btn-success').html('<i class="fas fa-check"></i> Aceptar');
+                $('#btnConfirmarAccion').removeClass('btn-danger').addClass('btn-success').html(
+                    '<i class="fas fa-check"></i> Aceptar');
             } else {
                 // Estilo para ANULAR (rojo)
                 $('#modalHeader').removeClass('bg-success').addClass('bg-danger');
                 $('#modalConfirmacionLabel').html('Confirmar anulación');
                 $('#textoConfirmacion').html('¿Está seguro que desea <strong>anular</strong> esta preinscripción?');
-                $('#btnConfirmarAccion').removeClass('btn-success').addClass('btn-danger').html('<i class="fas fa-times"></i> Anular');
+                $('#btnConfirmarAccion').removeClass('btn-success').addClass('btn-danger').html(
+                    '<i class="fas fa-times"></i> Anular');
             }
-            
+
             $('#modalConfirmacion').modal('show');
         }
 
@@ -218,7 +285,7 @@
         $('#comentario').on('input', function() {
             let longitud = $(this).val().length;
             $('#contadorCaracteres').text(longitud);
-            
+
             if (longitud > 100) {
                 $(this).val($(this).val().substring(0, 100));
                 $('#contadorCaracteres').text('100').addClass('text-danger');
@@ -232,7 +299,7 @@
             let id = $('#preinscripcion_id').val();
             let accion = $('#accion').val();
             let comentario = $('#comentario').val();
-            
+
             // Realizar la petición AJAX
             $.ajax({
                 url: urlCompleta + '/' + accion + '/' + id,
@@ -242,7 +309,9 @@
                     comentario: comentario
                 },
                 beforeSend: function() {
-                    $('#btnConfirmarAccion').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...');
+                    $('#btnConfirmarAccion').prop('disabled', true).html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...'
+                    );
                 },
                 success: function(response) {
                     if (response.success) {
@@ -254,7 +323,7 @@
                             timer: 2000,
                             showConfirmButton: false
                         });
-                        
+
                         // Cerrar modal y recargar tabla
                         $('#modalConfirmacion').modal('hide');
                         table.ajax.reload(null, false);
@@ -272,7 +341,8 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error de conexión',
-                        text: 'Ocurrió un error al intentar realizar la acción. Código de estado: ' + xhr.status
+                        text: 'Ocurrió un error al intentar realizar la acción. Código de estado: ' +
+                            xhr.status
                     });
                 },
                 complete: function() {

@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\ClienteRegistrado;
 use App\Mail\AnuncioNuevoCurso;
 use Illuminate\Support\Facades\Mail;
+use Yajra\DataTables\DataTables;
 
 class CursoController extends Controller
 {
@@ -19,15 +20,39 @@ class CursoController extends Controller
         return view('interno.page.cursos');
     }
 
-    public function lista()
+    public function lista(Request $request)
     {
-        $cursos = Curso::where('estado', true)->get();
-        $fotoReserva = asset('assets/img/stock.png');
-        foreach ($cursos as $curso) {
-            $fotoOriginal = asset('storage/' . $curso->image);
-            $curso->image = ($curso->image == null) ? $fotoReserva : $fotoOriginal;
-        }
-        return datatables()->of($cursos)->toJson();
+        // 1. Iniciamos la consulta base (sin ->get() al final)
+        $query = Curso::where('estado', true);
+
+        // 2. Aplicamos los filtros que lleguen en la petición de forma condicional
+        $query->when($request->modalidad, function ($q, $modalidad) {
+            return $q->where('modalidad', $modalidad);
+        });
+
+        $query->when($request->categoria, function ($q, $categoria) {
+            return $q->where('categoria', $categoria);
+        });
+
+        $query->when($request->tipo, function ($q, $tipo) {
+            // Ojo: Asegúrate que 'tipoCurso' es el nombre correcto de la columna en tu base de datos
+            return $q->where('tipoCurso', $tipo);
+        });
+
+        $query->when($request->certificacion, function ($q, $certificacion) {
+            return $q->where('certificacion', $certificacion);
+        });
+
+        // 3. Pasamos la consulta (ya filtrada) a DataTables y modificamos la columna 'image'
+        return DataTables::of($query)
+            ->editColumn('image', function ($curso) {
+                // Esta lógica ahora se aplica solo a los registros que se envían al cliente
+                if ($curso->image) {
+                    return asset('storage/' . $curso->image);
+                }
+                return asset('assets/img/stock.png'); // URL de la imagen de reserva
+            })
+            ->make(true);
     }
 
     public function detalle($id)

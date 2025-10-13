@@ -13,9 +13,36 @@
                     <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">
                         Agregar Certificaciones
                     </button>
+
                     <div class="container mt-4">
-                        <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
-                            style="width: 100%">
+
+                        <div class="row border rounded p-3 mb-4 align-items-end">
+                            <div class="col-md-4">
+                                <label for="filtro_curso">Filtrar por Curso</label>
+                                <select id="filtro_curso" class="form-select form-select-sm">
+                                    <option value="">Todos los cursos</option>
+                                    @foreach ($cursos as $curso)
+                                        <option value="{{ $curso->id }}">{{ $curso->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtro_fecha_desde">Emitido Desde</label>
+                                <input type="date" id="filtro_fecha_desde" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtro_fecha_hasta">Emitido Hasta</label>
+                                <input type="date" id="filtro_fecha_hasta" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btn_limpiar_filtros" class="btn btn-info btn-sm w-100">
+                                    <i class="fas fa-eraser"></i> Limpiar Filtros
+                                </button>
+                            </div>
+                        </div>
+
+                        <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0"
+                            id="datatable" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
@@ -112,7 +139,14 @@
         const urlCompleta = window.location.href;
 
         var table = new DataTable('#datatable', {
-            ajax: urlCompleta + '/lista',
+            ajax: {
+                url: urlCompleta + '/lista',
+                data: function(d) {
+                    d.curso_id = $('#filtro_curso').val();
+                    d.fecha_desde = $('#filtro_fecha_desde').val();
+                    d.fecha_hasta = $('#filtro_fecha_hasta').val();
+                }
+            },
             responsive: true,
             processing: true,
             serverSide: true,
@@ -121,13 +155,13 @@
                 [5, 10],
             ],
             columns: [{
-                    data: 'cliente_registrado.identidad',
-                    name: 'cliente_registrado.identidad',
+                    data: 'cliente_identidad',
+                    name: 'cliente_registrados.identidad', // El 'name' apunta a la columna real para ordenar/buscar
                     className: 'text-center',
                 },
                 {
-                    data: 'curso.nombre',
-                    name: 'curso.nombre',
+                    data: 'curso_nombre', // Debe coincidir con el alias del controlador
+                    name: 'cursos.nombre',
                     className: 'text-center',
                 },
                 {
@@ -176,6 +210,32 @@
                 },
                 "sProcessing": "Procesando...",
             },
+        });
+
+        $('#filtro_curso, #filtro_fecha_desde, #filtro_fecha_hasta').on('change', function() {
+            table.ajax.reload();
+        });
+
+        // 2. Lógica del botón para limpiar los filtros
+        $('#btn_limpiar_filtros').on('click', function() {
+            $('#filtro_curso').val('');
+            $('#filtro_fecha_desde').val('');
+            $('#filtro_fecha_hasta').val('');
+            table.ajax.reload();
+        });
+
+        // 3. Validación de Fechas
+        $('#filtro_fecha_desde').on('change', function() {
+            $('#filtro_fecha_hasta').attr('min', $(this).val());
+        });
+
+        $('#filtro_fecha_hasta').on('change', function() {
+            const fechaDesde = $('#filtro_fecha_desde').val();
+            const fechaHasta = $(this).val();
+            if (fechaDesde && fechaHasta && fechaHasta < fechaDesde) {
+                alert('La fecha "Hasta" no puede ser anterior a la fecha "Desde". Se corregirá automáticamente.');
+                $(this).val(fechaDesde);
+            }
         });
 
         //  Consultas EndPoint

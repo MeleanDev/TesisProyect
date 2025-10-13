@@ -12,22 +12,53 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Mail\NotificacionCertificado;
 use Illuminate\Support\Facades\Mail;
+use Yajra\DataTables\DataTables;
 
 class CertificadoController extends Controller
 {
     public function index(): View
     {
+        // Obtenemos los clientes como ya lo hacías
         $cliente = ClienteRegistrado::whereHas('preinscripcions', function ($query) {
             $query->where('estado', 'Aceptado');
         })->get();
-        return view('interno.page.certificado', compact('cliente'));
+
+        // 👇 AÑADIDO: Obtenemos todos los cursos para el filtro y los pasamos a la vista
+        $cursos = Curso::orderBy('nombre')->get();
+
+        return view('interno.page.certificado', compact('cliente', 'cursos'));
     }
 
-    public function lista()
-    {
-        $datos = Certificacion::with('clienteRegistrado', 'curso')->get();
-        return datatables()->of($datos)->toJson();
-    }
+    // En CertificadoController.php
+
+public function lista(Request $request)
+{
+    // 1. Usamos JOIN para unir las tablas y SELECT para definir las columnas y sus alias
+    $query = Certificacion::query()
+        ->join('cliente_registrados', 'certificacions.cliente_registrado_id', '=', 'cliente_registrados.id')
+        ->join('cursos', 'certificacions.curso_id', '=', 'cursos.id')
+        ->select([
+            'certificacions.id',
+            'certificacions.codigo',
+            'certificacions.created_at',
+            'cliente_registrados.identidad as cliente_identidad', // Alias para el cliente
+            'cursos.nombre as curso_nombre'                      // Alias para el curso
+        ]);
+
+    // 2. Aplicamos los filtros personalizados
+    $query->when($request->curso_id, function ($q, $curso_id) {
+        return $q->where('certificacions.curso_id', $curso_id);
+    });
+    $query->when($request->fecha_desde, function ($q, $fecha_desde) {
+        return $q->whereDate('certificacions.created_at', '>=', $fecha_desde);
+    });
+    $query->when($request->fecha_hasta, function ($q, $fecha_hasta) {
+        return $q->whereDate('certificacions.created_at', '<=', $fecha_hasta);
+    });
+
+    // 3. Pasamos la consulta a DataTables.
+    return DataTables::of($query)->make(true);
+}
 
     public function detalle($id): JsonResponse
     {

@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use App\Mail\NotificacionPreinscripcion;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use Yajra\DataTables\DataTables;
 
 class PreinscripcionController extends Controller
 {
@@ -20,16 +21,39 @@ class PreinscripcionController extends Controller
         return view('interno.page.preinscripciones');
     }
 
-    public function lista()
+    public function lista(Request $request)
     {
-        // Cargamos las relaciones para que estén disponibles al construir el array del email
-        $preinscripciones = Preinscripcion::with('clienteRegistrado', 'curso')->get();
+        $query = Preinscripcion::with('clienteRegistrado', 'curso')->select('preinscripcions.*');
 
-        foreach ($preinscripciones as $item) {
-            $item->fecha_creacion_formateada = $item->created_at->format('d/m/Y H:i');
-        }
+        $query->when($request->estado, function ($q, $estado) {
+            return $q->where('estado', $estado);
+        });
 
-        return datatables()->of($preinscripciones)->toJson();
+        $query->when($request->fecha_desde, function ($q, $fecha_desde) {
+            return $q->whereDate('preinscripcions.created_at', '>=', $fecha_desde);
+        });
+
+        $query->when($request->fecha_hasta, function ($q, $fecha_hasta) {
+            return $q->whereDate('preinscripcions.created_at', '<=', $fecha_hasta);
+        });
+
+        return DataTables::of($query)
+            ->addColumn('fecha_creacion_formateada', function ($preinscripcion) {
+                return $preinscripcion->created_at->format('d/m/Y H:i');
+            })  
+            ->filterColumn('cliente_registrado.identidad', function ($query, $keyword) {
+                $query->whereHas('clienteRegistrado', function ($q) use ($keyword) {
+                    $q->where('identidad', 'like', "%{$keyword}%");
+                });
+            })
+
+            ->filterColumn('curso.nombre', function ($query, $keyword) {
+                $query->whereHas('curso', function ($q) use ($keyword) {
+                    $q->where('nombre', 'like', "%{$keyword}%");
+                });
+            })
+
+            ->make(true);
     }
 
     public function aceptar(Preinscripcion $id, Request $datos): JsonResponse
@@ -55,7 +79,6 @@ class PreinscripcionController extends Controller
             Mail::to($id->clienteRegistrado->email)->send(new NotificacionPreinscripcion($datosParaEmail, $mensajeDelAdmin));
 
             $repuesta = response()->json(['success' => true]);
-
         } catch (\Throwable $th) {
             $repuesta = response()->json(['error' => true, 'message' => $th->getMessage()]);
         }
@@ -83,9 +106,8 @@ class PreinscripcionController extends Controller
 
             // 3. Enviamos el correo
             Mail::to($id->clienteRegistrado->email)->send(new NotificacionPreinscripcion($datosParaEmail, $mensajeDelAdmin));
-            
-            $repuesta = response()->json(['success' => true]);
 
+            $repuesta = response()->json(['success' => true]);
         } catch (\Throwable $th) {
             $repuesta = response()->json(['error' => true, 'message' => $th->getMessage()]);
         }

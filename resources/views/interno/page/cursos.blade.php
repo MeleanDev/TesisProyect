@@ -11,9 +11,54 @@
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <button onclick="crear()" class="btn bg-gradient-primary btn-sm pb-2 ms-4">Añadir Curso</button>
+
+                    <div class="container mt-3">
+                        <div class="row border rounded p-3 mb-4">
+                            <div class="col-md-2">
+                                <label for="filtro_modalidad">Modalidad</label>
+                                <select id="filtro_modalidad" class="form-select form-select-sm">
+                                    <option value="">Todas</option>
+                                    <option value="online">Online</option>
+                                    <option value="presencial">Presencial</option>
+                                    <option value="semi-presencial">Semi-presencial</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="filtro_categoria">Categoría</label>
+                                <select id="filtro_categoria" class="form-select form-select-sm">
+                                    <option value="">Todas</option>
+                                    <option value="menores">Menores</option>
+                                    <option value="ejecutivo">Ejecutivo</option>
+                                    <option value="empresarial">Empresarial</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="filtro_tipo">Tipo</label>
+                                <select id="filtro_tipo" class="form-select form-select-sm">
+                                    <option value="">Todos</option>
+                                    <option value="computacion">Computación</option>
+                                    <option value="administracion">Administración</option>
+                                    <option value="diseno">Diseño</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="filtro_certificacion">Certificación</label>
+                                <select id="filtro_certificacion" class="form-select form-select-sm">
+                                    <option value="">Ambos</option>
+                                    <option value="si">Sí</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button id="btn_limpiar_filtros" class="btn btn-info btn-sm w-100">
+                                    <i class="fas fa-eraser"></i> Limpiar Filtros
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="container mt-4">
-                        <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0" id="datatable"
-                            style="width: 100%">
+                        <table class="table align-items-center mb-0 display responsive nowrap" cellspacing="0"
+                            id="datatable" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Imagen</th>
@@ -86,8 +131,8 @@
                         {{-- Descripción --}}
                         <div class="form-group text-center">
                             <label for="descripcion">Descripción del Curso.</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" minlength="1" placeholder="Descripción del Curso."
-                                rows="3" required></textarea>
+                            <textarea class="form-control" id="descripcion" name="descripcion" minlength="1"
+                                placeholder="Descripción del Curso." rows="3" required></textarea>
                             <small id="descripcionsmall" class="form-text">Descripción del Curso (Obligatorio)</small>
                         </div>
 
@@ -197,7 +242,15 @@
         });
 
         var table = new DataTable('#datatable', {
-            ajax: urlCompleta + '/lista',
+            ajax: {
+                url: urlCompleta + '/lista',
+                data: function(d) {
+                    d.modalidad = $('#filtro_modalidad').val();
+                    d.categoria = $('#filtro_categoria').val();
+                    d.tipo = $('#filtro_tipo').val();
+                    d.certificacion = $('#filtro_certificacion').val();
+                }
+            },
             responsive: true,
             processing: true,
             serverSide: true,
@@ -247,16 +300,16 @@
                     "className": "align-middle text-center",
                     "render": function(data, type, row, meta) {
                         return `
-                    <div class="dropdown">
-                        <button class="btn btn-link text-secondary mb-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="right">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver</a></li>
-                            <li><a class="dropdown-item" data-id="${row.id}" href="javascript:editar(${row.id});"><i class="fa fa-edit text-warning"></i> Editar</a></li>
-                            <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Eliminar</a></li>
-                        </ul>
-                    </div>`;
+                <div class="dropdown">
+                    <button class="btn btn-link text-secondary mb-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" data-bs-placement="right">
+                        <i class="fa fa-ellipsis-v text-xs"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" data-id="${row.id}" href="javascript:ver(${row.id});"><i class="fa fa-file text-primary"></i> Ver</a></li>
+                        <li><a class="dropdown-item" data-id="${row.id}" href="javascript:editar(${row.id});"><i class="fa fa-edit text-warning"></i> Editar</a></li>
+                        <li><a class="dropdown-item" data-id="${row.id}" href="javascript:eliminar(${row.id});"><i class="fa fa-trash text-danger"></i> Eliminar</a></li>
+                    </ul>
+                </div>`;
                     },
                     "orderable": false
                 },
@@ -283,6 +336,18 @@
                 },
                 "sProcessing": "Procesando...",
             },
+        });
+
+        $('#filtro_modalidad, #filtro_categoria, #filtro_tipo, #filtro_certificacion').on('change', function() {
+            table.ajax.reload();
+        });
+
+        $('#btn_limpiar_filtros').on('click', function() {
+            $('#filtro_modalidad').val('');
+            $('#filtro_categoria').val('');
+            $('#filtro_tipo').val('');
+            $('#filtro_certificacion').val('');
+            table.ajax.reload(); // Recargamos la tabla directamente
         });
 
         // Consultas EndPoint

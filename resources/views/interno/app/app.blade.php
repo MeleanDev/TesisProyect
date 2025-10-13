@@ -11,26 +11,6 @@
     <link rel="icon" type="image/png" href="{{ asset('estilos/website/img/logo.png') }}">
     <link rel="shortcut icon" href="{{ asset('estilos/website/img/logo.png') }}" type="image/x-icon">
 
-    {{-- seo --}}
-    <meta name="description"
-        content="Compre ingredientes de alta qualidade e descubra receitas deliciosas na VeDistribuidora. Sua loja online de confiança para os amantes da culinária brasileira. Entregamos para todo o Brasil.">
-    <meta name="keywords"
-        content="VeDistribuidora, loja online de alimentos, ingredientes para receitas, culinária brasileira, receitas fáceis, doces, salgados, produtos de qualidade, entrega no Brasil">
-    <meta name="author" content="VeDistribuidora">
-
-    <meta property="og:title" content="VeDistribuidora - Ingredientes de qualidade e receitas deliciosas">
-    <meta property="og:description"
-        content="Sua loja online completa para comprar ingredientes e encontrar as melhores receitas brasileiras. Siga-nos no Instagram para mais inspirações!">
-    <meta property="og:image" content="{{ asset('images/logo2.png') }}">
-    <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VeDistribuidora - Tu tienda de confianza">
-    <meta name="twitter:description" content="Compra productos de calidad en VeDistribuidora.">
-    <meta name="twitter:image" content="{{ asset('images/logo2.png') }}">
-    <meta name="twitter:site" content="@VeDistribuidora">
-    <meta name="twitter:creator" content="@VeDistribuidora">
-
     <title>
         @include('interno.app.nombre') || @yield('tittle')
     </title>

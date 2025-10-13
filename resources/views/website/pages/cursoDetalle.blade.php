@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="course-hero-actions">
-                            <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary btn-lg">
+                            <a href="{{ route('preinscripcion') }}" class="btn btn-primary custom-btn-primary btn-lg">
                                 <i class="fas fa-rocket me-2"></i>Inscribirse Ahora
                             </a>
                             <button class="btn btn-outline-light custom-btn-outline-light btn-lg" data-bs-toggle="modal"
@@ -98,8 +98,21 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="course-hero-image">
-                        <img src="{{ $curso->image_url }}" height="400" width="500" alt="{{ $curso->nombre }}"
-                            class="img-fluid">
+                        <img src="{{ $curso->image_url }}" alt="{{ $curso->nombre }}" class="img-fluid">
+                        <style>
+                            .course-hero-image {
+                                height: 400px;
+                                width: 100%;
+                                overflow: hidden;
+                                border-radius: 12px;
+                            }
+
+                            .course-hero-image img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        </style>
                         <div class="course-price-card">
                             <div class="price-badge">
                                 <span class="price-label">Precio del Curso</span>
@@ -180,7 +193,8 @@
                                 </div>
                             </div>
                             <div class="sidebar-actions">
-                                <a href="{{route('preinscripcion')}}" class="btn btn-primary custom-btn-primary w-100 mb-3">
+                                <a href="{{ route('preinscripcion') }}"
+                                    class="btn btn-primary custom-btn-primary w-100 mb-3">
                                     <i class="fas fa-rocket me-2"></i>Inscribirse Ahora
                                 </a>
                                 <button class="btn btn-outline-primary custom-btn-outline w-100" data-bs-toggle="modal"
@@ -205,22 +219,23 @@
                     <form id="contactFormHome">
                         @csrf
                         <div class="form-group mb-3">
-                            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre"
-                                required maxlength="100" minlength="2">
+                            <input type="text" class="form-control" name="nombre" id="nombre"
+                                placeholder="Nombre" required maxlength="100" minlength="2">
                             <label for="nombre">Nombre</label>
                         </div>
                         <div class="form-group mb-3">
-                            <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido"
-                                required maxlength="100" minlength="2">
+                            <input type="text" class="form-control" name="apellido" id="apellido"
+                                placeholder="Apellido" required maxlength="100" minlength="2">
                             <label for="apellido">Apellido</label>
                         </div>
                         <div class="form-group mb-3">
-                            <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico"
-                                required>
+                            <input type="email" class="form-control" name="correo" id="correo"
+                                placeholder="Correo electrónico" required>
                             <label for="correo">Correo electrónico</label>
                         </div>
                         <div class="form-group mb-3">
-                            <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Teléfono">
+                            <input type="tel" class="form-control" name="telefono" id="telefono"
+                                placeholder="Teléfono">
                             <label for="telefono">Teléfono</label>
                         </div>
                         <div class="form-group mb-4">
@@ -237,63 +252,63 @@
     </div>
 
     <script>
-    // --- INICIO: LÓGICA DE VALIDACIÓN ---
+        // --- INICIO: LÓGICA DE VALIDACIÓN ---
 
-    // Validación en tiempo real: Solo letras y espacios para nombres y apellidos.
-    $('#nombre, #apellido').on('input', function(e) {
-        $(this).val($(this).val().replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, ''));
-    });
+        // Validación en tiempo real: Solo letras y espacios para nombres y apellidos.
+        $('#nombre, #apellido').on('input', function(e) {
+            $(this).val($(this).val().replace(/[^a-zA-ZñÑáéíóúÁÉÍÓÚ\s]/g, ''));
+        });
 
-    // Validación en tiempo real: Solo números para el teléfono.
-    $('#telefono').on('input', function(e) {
-        $(this).val($(this).val().replace(/[^0-9]/g, ''));
-    });
+        // Validación en tiempo real: Solo números para el teléfono.
+        $('#telefono').on('input', function(e) {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        });
 
-    // --- FIN: LÓGICA DE VALIDACIÓN ---
+        // --- FIN: LÓGICA DE VALIDACIÓN ---
 
 
-    var token = $('meta[name="csrf-token"]').attr('content');
-    const url = "{{route('fromContato')}}";
+        var token = $('meta[name="csrf-token"]').attr('content');
+        const url = "{{ route('fromContato') }}";
 
-    $('#contactFormHome').submit(function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
-        formData.append('asunto', 'Informacion sobre: {{$curso->nombre}}');
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: formData,
-            dataType: 'JSON',
-            contentType: false,
-            processData: false,
-            cache: false,
-            headers: {
-                'X-CSRF-TOKEN': token
-            },
-            success: function(data) {
-                if (data.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Mensaje enviado",
-                        text: "Tu mensaje fue enviado con éxito al administrador."
-                    });
-                    $('#contactFormHome')[0].reset();
-                } else {
+        $('#contactFormHome').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('asunto', 'Informacion sobre: {{ $curso->nombre }}');
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                dataType: 'JSON',
+                contentType: false,
+                processData: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
+                success: function(data) {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Mensaje enviado",
+                            text: "Tu mensaje fue enviado con éxito al administrador."
+                        });
+                        $('#contactFormHome')[0].reset();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Tu mensaje no fue enviado",
+                            text: "Tu mensaje no pudo ser enviado."
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
                     Swal.fire({
                         icon: "error",
-                        title: "Tu mensaje no fue enviado",
-                        text: "Tu mensaje no pudo ser enviado."
+                        title: "Falla en el sistema",
+                        text: "El mensaje no pudo ser enviado. Intente más tarde."
                     });
                 }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Falla en el sistema",
-                    text: "El mensaje no pudo ser enviado. Intente más tarde."
-                });
-            }
+            });
         });
-    });
-</script>
+    </script>
 @endsection

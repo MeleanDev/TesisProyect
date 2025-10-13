@@ -81,7 +81,7 @@ class WebsiteController extends Controller
             $cliente = ClienteRegistrado::where('identidad', $request->input('identidad'))->first();
 
             if (!$cliente) {
-                // Lógica para crear un nuevo cliente (tu código original está perfecto)
+                // Lógica para crear un nuevo cliente
                 $validatedData = $request->validate([
                     'Pnombre' => 'required|string|max:255',
                     'Papelldio' => 'required|string|max:255',
@@ -91,19 +91,25 @@ class WebsiteController extends Controller
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
                 ]);
 
+                // --- INICIO DE LA CORRECCIÓN ---
                 $imagePath = null;
                 if ($request->hasFile('image')) {
                     $extension = $request->file('image')->getClientOriginalExtension();
                     $filename = time() . '.' . $extension;
+
+                    // 1. Guardar el archivo en la carpeta correcta (storage/app/public/Clientes)
+                    $request->file('image')->storeAs('Clientes', $filename, 'public');
+
+                    // 2. Definir la ruta relativa que se guardará en la base de datos
                     $imagePath = 'Clientes/' . $filename;
-                    $request->file('image')->storeAs('public/Clientes', $filename);
                 }
+                // --- FIN DE LA CORRECCIÓN ---
 
                 $cliente = ClienteRegistrado::create(array_merge(
                     $validatedData,
                     [
                         'identidad' => $request->input('identidad'),
-                        'image' => $imagePath,
+                        'image' => $imagePath, // Se usa la ruta corregida
                         'estado' => true
                     ]
                 ));
@@ -119,7 +125,7 @@ class WebsiteController extends Controller
             // 4. Verificar si ya existe una preinscripción activa
             $preinscripcionExistente = Preinscripcion::where('cliente_registrado_id', $cliente->id)
                 ->where('curso_id', $curso->id)
-                ->whereIn('estado', ['Aceptado', 'Pendiente', 'Graduado']) // Usar whereIn es más limpio
+                ->whereIn('estado', ['Aceptado', 'Pendiente', 'Graduado'])
                 ->first();
 
             if ($preinscripcionExistente) {
@@ -127,7 +133,7 @@ class WebsiteController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Ya existe una preinscripción para este cliente y curso.'
-                ], 409);
+                ], 409); // 409 Conflict
             }
 
             // 5. Crear la nueva preinscripción
@@ -137,15 +143,16 @@ class WebsiteController extends Controller
                 'estado' => 'Pendiente'
             ]);
 
-            // Lógica para MesCantidad (tu código original)
+            // Lógica para MesCantidad
             $mesEnEspanol = Carbon::now()->translatedFormat('F');
             $mesCantidad = MesCantidad::firstWhere('mes', $mesEnEspanol);
             if ($mesCantidad) {
                 $mesCantidad->increment('cantidad');
             }
 
+            DB::commit(); // Confirmamos la transacción
 
-            DB::commit(); // Confirmamos la transacción en la base de datos ANTES de enviar el correo
+            // Intentar enviar el correo después de confirmar la transacción
             try {
                 $datosParaEmail = [
                     'nombres' => $cliente->Pnombre . ' ' . $cliente->Snombre,
@@ -160,6 +167,8 @@ class WebsiteController extends Controller
                 ];
                 Mail::to($cliente->email)->send(new NotificacionPreinscripcion($datosParaEmail));
             } catch (\Exception $e) {
+                // Opcional: Registrar el error de correo si falla, pero no detener la respuesta exitosa
+                // Log::error('Fallo al enviar correo de preinscripción: ' . $e->getMessage());
             }
 
             return response()->json([

@@ -32,6 +32,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 @yield('styles')
+
 <body>
     <!-- Header -->
     @include('website.layouts.header')
@@ -48,7 +49,93 @@
     <!-- Login Modal -->
     @include('website.components.modalLogin')
 
+    @include('website.components.verificarCertificado')
+
     @yield('scripts')
+    <script>
+        $(document).ready(function() {
+
+            // --- NUEVO CÓDIGO AÑADIDO ---
+            // Formatear el input del código del certificado en tiempo real
+            $('#codigo_certificado_input').on('input', function() {
+                let valor = $(this).val();
+
+                // 1. Reemplaza todos los espacios con un guion (-)
+                valor = valor.replace(/ /g, '-');
+
+                // 2. Elimina cualquier caracter que NO sea letra, número o guion
+                valor = valor.replace(/[^a-zA-Z0-9-]/g, '');
+
+                // 3. (Opcional) Convierte todo a mayúsculas para consistencia
+                valor = valor.toUpperCase();
+
+                // 4. Actualiza el valor del input
+                $(this).val(valor);
+            });
+            // --- FIN DEL CÓDIGO AÑADIDO ---
+
+
+            // Cuando se envía el formulario del modal
+            $('#formVerificarCertificado').on('submit', function(event) {
+                event.preventDefault(); // Evita que la página se recargue
+
+                let codigo = $('#codigo_certificado_input').val();
+                let button = $('#btnVerificarCertificado');
+                let btnText = $('#btn-text');
+                let btnSpinner = $('#btn-spinner');
+                let errorMessage = $('#verificar-error-message');
+
+                // Mostrar spinner y deshabilitar botón
+                btnText.hide();
+                btnSpinner.show();
+                button.prop('disabled', true);
+                errorMessage.text(''); // Limpiar errores previos
+
+                // Petición AJAX al backend
+                $.ajax({
+                    url: "{{ route('certificado.verificar') }}",
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        codigo: codigo
+                    },
+                    success: function(response) {
+                        // Si el certificado es válido
+                        if (response.success) {
+                            // Abrir el PDF en una nueva pestaña
+                            window.open(response.url, '_blank');
+                            // Cerrar el modal
+                            $('#modalVerificarCertificado').modal('hide');
+                            // Limpiar el input
+                            $('#codigo_certificado_input').val('');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Si el certificado no se encuentra (error 404)
+                        if (jqXHR.status == 404) {
+                            errorMessage.text(
+                                'Código de certificado no válido o no encontrado.');
+                        } else {
+                            // Para cualquier otro error
+                            errorMessage.text('Ocurrió un error. Inténtalo de nuevo.');
+                        }
+                    },
+                    complete: function() {
+                        // Ocultar spinner y habilitar botón
+                        btnSpinner.hide();
+                        btnText.show();
+                        button.prop('disabled', false);
+                    }
+                });
+            });
+
+            // Limpiar el mensaje de error cuando se cierra el modal
+            $('#modalVerificarCertificado').on('hidden.bs.modal', function() {
+                $('#verificar-error-message').text('');
+                $('#codigo_certificado_input').val('');
+            });
+        });
+    </script>
 </body>
 
 </html>

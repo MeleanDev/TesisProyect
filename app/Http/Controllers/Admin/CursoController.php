@@ -8,6 +8,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
+use App\Models\ClienteRegistrado;
+use App\Mail\AnuncioNuevoCurso;
+use Illuminate\Support\Facades\Mail;
 
 class CursoController extends Controller
 {
@@ -39,8 +42,13 @@ class CursoController extends Controller
         try {
             $curso = Curso::where('slug', Str::slug($request['nombre']))->first();
 
+            // <-- 1. Creamos una "bandera" para saber si el curso es nuevo
+            $esNuevo = false;
+
             if (!$curso) {
                 $curso = new Curso();
+                // <-- 2. Si el curso no existe, marcamos la bandera como verdadera
+                $esNuevo = true;
             }
 
             $nombreFoto = $curso->image;
@@ -69,6 +77,15 @@ class CursoController extends Controller
             $curso->image = $nombreFoto;
             $curso->estado = true;
             $curso->save();
+
+            // <-- 3. Después de guardar, comprobamos la bandera
+            if ($esNuevo) {
+                // Si la bandera es verdadera, obtenemos los clientes y ponemos los correos en la cola
+                $clientes = ClienteRegistrado::where('estado', true)->get();
+                foreach ($clientes as $cliente) {
+                    Mail::to($cliente->email)->queue(new AnuncioNuevoCurso($curso, $cliente));
+                }
+            }
 
             $respuesta = response()->json(['success' => true]);
         } catch (\Throwable $th) {

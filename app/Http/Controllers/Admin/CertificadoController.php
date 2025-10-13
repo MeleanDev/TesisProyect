@@ -10,6 +10,8 @@ use App\Models\Preinscripcion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Mail\NotificacionCertificado;
+use Illuminate\Support\Facades\Mail;
 
 class CertificadoController extends Controller
 {
@@ -49,7 +51,7 @@ class CertificadoController extends Controller
 
             // Procesar archivo
             $archivo = $datos->file('pdf_certificado');
-            $filename = time() . '_' . $datos->curso_id;
+            $filename = time() . '_' . $datos->curso_id . '.' . $archivo->getClientOriginalExtension(); // Nombre más robusto
             $ruta = $archivo->storeAs('Certificados', $filename, 'public');
 
             // Guardar en base de datos
@@ -60,12 +62,17 @@ class CertificadoController extends Controller
             $certi->pdfcertificado = $ruta;
             $certi->save();
 
-            // Preinscripcion
+            // Actualizar estado de Preinscripcion
             $preinscripcion = Preinscripcion::where('cliente_registrado_id', $datos->estudiante_id)->where('curso_id', $datos->curso_id)->first();
-            $preinscripcion->estado = 'Graduado';
-            $preinscripcion->save();
+            if ($preinscripcion) {
+                $preinscripcion->estado = 'Graduado';
+                $preinscripcion->save();
+            }
 
-            return response()->json(['success' => true, 'message' => 'Certificado guardado correctamente']);
+            $certi->load('clienteRegistrado', 'curso');
+            Mail::to($certi->clienteRegistrado->email)->send(new NotificacionCertificado($certi));
+
+            return response()->json(['success' => true, 'message' => 'Certificado guardado y notificado correctamente']);
         } catch (\Throwable $th) {
             return response()->json(['error' => true, 'message' => $th->getMessage()]);
         }
@@ -98,7 +105,7 @@ class CertificadoController extends Controller
             $respuesta = response()->json([
                 'error' => true,
                 'type' => get_class($th),
-                'message' => $th->getMessage(), 
+                'message' => $th->getMessage(),
             ]);
         }
         return $respuesta;
@@ -108,7 +115,7 @@ class CertificadoController extends Controller
     {
         try {
             $id->pdfcertificado = asset('storage/' . $id->pdfcertificado);
-            $respuesta = response()->json(['success' => true, 'url' => $id->pdfcertificado ]);
+            $respuesta = response()->json(['success' => true, 'url' => $id->pdfcertificado]);
         } catch (\Throwable $th) {
             $respuesta = response()->json(['error' => true]);
         }

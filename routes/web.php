@@ -13,6 +13,7 @@ Route::controller(WebsiteController::class)->group(function () {
     Route::post('/guardarPreinscripcion', 'store')->name('guardarPreinscripcion');
 
     Route::get('/certificados/ver/{id}', 'verCertificado');
+    Route::post('/verificar-certificado', 'verificarPublico')->name('certificado.verificar');
 
     route::prefix('cursos')->group(function () {
         Route::get('/curso-empresa', 'cursoEmpresa')->name('cursoEmpresa');

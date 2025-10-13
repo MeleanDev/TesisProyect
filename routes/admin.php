@@ -14,6 +14,7 @@ Route::middleware('auth')->prefix('Sistema')->group(function () {
 
     Route::controller(dashboardController::class)->group(function () {
         Route::get('dashboard', 'index')->name('dashboard');
+        Route::get('dashboard/grafica', 'grafica');
     });
 
     Route::controller(ClienteController::class)->group(function () {

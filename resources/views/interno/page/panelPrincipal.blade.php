@@ -14,7 +14,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Administradores</p>
-                                <h5 id="h5ventaMes" class="font-weight-bolder">{{$administradores}}</h5>
+                                <h5 id="h5ventaMes" class="font-weight-bolder">{{ $administradores }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -35,7 +35,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Cursos Registrados</p>
-                                <h5 id="h5ventaAnio" class="font-weight-bolder">{{$cursos}}</h5>
+                                <h5 id="h5ventaAnio" class="font-weight-bolder">{{ $cursos }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -56,7 +56,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Clientes Registrados</p>
-                                <h5 id="h5fatura" class="font-weight-bolder">{{$clientes}}</h5>
+                                <h5 id="h5fatura" class="font-weight-bolder">{{ $clientes }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -77,7 +77,7 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Preinscripciones</p>
-                                <h5 id="h5Cliente" class="font-weight-bolder">{{$preinscripciones}}</h5>
+                                <h5 id="h5Cliente" class="font-weight-bolder">{{ $preinscripciones }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -110,13 +110,26 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            // Sample data for the chart
-            var sampleData = {
-                label: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                data: [50, 40, 300, 220, 500, 250, 400, 230, 500, 420, 380, 450]
-            };
-            
-            grafica(sampleData);
+            var rutaActual = window.location.href;
+
+            // grafica
+            $.ajax({
+                url: rutaActual + '/grafica',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    grafica(data)
+                },
+                error: function(error) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error al obtener los datos de la gráfica.",
+                        icon: "error",
+                        confirmButtonText: "Aceptar"
+                    });
+                }
+            });
+
         });
 
         function grafica(datos) {
@@ -132,7 +145,7 @@
                 data: {
                     labels: datos.label,
                     datasets: [{
-                        label: "Preinscripciones",
+                        label: "",
                         tension: 0.4,
                         borderWidth: 0,
                         pointRadius: 0,
@@ -142,6 +155,7 @@
                         fill: true,
                         data: datos.data,
                         maxBarThickness: 6
+
                     }],
                 },
                 options: {

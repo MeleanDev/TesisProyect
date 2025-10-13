@@ -7,6 +7,7 @@ use App\Http\Requests\ContactoRequest;
 use App\Http\Requests\VerificacionCliente;
 use App\Models\ClienteRegistrado;
 use App\Models\Curso;
+use App\Models\MesCantidad;
 use App\Models\Preinscripcion;
 use App\Models\SeccionCurso;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,10 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use App\Mail\NotificacionPreinscripcion; // La clase Mailable que creamos
+use App\Models\Certificacion;
+use Illuminate\Support\Facades\Mail;      // La clase para manejar el envío
+use Carbon\Carbon;                        // Para manejar la fecha fácilmente
 
 class WebsiteController extends Controller
 {
@@ -66,20 +71,17 @@ class WebsiteController extends Controller
         try {
             DB::beginTransaction();
 
-            // 1. Validar los datos comunes a ambos escenarios
+            // 1. Validar datos comunes
             $request->validate([
                 'identidad' => 'required|string|max:255',
                 'curso_id' => 'required|string|exists:cursos,slug',
             ]);
 
-            // 2. Buscar si el cliente ya existe por su identidad
+            // 2. Buscar o crear el cliente
             $cliente = ClienteRegistrado::where('identidad', $request->input('identidad'))->first();
-            $imagePath = null;
 
             if (!$cliente) {
-                // Escenario 2: El cliente no existe, validar y crear uno nuevo
-
-                // Reglas de validación para el nuevo cliente
+                // Lógica para crear un nuevo cliente (tu código original está perfecto)
                 $validatedData = $request->validate([
                     'Pnombre' => 'required|string|max:255',
                     'Papelldio' => 'required|string|max:255',
@@ -89,7 +91,7 @@ class WebsiteController extends Controller
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
                 ]);
 
-                // Lógica para subir y guardar la imagen
+                $imagePath = null;
                 if ($request->hasFile('image')) {
                     $extension = $request->file('image')->getClientOriginalExtension();
                     $filename = time() . '.' . $extension;
@@ -97,7 +99,6 @@ class WebsiteController extends Controller
                     $request->file('image')->storeAs('public/Clientes', $filename);
                 }
 
-                // Crear el nuevo registro de cliente
                 $cliente = ClienteRegistrado::create(array_merge(
                     $validatedData,
                     [
@@ -107,22 +108,18 @@ class WebsiteController extends Controller
                     ]
                 ));
             } else {
-                // Escenario 1: El cliente ya existe
-                // Actualizar su estado a 'true' si es necesario
                 if (!$cliente->estado) {
                     $cliente->update(['estado' => true]);
                 }
             }
 
-            // 3. Obtener el ID del curso
+            // 3. Obtener el curso
             $curso = Curso::where('slug', $request->input('curso_id'))->firstOrFail();
 
-            // 4. Verificar si la preinscripción ya existe para este cliente y curso
+            // 4. Verificar si ya existe una preinscripción activa
             $preinscripcionExistente = Preinscripcion::where('cliente_registrado_id', $cliente->id)
                 ->where('curso_id', $curso->id)
-                ->where('estado', 'Aceptado')
-                ->orWhere('estado', 'Pendiente')
-                ->orWhere('estado', 'Graduado')
+                ->whereIn('estado', ['Aceptado', 'Pendiente', 'Graduado']) // Usar whereIn es más limpio
                 ->first();
 
             if ($preinscripcionExistente) {
@@ -130,17 +127,40 @@ class WebsiteController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Ya existe una preinscripción para este cliente y curso.'
-                ], 409); // 409 Conflict
+                ], 409);
             }
 
             // 5. Crear la nueva preinscripción
-            $preinscripcion = new Preinscripcion();
-            $preinscripcion->cliente_registrado_id = $cliente->id;
-            $preinscripcion->curso_id = $curso->id;
-            $preinscripcion->estado = 'Pendiente';
-            $preinscripcion->save();
+            $preinscripcion = Preinscripcion::create([
+                'cliente_registrado_id' => $cliente->id,
+                'curso_id' => $curso->id,
+                'estado' => 'Pendiente'
+            ]);
 
-            DB::commit();
+            // Lógica para MesCantidad (tu código original)
+            $mesEnEspanol = Carbon::now()->translatedFormat('F');
+            $mesCantidad = MesCantidad::firstWhere('mes', $mesEnEspanol);
+            if ($mesCantidad) {
+                $mesCantidad->increment('cantidad');
+            }
+
+
+            DB::commit(); // Confirmamos la transacción en la base de datos ANTES de enviar el correo
+            try {
+                $datosParaEmail = [
+                    'nombres' => $cliente->Pnombre . ' ' . $cliente->Snombre,
+                    'apellidos' => $cliente->Papelldio . ' ' . $cliente->Sapelldio,
+                    'cedula' => $cliente->identidad,
+                    'telefono' => $cliente->telefono,
+                    'correo' => $cliente->email,
+                    'nombre_curso' => $curso->nombre,
+                    'precio_curso' => $curso->precio,
+                    'fecha_registro' => Carbon::now()->format('d/m/Y h:i A'),
+                    'estatus' => 'Pendiente'
+                ];
+                Mail::to($cliente->email)->send(new NotificacionPreinscripcion($datosParaEmail));
+            } catch (\Exception $e) {
+            }
 
             return response()->json([
                 'success' => true,
@@ -151,7 +171,7 @@ class WebsiteController extends Controller
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Error de validación: ' . $e->getMessage(),
+                'message' => 'Error de validación.',
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
@@ -205,14 +225,20 @@ class WebsiteController extends Controller
         return response()->json(['curso' => $slug]);
     }
 
-    public function verCertificado($nombre): JsonResponse
+    public function verificarPublico(Request $request): JsonResponse
     {
-        try {
-            
-            $respuesta = response()->json(['success' => true]);
-        } catch (\Throwable $th) {
-            $respuesta = response()->json(['erro' => true]);
+
+        $request->validate([
+            'codigo' => 'required|string',
+        ]);
+
+        $certificado = Certificacion::where('codigo', $request->input('codigo'))->first();
+
+        if ($certificado) {
+            $url = asset('storage/' . $certificado->pdfcertificado);
+            return response()->json(['success' => true, 'url' => $url]);
         }
-        return $respuesta;
+
+        return response()->json(['success' => false, 'message' => 'El código del certificado no es válido o no fue encontrado.'], 404);
     }
 }
